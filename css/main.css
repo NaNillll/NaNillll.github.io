@@ -1112,7 +1112,7 @@ pre .javascript .function {
   position: relative;
   display: inline-block;
   padding: 0 40px;
-  color: #000 !important;
+  color: #fff !important;
   background: #222;
   border-bottom: none;
 }
@@ -1875,7 +1875,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #bb014f;
+  background: #f9ffff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3065,9 +3065,6 @@ body #footer > div > div {
 }
 .main-inner {
   opacity: 0.8;
-}
-.footer-inner {
-  color: #000;
 }
 #sidebar p,
 #sidebar span,
