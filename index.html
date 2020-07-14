@@ -504,7 +504,8 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
 <img src="/2020/07/13/SMPL-MANO/6.PNG" class>
 <h3 id="什么是MANO？"><a href="#什么是MANO？" class="headerlink" title="什么是MANO？"></a>什么是MANO？</h3><p>MANO论文地址：<a href="https://mano.is.tue.mpg.de/" target="_blank" rel="noopener">https://mano.is.tue.mpg.de/</a></p>
 <p>基于SMPL的一个手部建模。Joint参数共K=15个，Vertex参数N=778，除此之外附加一个Global orientation。Shape参数的数量与选择的PCA有关</p>
-<h3 id="MANO的代码分析"><a href="#MANO的代码分析" class="headerlink" title="MANO的代码分析"></a>MANO的代码分析</h3><p>项目地址：<a href="https://github.com/hassony2/manopth，核心是ManoLayer模块" target="_blank" rel="noopener">https://github.com/hassony2/manopth，核心是ManoLayer模块</a></p>
+<h3 id="MANO的代码分析"><a href="#MANO的代码分析" class="headerlink" title="MANO的代码分析"></a>MANO的代码分析</h3><p>项目地址：<a href="https://github.com/hassony2/manopth" target="_blank" rel="noopener">https://github.com/hassony2/manopth</a></p>
+<p>核心是ManoLayer模块</p>
 <p>只看论文很多细节都会忽略，而且论文和代码有一些不同之处</p>
 <p>代码为基于Pytorch的MANO layer，只需要输入beta和Joint参数即可输出所有的Vertex和Joint坐标</p>
 <h4 id="init函数"><a href="#init函数" class="headerlink" title="init函数"></a>init函数</h4><p>center_idx表示Joint中心的序号（只在最后输出时有用）</p>
