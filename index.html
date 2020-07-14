@@ -300,7 +300,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  
+                  688
                 </span>
               
 
@@ -414,7 +414,7 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/07/13/SMPL-MANO/" itemprop="url">SMPL_MANO论文和源码笔记</a></h1>
+                <a class="post-title-link" href="/2020/07/13/SMPL-MANO/" itemprop="url">论文源码笔记SMPL_MANO</a></h1>
         
 
         <div class="post-meta">
@@ -458,7 +458,7 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  
+                  1.7k
                 </span>
               
 
@@ -485,10 +485,10 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
       
         
           
-            <h3 id="什么是SMPL"><a href="#什么是SMPL" class="headerlink" title="什么是SMPL"></a>什么是SMPL</h3><p>总而言之，SMPL就是通过LBS技术生成人体模型的算法，作者已经训练好了很多参数，使用时只需要输入shape参数beta和pose参数theta即可</p>
+            <h3 id="什么是SMPL"><a href="#什么是SMPL" class="headerlink" title="什么是SMPL"></a>什么是SMPL</h3><p>SMPL论文地址：<a href="https://smpl.is.tue.mpg.de/" target="_blank" rel="noopener">https://smpl.is.tue.mpg.de/</a></p>
+<p>总而言之，SMPL就是通过LBS技术生成人体模型的算法，作者已经训练好了很多参数，使用时只需要输入shape参数beta和pose参数theta即可</p>
 <p>LBS是SMPL模型的前提</p>
 <p>既然是LBS，就需要Joint，SMPL共有K=23个Joint，可以生成N=6890个 vertices</p>
-<p>SMPL论文地址：<a href="https://smpl.is.tue.mpg.de/" target="_blank" rel="noopener">https://smpl.is.tue.mpg.de/</a></p>
 <h3 id="SMPL的计算过程"><a href="#SMPL的计算过程" class="headerlink" title="SMPL的计算过程"></a>SMPL的计算过程</h3><p>核心公式</p>
 <img src="/2020/07/13/SMPL-MANO/1.PNG" class>
 <p>基本和LBS相同。w表示权重，G’函数表示变换，剩下部分为静止的template，只不过这个template是一个关于theta和beta的函数。为了简便，实际上每个vertex由4个Joint确定</p>
@@ -502,11 +502,11 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
 <p>最后一个函数，J函数通过rest vertex预测rest joint，显然关节之间距离与shape是相关的。J是一个regression matrix </p>
 <p>具体每一个函数的作用可以从下图中直观的看出来</p>
 <img src="/2020/07/13/SMPL-MANO/6.PNG" class>
-<h3 id="什么是MANO？"><a href="#什么是MANO？" class="headerlink" title="什么是MANO？"></a>什么是MANO？</h3><p>基于SMPL的一个手部建模。Joint参数共K=15个，Vertex参数N=778，除此之外附加一个Global orientation。Shape参数的数量与选择的PCA有关</p>
-<p>MANO论文地址：<a href="https://mano.is.tue.mpg.de/" target="_blank" rel="noopener">https://mano.is.tue.mpg.de/</a></p>
-<h3 id="MANO的代码分析"><a href="#MANO的代码分析" class="headerlink" title="MANO的代码分析"></a>MANO的代码分析</h3><p>只看论文很多细节都会忽略，而且论文和代码有一些不同之处</p>
+<h3 id="什么是MANO？"><a href="#什么是MANO？" class="headerlink" title="什么是MANO？"></a>什么是MANO？</h3><p>MANO论文地址：<a href="https://mano.is.tue.mpg.de/" target="_blank" rel="noopener">https://mano.is.tue.mpg.de/</a></p>
+<p>基于SMPL的一个手部建模。Joint参数共K=15个，Vertex参数N=778，除此之外附加一个Global orientation。Shape参数的数量与选择的PCA有关</p>
+<h3 id="MANO的代码分析"><a href="#MANO的代码分析" class="headerlink" title="MANO的代码分析"></a>MANO的代码分析</h3><p>项目地址：<a href="https://github.com/hassony2/manopth，核心是ManoLayer模块" target="_blank" rel="noopener">https://github.com/hassony2/manopth，核心是ManoLayer模块</a></p>
+<p>只看论文很多细节都会忽略，而且论文和代码有一些不同之处</p>
 <p>代码为基于Pytorch的MANO layer，只需要输入beta和Joint参数即可输出所有的Vertex和Joint坐标</p>
-<p>项目地址：<a href="https://github.com/hassony2/manopth，核心是ManoLayer模块" target="_blank" rel="noopener">https://github.com/hassony2/manopth，核心是ManoLayer模块</a></p>
 <h4 id="init函数"><a href="#init函数" class="headerlink" title="init函数"></a>init函数</h4><p>center_idx表示Joint中心的序号（只在最后输出时有用）</p>
 <p>代码中的pose_coeffs并非论文所指的Pose参数，最终的Pose参数需要将mean hand对应的参数和pose_coeffs与主成分计算出的参数求和得到，主成分数量默认为6。flat_hand_mean表示mean hand对应的为flat hand，此时的Pose参数全为0；否则选择实验得到的mean pose对应的参数。beta长度为10，对应10个主成分</p>
 <h4 id="forward函数"><a href="#forward函数" class="headerlink" title="forward函数"></a>forward函数</h4><p>以下主要分析基于轴角且使用PCA的情况</p>
@@ -734,7 +734,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count"></span>
+    <span title="Site words total count">2.4k</span>
   
 </div>
 
@@ -749,26 +749,6 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      访客数
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      人
-    </span>
-  
-
-  
-    <span class="site-pv">
-      总访问量
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      次
-    </span>
-  
-</div>
-
 
 
 
