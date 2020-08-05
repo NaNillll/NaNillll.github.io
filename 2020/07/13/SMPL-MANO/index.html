@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Graphics," />
+  <meta name="keywords" content="Graphics,Paper," />
 
 
 
@@ -86,17 +86,26 @@
 
 
 
-<meta name="description" content="什么是Skinned Mesh？骨骼蒙皮。可以想象成整体的Mesh由很多子Mesh构成，每一个Mesh附着在Bone上，而Bone的方向和长度都由Joint确定，这样通过确定每一个Joint（Bone）就可以确定每一个子Mesh的坐标了。 什么是LBS（Linear Blending Skinning）？线性混合蒙皮。更进一步，每一个子Mesh（也就是Mesh的每一个Vertex）由多个Joint">
+<meta name="description" content="什么是SMPLSMPL论文地址：https:&#x2F;&#x2F;smpl.is.tue.mpg.de&#x2F; 总而言之，SMPL就是通过LBS技术生成人体模型的算法，作者已经训练好了很多参数，使用时只需要输入shape参数beta和pose参数theta即可 LBS是SMPL模型的前提 既然是LBS，就需要Joint，SMPL共有K&#x3D;23个Joint，可以生成N&#x3D;6890个 vertices SMPL的计算过程核心公式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LBS">
-<meta property="og:url" content="http://yoursite.com/2020/07/14/LBS/index.html">
+<meta property="og:title" content="论文源码笔记SMPL_MANO">
+<meta property="og:url" content="http://yoursite.com/2020/07/13/SMPL-MANO/index.html">
 <meta property="og:site_name" content="NaNillll&#39;s Blog">
-<meta property="og:description" content="什么是Skinned Mesh？骨骼蒙皮。可以想象成整体的Mesh由很多子Mesh构成，每一个Mesh附着在Bone上，而Bone的方向和长度都由Joint确定，这样通过确定每一个Joint（Bone）就可以确定每一个子Mesh的坐标了。 什么是LBS（Linear Blending Skinning）？线性混合蒙皮。更进一步，每一个子Mesh（也就是Mesh的每一个Vertex）由多个Joint">
-<meta property="article:published_time" content="2020-07-14T04:03:37.000Z">
-<meta property="article:modified_time" content="2020-07-14T13:15:00.549Z">
+<meta property="og:description" content="什么是SMPLSMPL论文地址：https:&#x2F;&#x2F;smpl.is.tue.mpg.de&#x2F; 总而言之，SMPL就是通过LBS技术生成人体模型的算法，作者已经训练好了很多参数，使用时只需要输入shape参数beta和pose参数theta即可 LBS是SMPL模型的前提 既然是LBS，就需要Joint，SMPL共有K&#x3D;23个Joint，可以生成N&#x3D;6890个 vertices SMPL的计算过程核心公式">
+<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/1.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/2.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/3.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/4.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/5.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/6.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/4.PNG">
+<meta property="article:published_time" content="2020-07-12T16:32:26.000Z">
+<meta property="article:modified_time" content="2020-08-05T08:21:16.324Z">
 <meta property="article:author" content="NaNillll">
 <meta property="article:tag" content="Graphics">
+<meta property="article:tag" content="Paper">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/1.PNG">
 
 
 
@@ -126,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/07/14/LBS/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/07/13/SMPL-MANO/"/>
 
 
 
 
 
-  <title>LBS | NaNillll's Blog</title>
+  <title>论文源码笔记SMPL_MANO | NaNillll's Blog</title>
   
 
 
@@ -239,7 +248,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/14/LBS/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/13/SMPL-MANO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="NaNillll">
@@ -256,7 +265,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">LBS</h1>
+          <h1 class="post-title" itemprop="name headline">论文源码笔记SMPL_MANO</h1>
         
 
         <div class="post-meta">
@@ -268,8 +277,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-14T12:03:37+08:00">
-                2020-07-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-13T00:32:26+08:00">
+                2020-07-13
               </time>
             
 
@@ -300,7 +309,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  688
+                  1.7k
                 </span>
               
 
@@ -325,26 +334,98 @@
       
 
       
-        <h3 id="什么是Skinned-Mesh？"><a href="#什么是Skinned-Mesh？" class="headerlink" title="什么是Skinned Mesh？"></a>什么是Skinned Mesh？</h3><p>骨骼蒙皮。可以想象成整体的Mesh由很多子Mesh构成，每一个Mesh附着在Bone上，而Bone的方向和长度都由Joint确定，这样通过确定每一个Joint（Bone）就可以确定每一个子Mesh的坐标了。</p>
-<h3 id="什么是LBS（Linear-Blending-Skinning）？"><a href="#什么是LBS（Linear-Blending-Skinning）？" class="headerlink" title="什么是LBS（Linear Blending Skinning）？"></a>什么是LBS（Linear Blending Skinning）？</h3><p>线性混合蒙皮。更进一步，每一个子Mesh（也就是Mesh的每一个Vertex）由多个Joint共同确定，赋给每一个Joint不同的权重，公式如下：</p>
+        <h3 id="什么是SMPL"><a href="#什么是SMPL" class="headerlink" title="什么是SMPL"></a>什么是SMPL</h3><p>SMPL论文地址：<a href="https://smpl.is.tue.mpg.de/" target="_blank" rel="noopener">https://smpl.is.tue.mpg.de/</a></p>
+<p>总而言之，SMPL就是通过LBS技术生成人体模型的算法，作者已经训练好了很多参数，使用时只需要输入shape参数beta和pose参数theta即可</p>
+<p>LBS是SMPL模型的前提</p>
+<p>既然是LBS，就需要Joint，SMPL共有K=23个Joint，可以生成N=6890个 vertices</p>
+<h3 id="SMPL的计算过程"><a href="#SMPL的计算过程" class="headerlink" title="SMPL的计算过程"></a>SMPL的计算过程</h3><p>核心公式</p>
+<img src="/2020/07/13/SMPL-MANO/1.PNG" class>
+<p>基本和LBS相同。w表示权重，G’函数表示变换，剩下部分为静止的template，只不过这个template是一个关于theta和beta的函数。为了简便，实际上每个vertex由4个Joint确定</p>
+<img src="/2020/07/13/SMPL-MANO/2.PNG" class>
+<p>首先是G函数，G函数表示在当前的theta和J（即为各个joint坐标）下，转换到第k个joint空间下的转换矩阵是什么。A表示k的各个祖先joint的有序编号。很显然这是许多个齐次变换矩阵的乘积，即CombindMatrix。G’后半部分即表示如何把初始情况下的姿态转换到第k个joint空间,即为BoneOffsetMatrix</p>
+<img src="/2020/07/13/SMPL-MANO/3.PNG" class>
+<img src="/2020/07/13/SMPL-MANO/4.PNG" class>
+<p>BS和BP函数均代表Rest Mesh相对template的形变，只不过一个是由于pose引起的，一个是由于shape本身引起的。BS叫Shape Blend Shape，BP叫Pose Blend Shape。Bp中的R函数实质上就是将轴角换成3x3旋转矩阵的指数运算，再将其拉伸为直向量，也是Rodrigues formula</p>
+<p>BP和BS函数的计算过程中都可以使用PCA，简化运算</p>
+<img src="/2020/07/13/SMPL-MANO/5.PNG" class>
+<p>最后一个函数，J函数通过rest vertex预测rest joint，显然关节之间距离与shape是相关的。J是一个regression matrix </p>
+<p>具体每一个函数的作用可以从下图中直观的看出来</p>
+<img src="/2020/07/13/SMPL-MANO/6.PNG" class>
+<h3 id="什么是MANO？"><a href="#什么是MANO？" class="headerlink" title="什么是MANO？"></a>什么是MANO？</h3><p>MANO论文地址：<a href="https://mano.is.tue.mpg.de/" target="_blank" rel="noopener">https://mano.is.tue.mpg.de/</a></p>
+<p>基于SMPL的一个手部建模。Joint参数共K=15个，Vertex参数N=778，除此之外附加一个Global orientation。Shape参数的数量与选择的PCA有关</p>
+<h3 id="MANO的代码分析"><a href="#MANO的代码分析" class="headerlink" title="MANO的代码分析"></a>MANO的代码分析</h3><p>项目地址：<a href="https://github.com/hassony2/manopth" target="_blank" rel="noopener">https://github.com/hassony2/manopth</a></p>
+<p>核心是ManoLayer模块</p>
+<p>只看论文很多细节都会忽略，而且论文和代码有一些不同之处</p>
+<p>代码为基于Pytorch的MANO layer，只需要输入beta和Joint参数即可输出所有的Vertex和Joint坐标</p>
+<h4 id="init函数"><a href="#init函数" class="headerlink" title="init函数"></a>init函数</h4><p>center_idx表示Joint中心的序号（只在最后输出时有用）</p>
+<p>代码中的pose_coeffs并非论文所指的Pose参数，最终的Pose参数需要将mean hand对应的参数和pose_coeffs与主成分计算出的参数求和得到，主成分数量默认为6。flat_hand_mean表示mean hand对应的为flat hand，此时的Pose参数全为0；否则选择实验得到的mean pose对应的参数。beta长度为10，对应10个主成分</p>
+<h4 id="forward函数"><a href="#forward函数" class="headerlink" title="forward函数"></a>forward函数</h4><p>以下主要分析基于轴角且使用PCA的情况</p>
+<h5 id="生成rest-pose"><a href="#生成rest-pose" class="headerlink" title="生成rest pose"></a>生成rest pose</h5><p>th_full_pose将Global轴角和Pose参数连接在一起，长度为{batch_size，3*16}</p>
+<p>th_posemap_axisang（）将轴角参数即th_full_pose转换为旋转矩阵，th_rot_map为直接的转换结果，长度为{batchsize，16*9}，th_pose_map为这个函数减去单位矩阵，因为rest pose时的pose参数为全零，对应的Rodrigues矩阵也为单位矩阵，因此对应了</p>
+<img src="/2020/07/13/SMPL-MANO/4.PNG" class>
+<p>之后调整th_rot_map，th_pose_map等维数除去Global transform</p>
+<p>th_v_shaped即BS函数加上template，表示shape调控后的Mesh坐标，长度{batch_size，778，3}。share_betas表示是使用原始的beta还是全部使用beta的平均值</p>
+<p>th_j即J函数，为th_v_shaped乘以regressor matrix，长度{batch_size，16，3}</p>
+<p>th_v_posed为th_v_shaped加上BS函数，此时的th_v_posed即为骨骼变换前的最终静止Mesh，长度{batch_size，778，3}</p>
+<h5 id="生成transformation"><a href="#生成transformation" class="headerlink" title="生成transformation"></a>生成transformation</h5><p>之后就是骨骼变换。模型的骨骼结构很简单，基本就是root joint和5个手指，每个手指有3个Joint，即三个层次空间，Joint间形成父子结构，这样恰好共1+5*3=16个Joint</p>
+<p>th_with_zeros用于生成齐次变换矩阵，输入为旋转矩阵和平移向量</p>
+<p>lev2_rel_transform_flt为上一级到2级空间的变换矩阵，lev2_flt表示world空间下到2级空间的变换矩阵，是由lev1_flt与lev2_rel_transform_flt相乘得到的，这即为一个层级变换过程。通过相似过程可以获得world空间下到各个Joint对应的变换矩阵</p>
+<p>之后经过reorder_idxs的重排序，th_results和th_results_global即为最终到各个Joint空间的变换矩阵，即为Gk函数</p>
+<p>之后，根据LBS的一贯步骤，需要乘以将初始Mesh转换到初始Bone位置的变换矩阵，论文中并没有直接乘以这个矩阵，因为初始Mesh到Bone只需要平移，因此只使用了一个矩阵加减，最终的结果为th_results2,具体过程如下</p>
+<p>初始位置下Mesh到Bone的Offset矩阵：</p>
 <script type="math/tex; mode=display">
-P’_i=\prod^m_{j=1}{w_{i,j}R_jP_i}</script><p>Pi表示初始位置时Vertex i在初始Joint j空间下的坐标，Rj表示此时刻world空间下到Joint j的变换，wij表示Joint j对Vertex i的影响权重，Pi‘表示此时Vertex i在world空间下的坐标。</p>
-<p>上面的描述有些抽象，直观解释，就是最初某个vertex相对某个joint有偏移量d，所以移动后我们要在该joint此时的位置上加上偏移量d的变换值，作为此时该joint预测vertex应该在的位置</p>
-<h3 id="如何记录和表达Joint和Bone？"><a href="#如何记录和表达Joint和Bone？" class="headerlink" title="如何记录和表达Joint和Bone？"></a>如何记录和表达Joint和Bone？</h3><p>LBS的简洁也是复杂之处在于，LBS包含Bone之间的父子关系，主要保存的是Joint之间的相对参数。</p>
-<p>这样的简洁之处在于当祖Bone旋转或者平移时子Bone也会随之移动，其对应的Mesh也会随之移动，在处理时只需乘上一个变换矩阵即可。</p>
-<p>但是复杂之处在于这也带来了许多恼人的空间变换。</p>
-<h3 id="具体怎样计算？"><a href="#具体怎样计算？" class="headerlink" title="具体怎样计算？"></a>具体怎样计算？</h3><p><em>（我认为网上许多介绍此处的博客都忽略了Mesh或者Bone空间的时效性，也就是并没有说明清楚到底所谓的Bone空间到底在起初的位置，还是移动后的位置？<del>我觉得这一点还是比较影响理解的，也有可能是单纯的我太菜了</del>）</em></p>
-<p>简要来说</p>
+Offset=\left[ \begin{matrix}   1 & -RestJoint \\   0 & 1   \end{matrix} \right]</script><p>而依据定义：</p>
 <script type="math/tex; mode=display">
-V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> Vmesh 是顶点初始的坐标，一般取在world空间下（其实是无所谓的，下一步就会转换），Bone1OffsetMatrix1用来将初始时的顶点转换到初始时的Bone1空间，CombindMatrix1 用于将此时的Bone1空间转换为world空间。而初始的Bone1和此时的Bone1是同一个Bone，Mesh随Bone而动，因此最后的结果就是此时的Mesh。</p>
-<p>在求CombindMatrix1 的过程中需要依靠父子Bone的层级关系，因为主要保存的是Joint之间的相对参数，一般需要不同层级间多个变换矩阵的连乘。</p>
-<p>当然，只看公式还是理解的不透彻，具体找一个LBS的实例代码就好了<del>（比如SMPL）</del></p>
-<blockquote>
-<p>参考资料：</p>
-<p><a href="https://www.cnblogs.com/shushen/p/5987280.html" target="_blank" rel="noopener">https://www.cnblogs.com/shushen/p/5987280.html</a></p>
-<p><a href="https://blog.csdn.net/n5/article/details/3105872" target="_blank" rel="noopener">https://blog.csdn.net/n5/article/details/3105872</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/78377681" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78377681</a></p>
-</blockquote>
+thResults=
+\left[
+ \begin{matrix}
+   R_{trans} & V_{trans} \\
+   0 & 1 
+  \end{matrix} 
+\right]</script><p>因此</p>
+<script type="math/tex; mode=display">
+thResult*Offset=Offset=\left[ \begin{matrix}   R_{trans} & -R_{trans}RestJoint+V_{trans} \\   0 & 1   \end{matrix} \right]</script><p>而代码中，则是定义了</p>
+<script type="math/tex; mode=display">
+jointJs=
+\left[
+ \begin{matrix}
+   RestJoint  \\
+   0 
+  \end{matrix} 
+\right]，
+tmp2=thResults*jointJs=
+\left[
+ \begin{matrix}
+   R_{trans}RestJoint  \\
+   0 
+  \end{matrix} 
+\right]</script><script type="math/tex; mode=display">
+thResults2=thResults-
+
+\left[
+ \begin{matrix}
+   0& tmp2
+  \end{matrix} 
+\right]
+=
+\left[
+ \begin{matrix}
+   R_{transe}& V_{transe}-R_{trans}RestJoint   \\
+   0& 1 
+  \end{matrix} 
+\right]</script><p>可以看出，th_results2就是最终的变换矩阵，也即论文中的G’函数，th_results2长度{batch size，16,4,4}</p>
+<h5 id="生成最终结果"><a href="#生成最终结果" class="headerlink" title="生成最终结果"></a>生成最终结果</h5><p>之后，将th_results2与混合权重矩阵th_weights相乘，得到th_T，th_weights长度为{778,16}，th_T长度为{batch size，4, 4,778}</p>
+<p>将骨骼变换前的最终静止Mesh即th_v_posed转换为齐次坐标th_rest_shape_h，长度{batch size，4,778}，并补上维度，化为{batch size，1，4,778}</p>
+<p>最后，混合蒙皮，将th_T点乘th_rest_shape_h，并沿第三维求和，结果为th_verts，长度{batch size，778,4}即为最终结果。</p>
+<p>这几步的计算顺序与论文中描述的是不同的，其中最让人费解的可能是最后一步：为什么选用th_T点乘th_rest_shape_h并沿第三维求和？第三维的维数为4，并非核心公式的K=16</p>
+<p>实质上，此处的求和并非核心公式中混合各骨骼预测值的过程，各骨骼选择混合的过程已经在生成th_T时经历过了，这也是为什么th_T的维度为{batch size，4，4，778}，本质上就是778个矩阵，对应了778个Rest Joint，只不过这里是变换矩阵的转置，因此之后使用了点乘求和的形式</p>
+<p>对于矩阵A，向量B，有：</p>
+<script type="math/tex; mode=display">
+AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有vertex</p>
+<p>之后是生成常见的21个手部关节点，从th_results_global选出joint，在16个Joint的基础上加上tip并重新排序</p>
+<p>可以选择palm（中指和手腕的中心）作为模型的中心来替代手腕，也可以选择其他的Joint</p>
+<p>之后可以进行预制的移动</p>
+<p>最后乘以1000转换为<em>milimeters</em></p>
 
       
     </div>
@@ -364,6 +445,8 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
           
             <a href="/tags/Graphics/" rel="tag"><i class="fa fa-tag"></i> Graphics</a>
           
+            <a href="/tags/Paper/" rel="tag"><i class="fa fa-tag"></i> Paper</a>
+          
         </div>
       
 
@@ -375,18 +458,14 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/07/13/SMPL-MANO/" rel="next" title="论文源码笔记SMPL_MANO">
-                <i class="fa fa-chevron-left"></i> 论文源码笔记SMPL_MANO
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/07/31/Pytorch-Note/" rel="prev" title="笔记Pytorch-Notes">
-                笔记Pytorch-Notes <i class="fa fa-chevron-right"></i>
+              <a href="/2020/07/14/LBS/" rel="prev" title="LBS">
+                LBS <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -520,7 +599,7 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Skinned-Mesh？"><span class="nav-number">1.</span> <span class="nav-text">什么是Skinned Mesh？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是LBS（Linear-Blending-Skinning）？"><span class="nav-number">2.</span> <span class="nav-text">什么是LBS（Linear Blending Skinning）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何记录和表达Joint和Bone？"><span class="nav-number">3.</span> <span class="nav-text">如何记录和表达Joint和Bone？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体怎样计算？"><span class="nav-number">4.</span> <span class="nav-text">具体怎样计算？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是SMPL"><span class="nav-number">1.</span> <span class="nav-text">什么是SMPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMPL的计算过程"><span class="nav-number">2.</span> <span class="nav-text">SMPL的计算过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是MANO？"><span class="nav-number">3.</span> <span class="nav-text">什么是MANO？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MANO的代码分析"><span class="nav-number">4.</span> <span class="nav-text">MANO的代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#init函数"><span class="nav-number">4.1.</span> <span class="nav-text">init函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#forward函数"><span class="nav-number">4.2.</span> <span class="nav-text">forward函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#生成rest-pose"><span class="nav-number">4.2.1.</span> <span class="nav-text">生成rest pose</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成transformation"><span class="nav-number">4.2.2.</span> <span class="nav-text">生成transformation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成最终结果"><span class="nav-number">4.2.3.</span> <span class="nav-text">生成最终结果</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
