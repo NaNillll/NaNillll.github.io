@@ -445,7 +445,7 @@ body {
 .header-inner {
   margin: 0 auto;
   padding: 100px 0 70px;
-  width: 700px;
+  width: 900px;
 }
 @media (min-width: 1600px) {
   .container .header-inner {
@@ -457,7 +457,7 @@ body {
 }
 .main-inner {
   margin: 0 auto;
-  width: 700px;
+  width: 900px;
 }
 @media (min-width: 1600px) {
   .container .main-inner {
@@ -474,7 +474,7 @@ body {
 .footer-inner {
   box-sizing: border-box;
   margin: 20px auto;
-  width: 700px;
+  width: 900px;
 }
 @media (min-width: 1600px) {
   .container .footer-inner {
@@ -1875,7 +1875,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #2affff;
+  background: #2af4ff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2651,7 +2651,7 @@ pre .javascript .function {
 .header {
   position: relative;
   margin: 0 auto;
-  width: 960px;
+  width: 1200px;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .header {
@@ -2711,7 +2711,7 @@ pre .javascript .function {
   }
 }
 .container .main-inner {
-  width: 960px;
+  width: 1200px;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .container .main-inner {
@@ -2727,7 +2727,7 @@ pre .javascript .function {
   float: right;
   box-sizing: border-box;
   padding: 40px;
-  width: 700px;
+  width: 900px;
   background: rgba(255,255,255,0.9);
   min-height: 700px;
   box-shadow: initial;
@@ -2770,7 +2770,7 @@ pre .javascript .function {
   display: none;
 }
 .footer-inner {
-  width: 960px;
+  width: 1200px;
   padding-left: 260px;
 }
 @media (min-width: 768px) and (max-width: 991px) {
@@ -2799,6 +2799,48 @@ pre .javascript .function {
 .sidebar-position-right .footer-inner {
   padding-left: 0;
   padding-right: 260px;
+}
+header {
+  width: 80% !important;
+}
+header.post-header {
+  width: auto !important;
+}
+.container .main-inner {
+  width: 80%;
+}
+.content-wrap {
+  width: calc(100% - 260px);
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .header {
+    width: auto !important;
+  }
+}
+@media (max-width: 767px) {
+  .header {
+    width: auto !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .container .main-inner {
+    width: auto !important;
+  }
+}
+@media (max-width: 767px) {
+  .container .main-inner {
+    width: auto !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .content-wrap {
+    width: 100% !important;
+  }
+}
+@media (max-width: 767px) {
+  .content-wrap {
+    width: 100% !important;
+  }
 }
 .site-brand-wrapper {
   position: relative;
