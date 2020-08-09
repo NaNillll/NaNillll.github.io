@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Graphics,Paper," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="论文地址：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;1907.01481 什么是HOnnotate生成了一种自动标注抓取物品的手的RGB-D照片的算法。既可以用于单相机又可以用于多相机 单相机的假设是在一个序列内手部抓取姿态基本不变；多相机可以可以处理复杂的手与物体交互场景 比起一帧帧的目标跟踪，该算法直接共同优化了序列中手和物体的所有3D姿势 使用了MANO手部模型，和YCB数据集的物体 利用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文笔记HOnnotate">
+<meta property="og:url" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/index.html">
+<meta property="og:site_name" content="NaNillll&#39;s Blog">
+<meta property="og:description" content="论文地址：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;1907.01481 什么是HOnnotate生成了一种自动标注抓取物品的手的RGB-D照片的算法。既可以用于单相机又可以用于多相机 单相机的假设是在一个序列内手部抓取姿态基本不变；多相机可以可以处理复杂的手与物体交互场景 比起一帧帧的目标跟踪，该算法直接共同优化了序列中手和物体的所有3D姿势 使用了MANO手部模型，和YCB数据集的物体 利用">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/1.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/2.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/14.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/3.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/4.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/5.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/6.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/7.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/8.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/9.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/10.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/11.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/12.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/13.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/15.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/16.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/17.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/18.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/19.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/20.PNG">
+<meta property="article:published_time" content="2020-08-08T09:00:29.000Z">
+<meta property="article:modified_time" content="2020-08-09T15:02:36.215Z">
+<meta property="article:author" content="NaNillll">
+<meta property="article:tag" content="Graphics">
+<meta property="article:tag" content="Paper">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/08/08/论文笔记HOnnotate/"/>
+
+
+
+
+
+  <title>论文笔记HOnnotate | NaNillll's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NaNillll's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NaNillll">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NaNillll's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">论文笔记HOnnotate</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-08T17:00:29+08:00">
+                2020-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.5k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>论文地址：<a href="https://arxiv.org/abs/1907.01481" target="_blank" rel="noopener">https://arxiv.org/abs/1907.01481</a></p>
+<h2 id="什么是HOnnotate"><a href="#什么是HOnnotate" class="headerlink" title="什么是HOnnotate"></a>什么是HOnnotate</h2><h3 id="生成了一种自动标注抓取物品的手的RGB-D照片的算法。"><a href="#生成了一种自动标注抓取物品的手的RGB-D照片的算法。" class="headerlink" title="生成了一种自动标注抓取物品的手的RGB-D照片的算法。"></a>生成了一种自动标注抓取物品的手的RGB-D照片的算法。</h3><p>既可以用于单相机又可以用于多相机</p>
+<p>单相机的假设是在一个序列内手部抓取姿态基本不变；多相机可以可以处理复杂的手与物体交互场景</p>
+<p>比起一帧帧的目标跟踪，该算法直接共同优化了序列中手和物体的所有3D姿势</p>
+<p>使用了MANO手部模型，和YCB数据集的物体</p>
+<h3 id="利用这种方法，生成了HO-3D数据集。"><a href="#利用这种方法，生成了HO-3D数据集。" class="headerlink" title="利用这种方法，生成了HO-3D数据集。"></a>利用这种方法，生成了HO-3D数据集。</h3><p>使用该数据集训练从单张RGB图片生成关键点位置和关节向量，并通过拟和MANO模型提升到3D。证明了该数据集可以用于进行手部姿势估计。而且这种方法比直接预测MANO参数更加好</p>
+<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><h3 id="3D-Hand-Pose-Estimation"><a href="#3D-Hand-Pose-Estimation" class="headerlink" title="3D Hand Pose Estimation"></a>3D Hand Pose Estimation</h3><p>主要有两种通过单张图片建立手部姿态的方法：</p>
+<p>1.Discriminative approaches：直接通过图片生成关节点位置</p>
+<p>2.Generative approaches：利用现有模型，使得生成的姿态比较合理。比如，先预测2D位置再通过拟和提升到3维</p>
+<p>文章使用的是两种方法的结合：在全局优化框架内使用生成方法来生成姿势注释，并使用判别方法来初始化此复杂优化</p>
+<h3 id="Synthetic-Images-for-3D-Pose-Estimation"><a href="#Synthetic-Images-for-3D-Pose-Estimation" class="headerlink" title="Synthetic Images for 3D Pose Estimation"></a>Synthetic Images for 3D Pose Estimation</h3><p>能够在合成数据上训练判别方法非常有价值，因为很难获取真实图像的注释。但是合成图上训练有很多问题。所以在真实图片上训练也很有用。测试必须使用真实图片</p>
+<h3 id="Hand-Object-Datasets"><a href="#Hand-Object-Datasets" class="headerlink" title="Hand+Object Datasets"></a>Hand+Object Datasets</h3><p>数据集有很多，但是HO-3D数据集是第一个无标记数据集，同时提供了3D手部关节和3D对象姿势注释，用于真实图像，而手和物体之间严重遮挡</p>
+<h2 id="生成注释的方法"><a href="#生成注释的方法" class="headerlink" title="生成注释的方法"></a>生成注释的方法</h2><p>序列可以写作：</p>
+<script type="math/tex; mode=display">
+T=\{ \{(I_c^t,D_c^t) \}_{c=1}^{N_c} \}_{i=1}^{N_F}</script><p>其中每一帧RGBD都是由两部分构成的：</p>
+<script type="math/tex; mode=display">
+I_c^t和D^t_c</script><p>每一帧的姿态可以表示为：</p>
+<script type="math/tex; mode=display">
+P=\{ (p_h^t,p_o^t)  \}_{t=1}^{N_F}</script><p>手部pose有3*15+6个DOF，除此之外还有10个beta参数</p>
+<p>物体有6个DOF，SE(3)的形式</p>
+<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/1.PNG" class>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/2.PNG" class>
+<h4 id="轮廓差异Emask"><a href="#轮廓差异Emask" class="headerlink" title="轮廓差异Emask"></a>轮廓差异Emask</h4><p>通过DeepLabv3和彩色图片得到手和物体的分割Sc(I),c表示相机c，I表示图片I</p>
+<p>通过一个可求导渲染器和预测的参数，在相机平面上得到物体和手的模型，这个模型在相机c渲染出的轮廓为RSc(ph,po)</p>
+<script type="math/tex; mode=display">
+E_{mask}(I_c,p_h,p_o)=||RS_c(p_h,p_o)-S(I_c)||^2</script><h4 id="深度残差Edpt"><a href="#深度残差Edpt" class="headerlink" title="深度残差Edpt"></a>深度残差Edpt</h4><p>RDc(ph,po)即为当前按照ph和po建立的姿态的深度，渲染的时候使用可求导渲染器</p>
+<p>Tukey函数在接近0时类似l2，超过阈值为定值</p>
+<script type="math/tex; mode=display">
+F_{dpt}(D_c,p_h,p_o)=Tukey(||RD_c(p_h,p_o)-D_c||)</script><h4 id="2D关节损失Ej2D"><a href="#2D关节损失Ej2D" class="headerlink" title="2D关节损失Ej2D"></a>2D关节损失Ej2D</h4><script type="math/tex; mode=display">
+E_{j2D}(I_c,p_h)=\sum_{i=1}^{21}||proj_c(J_{ph}[i]-K_c[i])||^2</script><p>Kc是预测的2D位置，h[i]是该位置置信值，projc是把点投影到相机c的结果，Jph [i]姿态ph的第i个3D关节点</p>
+<p>为了训练预测heatmap的CNN，使用了最初的 HO-3D数据集。该数据集包括15000帧，来自于15个序列，单摄像机生成。操作者被要求紧紧抓住物体而不改抓取方式，然后通过下文提到的优化方式生成模型。经过优化后，我们通过缩放和旋转图像以及从Panoptic Studio数据集中添加图像来扩充结果数据集</p>
+<h4 id="3D损失E3D"><a href="#3D损失E3D" class="headerlink" title="3D损失E3D"></a>3D损失E3D</h4><p>这个损失函数并不是必须的，但是可以加速收敛</p>
+<p>通过将RGB-D相机的深度图转换为公共参考帧后合并它们来构建点云P，并将它通过Sc(I)分割为物体Po和手部Ph两部分</p>
+<p>在优化的每次迭代中，对于每一个点云上的点Po[j]/Ph[j]，寻找最近的顶点Po[j<em>]/Ph[j </em>]并用l2求损失函数</p>
+<h4 id="关节角度限制损失Ejoint"><a href="#关节角度限制损失Ejoint" class="headerlink" title="关节角度限制损失Ejoint"></a>关节角度限制损失Ejoint</h4><p>对MANO的3*15个参数进行限制，提前统计好他们的最大与最小值</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^{45}max(\underline{a_i}-a[i],0)+max(a[i]-\overline{a_i},0)</script><p>a[i]表示该姿态的第i个关节点，<u>ai</u>表示下限约束</p>
+<h4 id="手部合理性损失Ephy"><a href="#手部合理性损失Ephy" class="headerlink" title="手部合理性损失Ephy"></a>手部合理性损失Ephy</h4><p>如果手部和物体发生了重叠，则进行惩罚</p>
+<p>对于手部的顶点Vh[m]，惩罚Γ[m]为：</p>
+<script type="math/tex; mode=display">
+Γ[m]=max(-n_o(V_o[m*])^T(V_h[m]-V_o[m*]),0)</script><p>Vo[m*]是最接近Vh[m]的物体上的顶点，no(.)表示求顶点的法向量</p>
+<script type="math/tex; mode=display">
+E_{phy}(p^t_h,p_o^t)=\sum_mexp(wΓ[m])</script><p>在实际中令w=5，并且对手部顶点进行下采样加速</p>
+<h4 id="时序性损失Etc"><a href="#时序性损失Etc" class="headerlink" title="时序性损失Etc"></a>时序性损失Etc</h4><p>Etc将所有帧的姿势约束在一起</p>
+<script type="math/tex; mode=display">
+E_{tc}(p_h^t,p_o^t,p_h^{t-1},p_o^{t-1},p_h^{t-2},p_o^{t-2})=||∆ _h^t||^2+||∆ _o^t||^2+||∆ _h^t-∆ _h^{t-1}||^2+||∆ _o^t-∆ _o^{t-1}||^2</script><script type="math/tex; mode=display">
+∆_h^t=p_h^t-p_h^{t-1},∆_o^t=p_o^t-p_o^{t-1}</script><h2 id="Optimization"><a href="#Optimization" class="headerlink" title="Optimization"></a>Optimization</h2><img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/14.PNG" class>
+<h3 id="Multi-Camera-Setup"><a href="#Multi-Camera-Setup" class="headerlink" title="Multi-Camera Setup"></a>Multi-Camera Setup</h3><h4 id="Initialization"><a href="#Initialization" class="headerlink" title="Initialization"></a>Initialization</h4><p>通过第一帧得到初始预测姿态：</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/3.PNG" class>
+<p>而对物体的初始预测见原文</p>
+<h4 id="Single-frame-joint-pose-optimization"><a href="#Single-frame-joint-pose-optimization" class="headerlink" title="Single-frame joint pose optimization"></a>Single-frame joint pose optimization</h4><p>通过跟踪获得其他帧的姿态预测值</p>
+<script type="math/tex; mode=display">
+\widetilde{p}_h^t,\widetilde{p}_o^t</script><p>优化单帧中的公式1，关于</p>
+<script type="math/tex; mode=display">
+p_h^t,p_o^t</script><p>而使用</p>
+<script type="math/tex; mode=display">
+\widetilde{p}_h^{t-1},\widetilde{p}_o^{t-1}</script><p>作为初始值</p>
+<h4 id="Multi-frame-joint-pose-optimization"><a href="#Multi-frame-joint-pose-optimization" class="headerlink" title="Multi-frame joint pose optimization"></a>Multi-frame joint pose optimization</h4><p>在所有帧上优化公式1，关于</p>
+<script type="math/tex; mode=display">
+p_h^t,p_o^t</script><p>同时使用</p>
+<script type="math/tex; mode=display">
+\widetilde{p}_h^t,\widetilde{p}_o^t</script><p>作为初始值</p>
+<p>由于内存限制，使用20帧作为batch而非一个序列上的所有帧</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/4.PNG" class>
+<h3 id="Single-Camera-Setup"><a href="#Single-Camera-Setup" class="headerlink" title="Single-Camera Setup"></a>Single-Camera Setup</h3><h3 id="Initialization-1"><a href="#Initialization-1" class="headerlink" title="Initialization"></a>Initialization</h3><p>在初始阶段，我们认为在整个序列上姿态是不变的，在之后的阶段会放松该限制</p>
+<p>通过优化</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/5.PNG" class>
+<p>来初始化</p>
+<script type="math/tex; mode=display">
+\widetilde{p}_h^t</script><p>在不同帧间只有手腕参数可以不同</p>
+<p>实际上，只从序列中一次随机取出20帧来进行优化，v=50</p>
+<p>物体的初始参数建立和Multi-Camera相同</p>
+<p>此时可以将手部参数转化到物体参考系中，并取所有帧的平均值作为最终的初始姿态</p>
+<h3 id="Grasp-pose-estimation"><a href="#Grasp-pose-estimation" class="headerlink" title="Grasp pose estimation"></a>Grasp pose estimation</h3><img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/6.PNG" class>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/7.PNG" class>
+<h3 id="Object-pose-estimation"><a href="#Object-pose-estimation" class="headerlink" title="Object pose estimation"></a>Object pose estimation</h3><img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/8.PNG" class>
+<h3 id="Multi-frame-joint-hand-object-pose-refinement"><a href="#Multi-frame-joint-hand-object-pose-refinement" class="headerlink" title="Multi-frame joint hand+object pose refinement"></a>Multi-frame joint hand+object pose refinement</h3><p>此时，允许抓取姿势的变化</p>
+<p>优化方程1，在所有帧上关于</p>
+<script type="math/tex; mode=display">
+\{\{ p_h^t,p_o^t\}\}^{N_F}_{t=1}</script><p>使用上一阶段的预测值来初始化</p>
+<h2 id="Monocular-RGB-based-3D-Hand-Pose"><a href="#Monocular-RGB-based-3D-Hand-Pose" class="headerlink" title="Monocular RGB based 3D Hand Pose"></a>Monocular RGB based 3D Hand Pose</h2><p>为了生成想要的数据集，需要生成一个CNN，可以从单目RGB生成21个手部2D关节点，并通过最后的全连接层生成20个关节向量</p>
+<p>之后通过MANO模型拟合，生成MANO参数和3D关节坐标</p>
+<p>损失函数如下：</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/9.PNG" class>
+<p>Eq8为Ejoint函数，di为root-relative关节方向</p>
+<h2 id="Benchmarking-HO-3D"><a href="#Benchmarking-HO-3D" class="headerlink" title="Benchmarking HO-3D"></a>Benchmarking HO-3D</h2><p>测试图片标注方式和单张图片还原手部姿态和物体的基准线</p>
+<p>标注了68个序列，77558帧，10个操作者操作10个不同的YCB物体，图片大小640x480，使用了5个同步相机，摄像机以5ms的精度同步</p>
+<h4 id="测试标注方法"><a href="#测试标注方法" class="headerlink" title="测试标注方法"></a>测试标注方法</h4><p>为了验证我们的标注方法，从序列中随机选出帧，依靠5个摄像机的合并点云手动注释了3D关节的3D位置。然后和之前介绍的方法生成的结果进行比较</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/10.PNG" class>
+<p>此外，Area Under the Curve metric (AUC) 为 0.79</p>
+<p>分别研究各个损失函数的影响如下：</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/11.PNG" class>
+<p>E3D可以加快收敛，Ephy可以生成更合理的姿态</p>
+<p>通过将来自多摄像机方法的标注看做ground truth，可以计算基于单摄像机的注释方法的准确性，结果如下：</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/12.PNG" class>
+<h3 id="测试手部姿态预测方法"><a href="#测试手部姿态预测方法" class="headerlink" title="测试手部姿态预测方法"></a>测试手部姿态预测方法</h3><p>在 HO-3D数据集上按照Monocular RGB based 3D Hand Pose方式训练，使用了66034帧</p>
+<p>在13个不同序列，共计11524帧上测试</p>
+<p>主要考虑以下指标：</p>
+<p>Mean joint position error，对齐到ground truth后的平均关节误差</p>
+<p>Mesh  error，预测值和真实值的平均欧几里得距离</p>
+<p>F-score， defined as the harmonic mean between recall  and precision between two meshes given a distance threshold</p>
+<p>使用Procrustes对齐将预测的网格与gt对齐后，将获得网Mesh  error和F-score，因此无法测量腕关节旋转的准确性</p>
+<p>但Mean joint position error考虑了腕关节位置，因为在评估之前3D点没有旋转</p>
+<p>结果如下：</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/13.PNG" class>
+<p>[19]为直接从RGB生成MANO的一种方法</p>
+<h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h2><p>缺少高质量的手部图像分割（生成过程只能使用合成数据集）</p>
+<p>或许可以引入更好的约束项</p>
+<h2 id="补充材料"><a href="#补充材料" class="headerlink" title="补充材料"></a>补充材料</h2><p>网络结构如下：</p>
+<h3 id="Hand-Pose-Estimation-from-Single-Color-Image"><a href="#Hand-Pose-Estimation-from-Single-Color-Image" class="headerlink" title="Hand Pose Estimation from Single Color Image"></a>Hand Pose Estimation from Single Color Image</h3><img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/15.PNG" class>
+<h3 id="Hand-Shape-Estimation"><a href="#Hand-Shape-Estimation" class="headerlink" title="Hand Shape Estimation"></a>Hand Shape Estimation</h3><p>同一个人的bata是相同的</p>
+<p>在生成bata时，使用仅含手部姿态的序列</p>
+<p>首先，使用平均值beta，为每一帧生成对应的pose</p>
+<script type="math/tex; mode=display">
+\hat{p}_h^t</script><img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/16.PNG" class>
+<p>此过程每一帧的pose初始值为</p>
+<script type="math/tex; mode=display">
+p_h^{t-1}</script><p>最终，使用上面得到的新的pose值</p>
+<script type="math/tex; mode=display">
+\hat{p}_h^t</script><p>每一个操作者的beta由下式得到：</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/17.PNG" class>
+<h3 id="Joint-Angle-Constraints"><a href="#Joint-Angle-Constraints" class="headerlink" title="Joint Angle Constraints"></a>Joint Angle Constraints</h3><img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/18.PNG" class>
+<h3 id="Point-Cloud-from-Multiple-Cameras"><a href="#Point-Cloud-from-Multiple-Cameras" class="headerlink" title="Point Cloud from Multiple Cameras"></a>Point Cloud from Multiple Cameras</h3><img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/19.PNG" class>
+<h3 id="Hand-Object-Segmentation-Network"><a href="#Hand-Object-Segmentation-Network" class="headerlink" title="Hand-Object Segmentation Network"></a>Hand-Object Segmentation Network</h3><p>用DeepLabV3生成分割图，在合成的数据集上进行训练</p>
+<p>合成图像是通过在任意位置和比例的对象图像上叠加和隐藏手的图像而获得的，通过使用简单的深度阈值，使用RGB-D相机获得了分割的手</p>
+<p>此外还使用来自RHD数据集的其他合成手图像</p>
+<h3 id="Automatic-Initialization"><a href="#Automatic-Initialization" class="headerlink" title="Automatic Initialization"></a>Automatic Initialization</h3><p>用来获得初始手势的CNN，在不同训练方式下的准确率</p>
+<img src="/2020/08/08/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0HOnnotate/20.PNG" class>
+<h3 id="Dataset-Details"><a href="#Dataset-Details" class="headerlink" title="Dataset Details"></a>Dataset Details</h3><p>共标记了68个序列，77558帧，10个操作者</p>
+<p>16个序列是单相机设置，52个序列是多相机设置</p>
+<p>单相机设置中同一序列不同帧姿态几乎不变，多相机设置中发生改变</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Graphics/" rel="tag"><i class="fa fa-tag"></i> Graphics</a>
+          
+            <a href="/tags/Paper/" rel="tag"><i class="fa fa-tag"></i> Paper</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/05/Pytorch-recipes/" rel="next" title="Pytorch-recipes">
+                <i class="fa fa-chevron-left"></i> Pytorch-recipes
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">NaNillll</p>
+              <p class="site-description motion-element" itemprop="description">记忆是有限的，外部记忆体是无限的</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/NaNillll" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是HOnnotate"><span class="nav-number">1.</span> <span class="nav-text">什么是HOnnotate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成了一种自动标注抓取物品的手的RGB-D照片的算法。"><span class="nav-number">1.1.</span> <span class="nav-text">生成了一种自动标注抓取物品的手的RGB-D照片的算法。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用这种方法，生成了HO-3D数据集。"><span class="nav-number">1.2.</span> <span class="nav-text">利用这种方法，生成了HO-3D数据集。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关工作"><span class="nav-number">2.</span> <span class="nav-text">相关工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3D-Hand-Pose-Estimation"><span class="nav-number">2.1.</span> <span class="nav-text">3D Hand Pose Estimation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Synthetic-Images-for-3D-Pose-Estimation"><span class="nav-number">2.2.</span> <span class="nav-text">Synthetic Images for 3D Pose Estimation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hand-Object-Datasets"><span class="nav-number">2.3.</span> <span class="nav-text">Hand+Object Datasets</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成注释的方法"><span class="nav-number">3.</span> <span class="nav-text">生成注释的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#损失函数"><span class="nav-number">3.1.</span> <span class="nav-text">损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#轮廓差异Emask"><span class="nav-number">3.1.1.</span> <span class="nav-text">轮廓差异Emask</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深度残差Edpt"><span class="nav-number">3.1.2.</span> <span class="nav-text">深度残差Edpt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2D关节损失Ej2D"><span class="nav-number">3.1.3.</span> <span class="nav-text">2D关节损失Ej2D</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3D损失E3D"><span class="nav-number">3.1.4.</span> <span class="nav-text">3D损失E3D</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关节角度限制损失Ejoint"><span class="nav-number">3.1.5.</span> <span class="nav-text">关节角度限制损失Ejoint</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#手部合理性损失Ephy"><span class="nav-number">3.1.6.</span> <span class="nav-text">手部合理性损失Ephy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序性损失Etc"><span class="nav-number">3.1.7.</span> <span class="nav-text">时序性损失Etc</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Optimization"><span class="nav-number">4.</span> <span class="nav-text">Optimization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-Camera-Setup"><span class="nav-number">4.1.</span> <span class="nav-text">Multi-Camera Setup</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Initialization"><span class="nav-number">4.1.1.</span> <span class="nav-text">Initialization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Single-frame-joint-pose-optimization"><span class="nav-number">4.1.2.</span> <span class="nav-text">Single-frame joint pose optimization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Multi-frame-joint-pose-optimization"><span class="nav-number">4.1.3.</span> <span class="nav-text">Multi-frame joint pose optimization</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Single-Camera-Setup"><span class="nav-number">4.2.</span> <span class="nav-text">Single-Camera Setup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Initialization-1"><span class="nav-number">4.3.</span> <span class="nav-text">Initialization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Grasp-pose-estimation"><span class="nav-number">4.4.</span> <span class="nav-text">Grasp pose estimation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-pose-estimation"><span class="nav-number">4.5.</span> <span class="nav-text">Object pose estimation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-frame-joint-hand-object-pose-refinement"><span class="nav-number">4.6.</span> <span class="nav-text">Multi-frame joint hand+object pose refinement</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Monocular-RGB-based-3D-Hand-Pose"><span class="nav-number">5.</span> <span class="nav-text">Monocular RGB based 3D Hand Pose</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Benchmarking-HO-3D"><span class="nav-number">6.</span> <span class="nav-text">Benchmarking HO-3D</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试标注方法"><span class="nav-number">6.0.1.</span> <span class="nav-text">测试标注方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试手部姿态预测方法"><span class="nav-number">6.1.</span> <span class="nav-text">测试手部姿态预测方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些问题"><span class="nav-number">7.</span> <span class="nav-text">一些问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充材料"><span class="nav-number">8.</span> <span class="nav-text">补充材料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hand-Pose-Estimation-from-Single-Color-Image"><span class="nav-number">8.1.</span> <span class="nav-text">Hand Pose Estimation from Single Color Image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hand-Shape-Estimation"><span class="nav-number">8.2.</span> <span class="nav-text">Hand Shape Estimation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Joint-Angle-Constraints"><span class="nav-number">8.3.</span> <span class="nav-text">Joint Angle Constraints</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Point-Cloud-from-Multiple-Cameras"><span class="nav-number">8.4.</span> <span class="nav-text">Point Cloud from Multiple Cameras</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hand-Object-Segmentation-Network"><span class="nav-number">8.5.</span> <span class="nav-text">Hand-Object Segmentation Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Automatic-Initialization"><span class="nav-number">8.6.</span> <span class="nav-text">Automatic Initialization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dataset-Details"><span class="nav-number">8.7.</span> <span class="nav-text">Dataset Details</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">NaNillll</span>
+  
+ 
+  
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">8.4k</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
