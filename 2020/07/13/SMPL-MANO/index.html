@@ -100,7 +100,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/6.PNG">
 <meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/4.PNG">
 <meta property="article:published_time" content="2020-07-12T16:32:26.000Z">
-<meta property="article:modified_time" content="2020-08-05T08:21:16.324Z">
+<meta property="article:modified_time" content="2020-09-03T08:32:28.379Z">
 <meta property="article:author" content="NaNillll">
 <meta property="article:tag" content="Graphics">
 <meta property="article:tag" content="Paper">
@@ -357,7 +357,7 @@
 <p>核心是ManoLayer模块</p>
 <p>只看论文很多细节都会忽略，而且论文和代码有一些不同之处</p>
 <p>代码为基于Pytorch的MANO layer，只需要输入beta和Joint参数即可输出所有的Vertex和Joint坐标</p>
-<h4 id="init函数"><a href="#init函数" class="headerlink" title="init函数"></a>init函数</h4><p>center_idx表示Joint中心的序号（只在最后输出时有用）</p>
+<h3 id="init函数"><a href="#init函数" class="headerlink" title="init函数"></a>init函数</h3><p>center_idx表示Joint中心的序号（只在最后输出时有用）</p>
 <p>代码中的pose_coeffs并非论文所指的Pose参数，最终的Pose参数需要将mean hand对应的参数和pose_coeffs与主成分计算出的参数求和得到，主成分数量默认为6。flat_hand_mean表示mean hand对应的为flat hand，此时的Pose参数全为0；否则选择实验得到的mean pose对应的参数。beta长度为10，对应10个主成分</p>
 <h4 id="forward函数"><a href="#forward函数" class="headerlink" title="forward函数"></a>forward函数</h4><p>以下主要分析基于轴角且使用PCA的情况</p>
 <h5 id="生成rest-pose"><a href="#生成rest-pose" class="headerlink" title="生成rest pose"></a>生成rest pose</h5><p>th_full_pose将Global轴角和Pose参数连接在一起，长度为{batch_size，3*16}</p>
@@ -543,7 +543,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -599,7 +599,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是SMPL"><span class="nav-number">1.</span> <span class="nav-text">什么是SMPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMPL的计算过程"><span class="nav-number">2.</span> <span class="nav-text">SMPL的计算过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是MANO？"><span class="nav-number">3.</span> <span class="nav-text">什么是MANO？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MANO的代码分析"><span class="nav-number">4.</span> <span class="nav-text">MANO的代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#init函数"><span class="nav-number">4.1.</span> <span class="nav-text">init函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#forward函数"><span class="nav-number">4.2.</span> <span class="nav-text">forward函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#生成rest-pose"><span class="nav-number">4.2.1.</span> <span class="nav-text">生成rest pose</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成transformation"><span class="nav-number">4.2.2.</span> <span class="nav-text">生成transformation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成最终结果"><span class="nav-number">4.2.3.</span> <span class="nav-text">生成最终结果</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是SMPL"><span class="nav-number">1.</span> <span class="nav-text">什么是SMPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMPL的计算过程"><span class="nav-number">2.</span> <span class="nav-text">SMPL的计算过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是MANO？"><span class="nav-number">3.</span> <span class="nav-text">什么是MANO？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MANO的代码分析"><span class="nav-number">4.</span> <span class="nav-text">MANO的代码分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#init函数"><span class="nav-number">5.</span> <span class="nav-text">init函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#forward函数"><span class="nav-number">5.1.</span> <span class="nav-text">forward函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#生成rest-pose"><span class="nav-number">5.1.1.</span> <span class="nav-text">生成rest pose</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成transformation"><span class="nav-number">5.1.2.</span> <span class="nav-text">生成transformation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成最终结果"><span class="nav-number">5.1.3.</span> <span class="nav-text">生成最终结果</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -636,7 +636,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">8.4k</span>
+    <span title="Site words total count">9.1k</span>
   
 </div>
 
