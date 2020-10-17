@@ -237,7 +237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/12/6%20.%201%20.%201%20%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%20M%20%E6%A8%A1%E5%9E%8B%E5%BB%BA%E7%AB%8B/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/17/one-d-stack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="NaNillll">
@@ -256,7 +256,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/09/12/6%20.%201%20.%201%20%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%20M%20%E6%A8%A1%E5%9E%8B%E5%BB%BA%E7%AB%8B/" itemprop="url">6 . 1 . 1 基于机器学习与多层神经网络的 M 模型建立</a></h1>
+                <a class="post-title-link" href="/2020/10/17/one-d-stack/" itemprop="url">单调栈</a></h1>
         
 
         <div class="post-meta">
@@ -268,8 +268,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-12T23:26:21+08:00">
-                2020-09-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-17T14:16:08+08:00">
+                2020-10-17
               </time>
             
 
@@ -300,7 +300,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  273
+                  1.5k
                 </span>
               
 
@@ -327,166 +327,38 @@
       
         
           
-            <p><strong><em>\</em>6 . 1 . 1**</strong> 基于机器学习与多层神经网络的 <strong><em>\</em>M**</strong> 模型建立 </p>
-<p>模型M用于预测企业i的违约概率γ，其输入值为企业i对应的表 3 中列出的所有评价指标，共21项</p>
-<p>模型M使用了集成框架，主要结构如下图：</p>
-<p>模型M主要由两层组成：第一层由Lasso回归模型，随机森林模型，XGBoost树模型，支持向量机回归模型构成，各模型独立的预测特定企业的i违约概率</p>
-<script type="math/tex; mode=display">
-p^{a}_{i},    p^{a}_{i} \in R^4</script><p>第二层由多层神经网络构成，输入第一层的预测结果p^{a}_{i}，并预测该企业最终的违规概率P^{b} _  {i}</p>
-<p>6.1.1.1 Lasso回归模型</p>
-<p><strong>Lasso回归模型</strong>是一种同时进行特征选择和正则化的回归分析模型，在进行回归预测的同时，通过对L1正则项（回归方程的权值绝对值之和）的约束增强模型的泛化能力，避免过拟合</p>
+            <h3 id="什么是单调栈"><a href="#什么是单调栈" class="headerlink" title="什么是单调栈"></a>什么是单调栈</h3><p>一般是在遍历数组时，记录下的一个栈，元素依次递增/递减，通过这个过程解决问题</p>
+<p>假如是递增栈，b为a在栈中的上一个元素，代表原数组中b到a之间的元素都大于a</p>
+<p>因为每个元素最多进出栈各一次，因此是线性复杂度</p>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><h4 id="84-柱状图中最大的矩形"><a href="#84-柱状图中最大的矩形" class="headerlink" title="84. 柱状图中最大的矩形"></a><a href="https://leetcode-cn.com/problems/largest-rectangle-in-histogram/" target="_blank" rel="noopener">84. 柱状图中最大的矩形</a></h4><p>给定 <em>n</em> 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。</p>
+<p>求在该柱状图中，能够勾勒出来的矩形的最大面积。</p>
 
-          
-        
-      
-    </div>
-    
-    
-    
+<p>我们想要知道以某一个木板高度，可以形成的最大矩形，就需要找到这个木板最多可以向左右扩展多少。建立递增单调栈，入栈新的元素后，将原先元素出栈时即可计算出栈元素对应的矩形面积，矩形右侧是当前入栈元素，矩形左侧是当前的栈顶</p>
+<p>一个问题是遍历结束后，可能还有元素，需要依次出栈，矩形右侧就是第一个出栈的元素，左侧是元素在栈中上一个元素</p>
+<img src="/2020/10/17/one-d-stack/2.PNG" class>
+<p>另一个问题是放入新元素可能弹到空栈</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">largestRectangleArea</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;heights)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="built_in">size</span> = heights.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">size</span> == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> heights[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; stk;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span> (!stk.empty() &amp;&amp; heights[stk.top()] &gt; heights[i]) &#123;</span><br><span class="line">                <span class="keyword">int</span> length = heights[stk.top()];</span><br><span class="line">                stk.pop();</span><br><span class="line">                <span class="keyword">int</span> weight = i;</span><br><span class="line">                <span class="keyword">if</span> (!stk.empty()) &#123;</span><br><span class="line">                    weight = i - stk.top() - <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                res = <span class="built_in">max</span>(res, length * weight);</span><br><span class="line">            &#125;</span><br><span class="line">            stk.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (!stk.empty()) &#123;</span><br><span class="line">            <span class="keyword">int</span> length = heights[stk.top()];</span><br><span class="line">            stk.pop();</span><br><span class="line">            <span class="keyword">int</span> weight = <span class="built_in">size</span>;</span><br><span class="line">            <span class="keyword">if</span> (!stk.empty()) &#123;</span><br><span class="line">                weight = <span class="built_in">size</span> - stk.top() - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            res = <span class="built_in">max</span>(res, length * weight);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>一个解决方法是在数组两边加上哨兵0，这样可以使遍历后栈内一定不会有剩余，加入新元素不会把栈弹空</p>
+<p>加入后的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">largestRectangleArea</span><span class="params">(self, heights: List[int])</span> -&gt; int:</span></span><br><span class="line">        size = len(heights)</span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        heights = [<span class="number">0</span>] + heights + [<span class="number">0</span>]</span><br><span class="line">        <span class="comment"># 先放入哨兵结点，在循环中就不用做非空判断</span></span><br><span class="line">        stack = [<span class="number">0</span>]</span><br><span class="line">        size += <span class="number">2</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, size):</span><br><span class="line">            <span class="keyword">while</span> heights[i] &lt; heights[stack[<span class="number">-1</span>]]:</span><br><span class="line">                cur_height = heights[stack.pop()]</span><br><span class="line">                cur_width = i - stack[<span class="number">-1</span>] - <span class="number">1</span></span><br><span class="line">                res = max(res, cur_height * cur_width)</span><br><span class="line">            stack.append(i)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<h4 id="42-接雨水"><a href="#42-接雨水" class="headerlink" title="42. 接雨水"></a><a href="https://leetcode-cn.com/problems/trapping-rain-water/" target="_blank" rel="noopener">42. 接雨水</a></h4><img src="/2020/10/17/one-d-stack/3.PNG" class>
+<p>递减栈。如果遇到大于栈顶的元素，那么肯定会形成积水，补上积水后形成的高度应该是左右两侧的最小值；补上积水，该元素出栈代表这个位置的高度已经和栈顶的高度相同了，因此求积水的高度差需要减去当前栈顶的高度</p>
+<p>也就是元素入栈并完成计算后，他右侧直到新元素的所有高度（如果有的话）和他相同</p>
 
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/22/taskPlan/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="NaNillll">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="NaNillll's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/08/22/taskPlan/" itemprop="url">taskPlan</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-22T11:00:42+08:00">
-                2020-08-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  388
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Concept2Robot-Learning-Manipulation-Concepts-from-Instructions-and-Human-Demonstrations"><a href="#Concept2Robot-Learning-Manipulation-Concepts-from-Instructions-and-Human-Demonstrations" class="headerlink" title="Concept2Robot: Learning Manipulation Concepts from Instructions and Human Demonstrations"></a>Concept2Robot: Learning Manipulation Concepts from Instructions and Human Demonstrations</h2><h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><img src="/2020/08/22/taskPlan/1.PNG" class>
-<p>384维的vector输入policy network后输出1×7的goal g和T×7的 forces f。T为trajectory的time step，用来生成motion trajectory</p>
-<h3 id="Details"><a href="#Details" class="headerlink" title="Details"></a>Details</h3><p>训练时，BERT固定，只训练最后的MLP</p>
-<p>motion trajectory by a second-order dynamical system</p>
-<img src="/2020/08/22/taskPlan/2.PNG" class>
-<p>生成f和g时使用了反卷积。The final task embedding from the semantic context network with shape 1 × 384 is simultaneously fed into an MLP (equivalent to 1D upconvolution) to generate the goal g with shape 1 × 7 and into a separate 1D upconvolution network to generate the forces f with shape T ×7, where T is the number of timesteps in the trajectory.</p>
-<p>video classifier that is trained to classify actions in Sth Sth videos. For a given task Ti and a video V, the classification score of the corresponding category is used as a reward signal R(V, Ti) to update the policy network</p>
-<h4 id="Single-Task-Learning"><a href="#Single-Task-Learning" class="headerlink" title="Single-Task Learning"></a>Single-Task Learning</h4><p>Given the video classifier as a substitute for the reward, we frame this problem as a reinforcement learning problem per task Ti</p>
-<p>To solve the Contextual bandit problem, we combine Deep Deterministic Policy Gradients (<strong>DDPG</strong>)  with the Cross Entropy Method (<strong>CEM</strong>) .The DDPG critic network is used to approximate the Q value function. The output of the DDPG actor network is used to initialize CEM. We run CEM for four iterations to select actions in both the training and test stages.</p>
-<p> In the training stages, we store the transition (s, a, r) where s represents the state, a is the action selected after CEM, r is the reward from the video classifier. The critic loss is Lc = ||r− Q(s, a)||^2 , and the actor loss is La = −Q(s, Actor(s)), where Actor(s) is the output of the actor network.</p>
-<h4 id="Multi-Task-Learning"><a href="#Multi-Task-Learning" class="headerlink" title="Multi-Task Learning"></a>Multi-Task Learning</h4><p>After training single-task policies, we now have expert models for each task that we can use to train a <strong>multi-task model</strong> through <strong>imitation learning</strong></p>
-<p>For each task Ti , we use the corresponding single-task policy πi to produce N rollouts of state-action tuples (s,a,y) and save them into a large replay buffer. s is e feature vector, a is  motion trajectory parameter, y is  actual end effector trajectory</p>
-<img src="/2020/08/22/taskPlan/3.PNG" class>
-
+<p>具体来说，6入栈，5 出栈，计算4和6之间的积水5；7入栈，6出栈，计算4与7间的积水，但是因为6和4，7的最小高度相同，无积水；7入栈，4出栈，，计算3和7间的积水4；7进栈，3出栈，但是现在栈空，没有左侧无法积水</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">trap</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; <span class="built_in">height</span>)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt;stk;</span><br><span class="line">        <span class="keyword">int</span> totalSize = <span class="built_in">height</span>.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> prevTopId = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> all = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; totalSize; ++i)</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">while</span> (!stk.empty() &amp;&amp; <span class="built_in">height</span>[stk.top()] &lt; <span class="built_in">height</span>[i])</span><br><span class="line">        &#123;</span><br><span class="line">                prevTopId = stk.top();</span><br><span class="line">                stk.pop();</span><br><span class="line">                <span class="keyword">if</span> (!stk.empty())</span><br><span class="line">                    all += (<span class="built_in">min</span>(<span class="built_in">height</span>[stk.top()],<span class="built_in">height</span>[i]) - <span class="built_in">height</span>[prevTopId]) * (i - stk.top() - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            stk.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> all;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="402-移掉K位数字"><a href="#402-移掉K位数字" class="headerlink" title="402. 移掉K位数字"></a><a href="https://leetcode-cn.com/problems/remove-k-digits/" target="_blank" rel="noopener">402. 移掉K位数字</a></h4><img src="/2020/10/17/one-d-stack/6.PNG" class>
+<p>假如知道使用单调栈就很简单，建立递增栈，遍历后的结果即为剩下的数字</p>
+<p>但是，题中有位数要求，因此弹栈最多k次即停止</p>
+<p>此外，题中还有一些细节问题：如果栈空则需要手动返回0；原数字中前导0需要移除，可以在最终移除或是遍历时移除（显然后者耗时更短）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">removeKdigits</span><span class="params">(<span class="built_in">string</span> num, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">stack</span>&lt;<span class="keyword">char</span>&gt; s;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; num.<span class="built_in">size</span>(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span> (!s.empty() &amp;&amp; s.top() &gt; num[i] &amp;&amp; k)</span><br><span class="line">		&#123;</span><br><span class="line">			s.pop();</span><br><span class="line">			k--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (s.empty() &amp;&amp; num[i] == <span class="string">'0'</span>)</span><br><span class="line">			<span class="keyword">continue</span>;<span class="comment">//跳过前置0</span></span><br><span class="line">		s.push(num[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">string</span> result;</span><br><span class="line">	<span class="keyword">while</span> (!s.empty())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (k &gt; <span class="number">0</span>)<span class="comment">//当还要再移除数字的时候：从此时单调递增栈的top部删去数字</span></span><br><span class="line">			k--;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (k == <span class="number">0</span>)<span class="comment">//当不用再移除数字的时候：把字符串取出来到result</span></span><br><span class="line">			result += s.top();</span><br><span class="line"></span><br><span class="line">		s.pop();	</span><br><span class="line">	&#125;</span><br><span class="line">	reverse(result.<span class="built_in">begin</span>(), result.<span class="built_in">end</span>());<span class="comment">//stl中的reverse函数</span></span><br><span class="line">	<span class="keyword">return</span> result == <span class="string">""</span> ? <span class="string">"0"</span> : result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="496-下一个更大元素-I"><a href="#496-下一个更大元素-I" class="headerlink" title="496. 下一个更大元素 I"></a><a href="https://leetcode-cn.com/problems/next-greater-element-i/" target="_blank" rel="noopener">496. 下一个更大元素 I</a></h4><img src="/2020/10/17/one-d-stack/5.PNG" class>
+<p>单调栈+哈希表</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">nextGreaterElement</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;m;<span class="comment">//val-&gt;val</span></span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;::iterator it; </span><br><span class="line">        <span class="keyword">int</span> size1=nums1.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> size2=nums2.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;res(size1);</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt;s;<span class="comment">//decrease</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size1;++i)&#123;</span><br><span class="line">            m[nums1[i]]=<span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> prev;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size2;++i)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!s.empty()&amp;&amp;nums2[i]&gt;nums2[s.top()])&#123;</span><br><span class="line">                prev=s.top();</span><br><span class="line">                s.pop();</span><br><span class="line">                it=m.<span class="built_in">find</span>(nums2[prev]);</span><br><span class="line">                <span class="keyword">if</span>(it!=m.<span class="built_in">end</span>())&#123;</span><br><span class="line">                    it-&gt;second=nums2[i];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            s.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size1;++i)&#123;</span><br><span class="line">            res[i]=m[nums1[i]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="581-最短无序连续子数组"><a href="#581-最短无序连续子数组" class="headerlink" title="581. 最短无序连续子数组"></a><a href="https://leetcode-cn.com/problems/shortest-unsorted-continuous-subarray/" target="_blank" rel="noopener">581. 最短无序连续子数组</a></h4><img src="/2020/10/17/one-d-stack/5.PNG" class>
+<p>双栈。当然其实不用栈用指针就可以</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findUnsortedSubarray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt;forward;<span class="comment">//increase</span></span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt;inverse;<span class="comment">//increase</span></span><br><span class="line">        <span class="keyword">int</span> totalLen = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i&lt;totalLen&amp;&amp;( forward.empty() || nums[i] &gt;= nums[forward.top()])) &#123;</span><br><span class="line">            forward.push(i);</span><br><span class="line">            ++i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (; i &lt; totalLen; ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span> (!forward.empty() &amp;&amp; nums[forward.top()] &gt; nums[i]) &#123;</span><br><span class="line">                forward.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (forward.empty()) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        i = totalLen - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (i&gt;=<span class="number">0</span>&amp;&amp;(inverse.empty() || nums[i] &lt;= nums[inverse.top()])) &#123;</span><br><span class="line">            inverse.push(i);</span><br><span class="line">            --i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">            <span class="keyword">while</span> (!inverse.empty() &amp;&amp; nums[inverse.top()] &lt; nums[i]) &#123;</span><br><span class="line">                inverse.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (inverse.empty()) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (totalLen == forward.<span class="built_in">size</span>())<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> totalLen - forward.<span class="built_in">size</span>() - inverse.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="316-去除重复字母"><a href="#316-去除重复字母" class="headerlink" title="316. 去除重复字母"></a><a href="https://leetcode-cn.com/problems/remove-duplicate-letters/" target="_blank" rel="noopener">316. 去除重复字母</a></h4>
           
         
       
@@ -1624,7 +1496,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1637,7 +1509,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1701,7 +1573,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">9.1k</span>
+    <span title="Site words total count">9.9k</span>
   
 </div>
 
