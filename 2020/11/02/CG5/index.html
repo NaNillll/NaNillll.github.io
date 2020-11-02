@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta name="google-site-verification" content="kWcVT9oyylmyb6DohoXWge7VpBUZQVIptcOSS5Gr9wc" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CG," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Texuring Defination使用纹理来修改物体的表面的每一个位置，纹理可以来源于  图片 函数 其他数据结构  主要在shading中进行修改 Texture Pipeline  The projector Function将三维坐标投影到二维      The Corresponder Function映射函数，[u,v]^2-&gt;[0,1]^2 但是可能会超出该范围，需要对应进行填充">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CG5 Texuring Mapping">
+<meta property="og:url" content="http://yoursite.com/2020/11/02/CG5/index.html">
+<meta property="og:site_name" content="The Grimoire of NaNillll">
+<meta property="og:description" content="Texuring Defination使用纹理来修改物体的表面的每一个位置，纹理可以来源于  图片 函数 其他数据结构  主要在shading中进行修改 Texture Pipeline  The projector Function将三维坐标投影到二维      The Corresponder Function映射函数，[u,v]^2-&gt;[0,1]^2 但是可能会超出该范围，需要对应进行填充">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/1.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/2.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/3.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/4.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/5.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/6.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/7.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/8.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/9.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/10.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/11.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/12.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/13.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/14.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/15.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/16.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/17.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/18.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/19.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/02/CG5/20.PNG">
+<meta property="article:published_time" content="2020-11-02T10:13:00.000Z">
+<meta property="article:modified_time" content="2020-11-02T12:04:01.609Z">
+<meta property="article:author" content="NaNillll">
+<meta property="article:tag" content="CG">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/11/02/CG5/1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/11/02/CG5/"/>
+
+
+
+
+
+  <title>CG5 Texuring Mapping | The Grimoire of NaNillll</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">The Grimoire of NaNillll</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NaNillll">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CG5 Texuring Mapping</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T18:13:00+08:00">
+                2020-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  493
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Texuring-Defination"><a href="#Texuring-Defination" class="headerlink" title="Texuring Defination"></a>Texuring Defination</h3><p>使用纹理来修改物体的表面的每一个位置，纹理可以来源于</p>
+<ol>
+<li>图片</li>
+<li>函数</li>
+<li>其他数据结构</li>
+</ol>
+<p>主要在shading中进行修改</p>
+<h3 id="Texture-Pipeline"><a href="#Texture-Pipeline" class="headerlink" title="Texture Pipeline"></a>Texture Pipeline</h3><img src="/2020/11/02/CG5/1.PNG" class>
+<img src="/2020/11/02/CG5/2.PNG" class>
+<h4 id="The-projector-Function"><a href="#The-projector-Function" class="headerlink" title="The projector Function"></a>The projector Function</h4><p>将三维坐标投影到二维</p>
+<img src="/2020/11/02/CG5/3.PNG" class>
+<img src="/2020/11/02/CG5/4.PNG" class>
+<img src="/2020/11/02/CG5/5.PNG" class>
+<img src="/2020/11/02/CG5/6.PNG" class>
+<img src="/2020/11/02/CG5/7.PNG" class>
+<h4 id="The-Corresponder-Function"><a href="#The-Corresponder-Function" class="headerlink" title="The Corresponder Function"></a>The Corresponder Function</h4><p>映射函数，<script type="math/tex">[u,v]^2->[0,1]^2</script></p>
+<p>但是可能会超出该范围，需要对应进行填充</p>
+<img src="/2020/11/02/CG5/8.PNG" class>
+<img src="/2020/11/02/CG5/9.PNG" class>
+<h3 id="Texture-Magnification"><a href="#Texture-Magnification" class="headerlink" title="Texture Magnification"></a>Texture Magnification</h3><p>处理纹理太小，分辨率不够的情况</p>
+<p>主要通过插值</p>
+<img src="/2020/11/02/CG5/10.PNG" class>
+<h4 id="Bilinear-Interpolation"><a href="#Bilinear-Interpolation" class="headerlink" title="Bilinear Interpolation"></a>Bilinear Interpolation</h4><img src="/2020/11/02/CG5/11.PNG" class>
+<h3 id="Texture-Magnification-1"><a href="#Texture-Magnification-1" class="headerlink" title="Texture Magnification"></a>Texture Magnification</h3><p>纹理太大，分辨率太高</p>
+<p>其实这和反采样是很相似的问题</p>
+<h4 id="Supersampling"><a href="#Supersampling" class="headerlink" title="Supersampling"></a>Supersampling</h4><p>太慢</p>
+<h4 id="Mipmap"><a href="#Mipmap" class="headerlink" title="Mipmap"></a>Mipmap</h4><p>提前计算出纹理降低分辨率后的结果，在需要取纹理时找到对应位置并插值即可</p>
+<img src="/2020/11/02/CG5/12.PNG" class>
+<p>为了更好的过度，比如为第1.3层插值，需要用到三线性插值——在不同层得到的结果间插值</p>
+<img src="/2020/11/02/CG5/13.PNG" class>
+<h4 id="Anisotropic-Filtering"><a href="#Anisotropic-Filtering" class="headerlink" title="Anisotropic Filtering"></a>Anisotropic Filtering</h4><p>在各个方向上的取值频率不同</p>
+<p>同时取样形状也不一定是矩形</p>
+<img src="/2020/11/02/CG5/14.PNG" class>
+<img src="/2020/11/02/CG5/15.PNG" class>
+<h3 id="Bump-Mapping凹凸贴图"><a href="#Bump-Mapping凹凸贴图" class="headerlink" title="Bump Mapping凹凸贴图"></a>Bump Mapping凹凸贴图</h3><p>修改表面法线的方向。可能只是在shading部分使用该法线，而在其他部分使用顶点本身的法线</p>
+<h4 id="heightfield"><a href="#heightfield" class="headerlink" title="heightfield"></a>heightfield</h4><p>一种方法是存储顶点的高度，并计算法线</p>
+<img src="/2020/11/02/CG5/16.PNG" class>
+<h4 id="normal-map"><a href="#normal-map" class="headerlink" title="normal map"></a>normal map</h4><p>一种方法是将法线直接存储在贴图中</p>
+<img src="/2020/11/02/CG5/17.PNG" class>
+<img src="/2020/11/02/CG5/18.PNG" class>
+<p>然而，法线显然无法存储在世界坐标系下，一般存储在切线坐标系下：</p>
+<img src="/2020/11/02/CG5/19.PNG" class>
+<p>每个顶点的切线坐标系下存储在每个顶点中</p>
+<h3 id="Parallax-Mapping视差贴图"><a href="#Parallax-Mapping视差贴图" class="headerlink" title="Parallax Mapping视差贴图"></a>Parallax Mapping视差贴图</h3><p>凹凸贴图的一个问题是这种凹凸性本身是有问题的——既不会因为凹凸产生相互的遮挡，在视角移动后凹凸效果也不会变化</p>
+<p>视差贴图本身是通过贴图，预测某个视角下应该看到物体的哪个位置，通过偏移进行取样</p>
+<p><a href="https://blog.csdn.net/HappyKocola/article/details/72812081" target="_blank" rel="noopener">https://blog.csdn.net/HappyKocola/article/details/72812081</a></p>
+<h3 id="Environment-Map"><a href="#Environment-Map" class="headerlink" title="Environment Map"></a>Environment Map</h3><p>最常见的是球形贴图</p>
+<img src="/2020/11/02/CG5/20.PNG" class>
+<p>用于反射，透射，天空盒等</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CG/" rel="tag"><i class="fa fa-tag"></i> CG</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/02/CG4/" rel="next" title="CG4 基本shading">
+                <i class="fa fa-chevron-left"></i> CG4 基本shading
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/02/CG6/" rel="prev" title="CG6 Gemometry">
+                CG6 Gemometry <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">NaNillll</p>
+              <p class="site-description motion-element" itemprop="description">记忆是有限的，外部记忆体是无限的</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/NaNillll" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Texuring-Defination"><span class="nav-number">1.</span> <span class="nav-text">Texuring Defination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Texture-Pipeline"><span class="nav-number">2.</span> <span class="nav-text">Texture Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#The-projector-Function"><span class="nav-number">2.1.</span> <span class="nav-text">The projector Function</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#The-Corresponder-Function"><span class="nav-number">2.2.</span> <span class="nav-text">The Corresponder Function</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Texture-Magnification"><span class="nav-number">3.</span> <span class="nav-text">Texture Magnification</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bilinear-Interpolation"><span class="nav-number">3.1.</span> <span class="nav-text">Bilinear Interpolation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Texture-Magnification-1"><span class="nav-number">4.</span> <span class="nav-text">Texture Magnification</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Supersampling"><span class="nav-number">4.1.</span> <span class="nav-text">Supersampling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mipmap"><span class="nav-number">4.2.</span> <span class="nav-text">Mipmap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Anisotropic-Filtering"><span class="nav-number">4.3.</span> <span class="nav-text">Anisotropic Filtering</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bump-Mapping凹凸贴图"><span class="nav-number">5.</span> <span class="nav-text">Bump Mapping凹凸贴图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#heightfield"><span class="nav-number">5.1.</span> <span class="nav-text">heightfield</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#normal-map"><span class="nav-number">5.2.</span> <span class="nav-text">normal map</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parallax-Mapping视差贴图"><span class="nav-number">6.</span> <span class="nav-text">Parallax Mapping视差贴图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Environment-Map"><span class="nav-number">7.</span> <span class="nav-text">Environment Map</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">NaNillll</span>
+  
+ 
+  
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">13.7k</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
