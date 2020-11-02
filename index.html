@@ -8,6 +8,7 @@
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta name="google-site-verification" content="kWcVT9oyylmyb6DohoXWge7VpBUZQVIptcOSS5Gr9wc" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -223,6 +224,664 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NaNillll">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/02/CG3/" itemprop="url">CG3 Rasterization</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T13:20:04+08:00">
+                2020-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  318
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Sampling采样"><a href="#Sampling采样" class="headerlink" title="Sampling采样"></a>Sampling采样</h3><p>一般通过离散取值来进行采样</p>
+<img src="/2020/11/02/CG3/4.PNG" class>
+<p>一般使用三角面片作为Mesh的Primitive</p>
+<ol>
+<li>最基本的多边形</li>
+<li>容易确定是否在内部</li>
+<li>一定是在一个平面内</li>
+<li>容易插值</li>
+</ol>
+<p>判断是否在三角形内可以使用叉积</p>
+<img src="/2020/11/02/CG3/5.PNG" class>
+<p>叉积具有方向性，反映旋转的方向。依次计算Qp0和Qp1，Qp1和Qp2，Qp2和Qp3的叉积，如果都同号说明在三角形内部，否则外部</p>
+<p>在采样时，可以使用逐行扫描的方法加速</p>
+<img src="/2020/11/02/CG3/6.PNG" class>
+<p>同时可以使用包围盒，更快的判断是否在三角形内部</p>
+<img src="/2020/11/02/CG3/7.PNG" class>
+<h3 id="Aliasing走样"><a href="#Aliasing走样" class="headerlink" title="Aliasing走样"></a>Aliasing走样</h3><p>直接采样容易发生走样Aliasing，主要是因为采样频率太低，信号变化过快</p>
+<p>这种错误又被称为Sampling Artifacts(Errors/Mistakes/Inaccuracies)</p>
+<img src="/2020/11/02/CG3/1.PNG" class>
+<p>一种常见的走样是因为时间频率过快，如倒转的轮子</p>
+<p>一种常见的走样是空间上的，颜色值变化过快，比如锯齿和摩尔纹</p>
+<img src="/2020/11/02/CG3/2.PNG" class>
+<img src="/2020/11/02/CG3/3.PNG" class>
+<h3 id="Antialiasing反走样"><a href="#Antialiasing反走样" class="headerlink" title="Antialiasing反走样"></a>Antialiasing反走样</h3><h4 id="先滤波后采样"><a href="#先滤波后采样" class="headerlink" title="先滤波后采样"></a>先滤波后采样</h4><p>滤波除去高频部分，模糊后采样</p>
+<img src="/2020/11/02/CG3/8.PNG" class>
+<h4 id="Supersampling，MSAA"><a href="#Supersampling，MSAA" class="headerlink" title="Supersampling，MSAA"></a>Supersampling，MSAA</h4><p>将一个像素扩展成许多个像素，依次计算子像素的属性，并插值得到最终的结果</p>
+<img src="/2020/11/02/CG3/9.PNG" class>
+<img src="/2020/11/02/CG3/10.PNG" class>
+<p>除此以外还有许多抗锯齿方式</p>
+<img src="/2020/11/02/CG3/11.PNG" class>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NaNillll">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/02/CG2/" itemprop="url">CG2 transform</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T00:09:29+08:00">
+                2020-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  751
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="2D-transformations"><a href="#2D-transformations" class="headerlink" title="2D transformations"></a>2D transformations</h3><img src="/2020/11/02/CG2/1.PNG" class>
+<img src="/2020/11/02/CG2/2.PNG" class>
+<img src="/2020/11/02/CG2/3.PNG" class>
+<img src="/2020/11/02/CG2/4.PNG" class>
+<img src="/2020/11/02/CG2/5.PNG" class>
+<h3 id="Homogeneous-coordinates齐次坐标"><a href="#Homogeneous-coordinates齐次坐标" class="headerlink" title="Homogeneous coordinates齐次坐标"></a>Homogeneous coordinates齐次坐标</h3><p>为了将多种变换写在一个矩阵内，将坐标在之前的基础上加上一维</p>
+<img src="/2020/11/02/CG2/6.PNG" class>
+<p>最后一维可取任何非零值</p>
+<img src="/2020/11/02/CG2/7.PNG" class>
+<h3 id="Composing-transforms组合变换"><a href="#Composing-transforms组合变换" class="headerlink" title="Composing transforms组合变换"></a>Composing transforms组合变换</h3><img src="/2020/11/02/CG2/8.PNG" class>
+<p>注意，变换的顺序不一定可换。例如先绕原点旋转后平移显然与先平移再旋转结果不同</p>
+<p>只要不涉及维度变换，变换矩阵满秩，而矩阵的逆矩阵就是逆变换的矩阵</p>
+<h3 id="3D-Rotation"><a href="#3D-Rotation" class="headerlink" title="3D Rotation"></a>3D Rotation</h3><p>一般将旋转分解为绕x，y，z的旋转，这也被成为欧拉角</p>
+<img src="/2020/11/02/CG2/9.PNG" class>
+<p>绕y轴旋转矩阵左上角与二维相同，而y，z，x对应左上角矩阵，可以看作x，y，z矩阵的3x3矩阵向右下移位一位的结果</p>
+<p>旋转还有另一种表达方式——轴角，轴为单位向量</p>
+<p>轴角与旋转矩阵的变换关系如罗德里格斯方程所示：</p>
+<img src="/2020/11/02/CG2/10.PNG" class>
+<p><a href="https://www.cnblogs.com/jingrui/p/9712461.html" target="_blank" rel="noopener">https://www.cnblogs.com/jingrui/p/9712461.html</a></p>
+<h3 id="View-Camera-transformation"><a href="#View-Camera-transformation" class="headerlink" title="View/Camera transformation"></a>View/Camera transformation</h3><img src="/2020/11/02/CG2/11.PNG" class>
+<p>可以分解为平移和旋转变换</p>
+<p>直接写从世界空间到相机空间的旋转变换比较困难，但是从相机空间到世界空间的变换很简单</p>
+<img src="/2020/11/02/CG2/12.PNG" class>
+<img src="/2020/11/02/CG2/13.PNG" class>
+<h3 id="Projection-transformation"><a href="#Projection-transformation" class="headerlink" title="Projection transformation"></a>Projection transformation</h3><img src="/2020/11/02/CG2/14.PNG" class>
+<p>将相机空间中物体投影到<script type="math/tex">[-1,1]^3</script>的Canonical Space的变换</p>
+<h4 id="Orthographic-Projection"><a href="#Orthographic-Projection" class="headerlink" title="Orthographic Projection"></a>Orthographic Projection</h4><p>将空间内的点全部投影到<script type="math/tex">[-1,1]^3</script>的空间内</p>
+<p>可以分解为平移中心至原点，压缩两部分</p>
+<img src="/2020/11/02/CG2/15.PNG" class>
+<p>一个问题是，如果使用如上图的右手系，则沿-z看去，靠近的点反而z值大，也就是在变换中将near clip plane投影至1，而far clip plane投影至-1</p>
+<p>这也是为什么许多引擎使用左手系</p>
+<h4 id="Perspective-Projection"><a href="#Perspective-Projection" class="headerlink" title="Perspective Projection"></a>Perspective Projection</h4><img src="/2020/11/02/CG2/16.PNG" class>
+<p>推导过程：</p>
+<img src="/2020/11/02/CG2/17.PNG" class>
+<p>可以看到，在这条直线上的点，x与y应该投影到相同的位置，因此可以将点先全部压缩到near clip plane上</p>
+<p>图中的n与z均为负值，这也确保了x与y不会发生对称互换</p>
+<img src="/2020/11/02/CG2/18.PNG" class>
+<img src="/2020/11/02/CG2/19.PNG" class>
+<p>这样可以实现其中的三行</p>
+<p>对于第三行，考虑这是关于z的变换，与x，y无关，因此前2位为0；而near/far plane投影的结果依然是near/far plane，可以建立二元一次方程</p>
+<img src="/2020/11/02/CG2/20.PNG" class>
+<p>这样就实现了将空间内的点投影到了一个矩形空间，底为near clip plane，z值在near/far clip plane之间</p>
+<p>接下来只需要将矩形压缩到<script type="math/tex">[-1,1]^3</script>的空间内即可，假如继续使用右手系的话，就会出现和之前相同的结果，near clip plane会投影到1处；但其实很多资料中对z的变换加上了负值，使得near clip plane投影至-1，far plane投影至1 ，这并不是一个很重要的问题</p>
+<img src="/2020/11/02/CG2/21.PNG" class>
+<img src="/2020/11/02/CG2/22.PNG" class>
+<p>（图中的near与far为正值，但是依然是右手系，压缩前near clip plane大于far clip plane）</p>
+<h3 id="MVP-Transform"><a href="#MVP-Transform" class="headerlink" title="MVP Transform"></a>MVP Transform</h3><p>三种变换组合在一起的变换</p>
+<img src="/2020/11/02/CG2/23.PNG" class>
+<h3 id="Screen-Transform"><a href="#Screen-Transform" class="headerlink" title="Screen Transform"></a>Screen Transform</h3><p>将Canonical Space投射到Screen上</p>
+<p>Screen可以看作一个二维的数组，长宽即为它的分辨率</p>
+<img src="/2020/11/02/CG2/24.PNG" class>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/01/CG1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NaNillll">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/01/CG1/" itemprop="url">CG1 流水线概况</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-01T23:39:51+08:00">
+                2020-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  196
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <img src="/2020/11/01/CG1/1.PNG" class>
+<p>vertex processing进行Model, View, Projection transforms</p>
+<p>fragment processing进行Z-Buffer</p>
+<p>vertex processing和fragment processing都有可能进行shading和texture mapping</p>
+<img src="/2020/11/01/CG1/2.PNG" class>
+<p>输入流水线的为geometric primitives，例如三角，线等。每个primitive都包含vertex，而vertex又自带许多属性，比如位置，颜色，法线，材质等</p>
+<img src="/2020/11/01/CG1/3.PNG" class>
+<img src="/2020/11/01/CG1/4.PNG" class>
+<p>简而言之，vertex通过插值进行光栅化，生成三维的fragment，fragment同样包含许多属性，而fragment经过处理后投影到屏幕形成pixel</p>
+<img src="/2020/11/01/CG1/5.PNG" class>
+<p>具体到空间的变换如上图所示</p>
+<p>在fragment merge时，需要处理不同物体间的遮挡关系</p>
+<p>一种方法是painting algorithm，从最远处到最近处不断覆盖，但是这种算法无法处理物体相互遮挡的问题</p>
+<p>另一种更加常见的方法是Z-Buffer算法，非常直观：</p>
+<img src="/2020/11/01/CG1/6.PNG" class>
+<img src="/2020/11/01/CG1/7.PNG" class>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/27/games101-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NaNillll">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/10/27/games101-1/" itemprop="url">Transformation</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-27T22:46:52+08:00">
+                2020-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  63
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="2D-transformations"><a href="#2D-transformations" class="headerlink" title="2D transformations"></a>2D transformations</h3><h4 id="Scale-Non-Uniform"><a href="#Scale-Non-Uniform" class="headerlink" title="Scale (Non-Uniform)"></a>Scale (Non-Uniform)</h4><img src="/2020/10/27/games101-1/1.PNG" class>
+<h4 id="Scale-Uniform"><a href="#Scale-Uniform" class="headerlink" title="Scale (Uniform)"></a>Scale (Uniform)</h4><img src="/2020/10/27/games101-1/2.PNG" class>
+<h4 id="Reflection-Matrix"><a href="#Reflection-Matrix" class="headerlink" title="Reflection Matrix"></a>Reflection Matrix</h4><img src="/2020/10/27/games101-1/3.PNG" class>
+<h4 id="Shear-Matrix"><a href="#Shear-Matrix" class="headerlink" title="Shear Matrix"></a>Shear Matrix</h4><img src="/2020/10/27/games101-1/4.PNG" class>
+<h4 id="Rotation-Matrix"><a href="#Rotation-Matrix" class="headerlink" title="Rotation Matrix"></a>Rotation Matrix</h4><img src="/2020/10/27/games101-1/5.PNG" class>
+<h4 id="Translation-Matrix"><a href="#Translation-Matrix" class="headerlink" title="Translation Matrix"></a>Translation Matrix</h4><img src="/2020/10/27/games101-1/6.PNG" class>
+<h4 id="Composing-Transforms"><a href="#Composing-Transforms" class="headerlink" title="Composing Transforms"></a>Composing Transforms</h4><img src="/2020/10/27/games101-1/7.PNG" class>
+<p>顺序非常重要！</p>
+<h3 id="3D-Transformations"><a href="#3D-Transformations" class="headerlink" title="3D Transformations"></a>3D Transformations</h3><p>使用齐次坐标</p>
+<h4 id="Rotation"><a href="#Rotation" class="headerlink" title="Rotation"></a>Rotation</h4><img src="/2020/10/27/games101-1/8.PNG" class>
+<p>左上角3x3矩阵向右下循环移位，相当于xyz轴对应参数转换为yzx轴</p>
+<h4 id="Rodrigues’-Rotation-Formula"><a href="#Rodrigues’-Rotation-Formula" class="headerlink" title="Rodrigues’ Rotation Formula"></a>Rodrigues’ Rotation Formula</h4><img src="/2020/10/27/games101-1/9.PNG" class>
+<h3 id="View-Camera-transformation"><a href="#View-Camera-transformation" class="headerlink" title="View / Camera transformation"></a>View / Camera transformation</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1376,239 +2035,13 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/13/SMPL-MANO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="NaNillll">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/13/SMPL-MANO/" itemprop="url">论文源码笔记SMPL_MANO</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-13T00:32:26+08:00">
-                2020-07-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1.7k
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="什么是SMPL"><a href="#什么是SMPL" class="headerlink" title="什么是SMPL"></a>什么是SMPL</h3><p>SMPL论文地址：<a href="https://smpl.is.tue.mpg.de/" target="_blank" rel="noopener">https://smpl.is.tue.mpg.de/</a></p>
-<p>总而言之，SMPL就是通过LBS技术生成人体模型的算法，作者已经训练好了很多参数，使用时只需要输入shape参数beta和pose参数theta即可</p>
-<p>LBS是SMPL模型的前提</p>
-<p>既然是LBS，就需要Joint，SMPL共有K=23个Joint，可以生成N=6890个 vertices</p>
-<h3 id="SMPL的计算过程"><a href="#SMPL的计算过程" class="headerlink" title="SMPL的计算过程"></a>SMPL的计算过程</h3><p>核心公式</p>
-<img src="/2020/07/13/SMPL-MANO/1.PNG" class>
-<p>基本和LBS相同。w表示权重，G’函数表示变换，剩下部分为静止的template，只不过这个template是一个关于theta和beta的函数。为了简便，实际上每个vertex由4个Joint确定</p>
-<img src="/2020/07/13/SMPL-MANO/2.PNG" class>
-<p>首先是G函数，G函数表示在当前的theta和J（即为各个joint坐标）下，转换到第k个joint空间下的转换矩阵是什么。A表示k的各个祖先joint的有序编号。很显然这是许多个齐次变换矩阵的乘积，即CombindMatrix。G’后半部分即表示如何把初始情况下的姿态转换到第k个joint空间,即为BoneOffsetMatrix</p>
-<img src="/2020/07/13/SMPL-MANO/3.PNG" class>
-<img src="/2020/07/13/SMPL-MANO/4.PNG" class>
-<p>BS和BP函数均代表Rest Mesh相对template的形变，只不过一个是由于pose引起的，一个是由于shape本身引起的。BS叫Shape Blend Shape，BP叫Pose Blend Shape。Bp中的R函数实质上就是将轴角换成3x3旋转矩阵的指数运算，再将其拉伸为直向量，也是Rodrigues formula</p>
-<p>BP和BS函数的计算过程中都可以使用PCA，简化运算</p>
-<img src="/2020/07/13/SMPL-MANO/5.PNG" class>
-<p>最后一个函数，J函数通过rest vertex预测rest joint，显然关节之间距离与shape是相关的。J是一个regression matrix </p>
-<p>具体每一个函数的作用可以从下图中直观的看出来</p>
-<img src="/2020/07/13/SMPL-MANO/6.PNG" class>
-<h3 id="什么是MANO？"><a href="#什么是MANO？" class="headerlink" title="什么是MANO？"></a>什么是MANO？</h3><p>MANO论文地址：<a href="https://mano.is.tue.mpg.de/" target="_blank" rel="noopener">https://mano.is.tue.mpg.de/</a></p>
-<p>基于SMPL的一个手部建模。Joint参数共K=15个，Vertex参数N=778，除此之外附加一个Global orientation。Shape参数的数量与选择的PCA有关</p>
-<h3 id="MANO的代码分析"><a href="#MANO的代码分析" class="headerlink" title="MANO的代码分析"></a>MANO的代码分析</h3><p>项目地址：<a href="https://github.com/hassony2/manopth" target="_blank" rel="noopener">https://github.com/hassony2/manopth</a></p>
-<p>核心是ManoLayer模块</p>
-<p>只看论文很多细节都会忽略，而且论文和代码有一些不同之处</p>
-<p>代码为基于Pytorch的MANO layer，只需要输入beta和Joint参数即可输出所有的Vertex和Joint坐标</p>
-<h3 id="init函数"><a href="#init函数" class="headerlink" title="init函数"></a>init函数</h3><p>center_idx表示Joint中心的序号（只在最后输出时有用）</p>
-<p>代码中的pose_coeffs并非论文所指的Pose参数，最终的Pose参数需要将mean hand对应的参数和pose_coeffs与主成分计算出的参数求和得到，主成分数量默认为6。flat_hand_mean表示mean hand对应的为flat hand，此时的Pose参数全为0；否则选择实验得到的mean pose对应的参数。beta长度为10，对应10个主成分</p>
-<h4 id="forward函数"><a href="#forward函数" class="headerlink" title="forward函数"></a>forward函数</h4><p>以下主要分析基于轴角且使用PCA的情况</p>
-<h5 id="生成rest-pose"><a href="#生成rest-pose" class="headerlink" title="生成rest pose"></a>生成rest pose</h5><p>th_full_pose将Global轴角和Pose参数连接在一起，长度为{batch_size，3*16}</p>
-<p>th_posemap_axisang（）将轴角参数即th_full_pose转换为旋转矩阵，th_rot_map为直接的转换结果，长度为{batchsize，16*9}，th_pose_map为这个函数减去单位矩阵，因为rest pose时的pose参数为全零，对应的Rodrigues矩阵也为单位矩阵，因此对应了</p>
-<img src="/2020/07/13/SMPL-MANO/4.PNG" class>
-<p>之后调整th_rot_map，th_pose_map等维数除去Global transform</p>
-<p>th_v_shaped即BS函数加上template，表示shape调控后的Mesh坐标，长度{batch_size，778，3}。share_betas表示是使用原始的beta还是全部使用beta的平均值</p>
-<p>th_j即J函数，为th_v_shaped乘以regressor matrix，长度{batch_size，16，3}</p>
-<p>th_v_posed为th_v_shaped加上BS函数，此时的th_v_posed即为骨骼变换前的最终静止Mesh，长度{batch_size，778，3}</p>
-<h5 id="生成transformation"><a href="#生成transformation" class="headerlink" title="生成transformation"></a>生成transformation</h5><p>之后就是骨骼变换。模型的骨骼结构很简单，基本就是root joint和5个手指，每个手指有3个Joint，即三个层次空间，Joint间形成父子结构，这样恰好共1+5*3=16个Joint</p>
-<p>th_with_zeros用于生成齐次变换矩阵，输入为旋转矩阵和平移向量</p>
-<p>lev2_rel_transform_flt为上一级到2级空间的变换矩阵，lev2_flt表示world空间下到2级空间的变换矩阵，是由lev1_flt与lev2_rel_transform_flt相乘得到的，这即为一个层级变换过程。通过相似过程可以获得world空间下到各个Joint对应的变换矩阵</p>
-<p>之后经过reorder_idxs的重排序，th_results和th_results_global即为最终到各个Joint空间的变换矩阵，即为Gk函数</p>
-<p>之后，根据LBS的一贯步骤，需要乘以将初始Mesh转换到初始Bone位置的变换矩阵，论文中并没有直接乘以这个矩阵，因为初始Mesh到Bone只需要平移，因此只使用了一个矩阵加减，最终的结果为th_results2,具体过程如下</p>
-<p>初始位置下Mesh到Bone的Offset矩阵：</p>
-<script type="math/tex; mode=display">
-Offset=\left[ \begin{matrix}   1 & -RestJoint \\   0 & 1   \end{matrix} \right]</script><p>而依据定义：</p>
-<script type="math/tex; mode=display">
-thResults=
-\left[
- \begin{matrix}
-   R_{trans} & V_{trans} \\
-   0 & 1 
-  \end{matrix} 
-\right]</script><p>因此</p>
-<script type="math/tex; mode=display">
-thResult*Offset=Offset=\left[ \begin{matrix}   R_{trans} & -R_{trans}RestJoint+V_{trans} \\   0 & 1   \end{matrix} \right]</script><p>而代码中，则是定义了</p>
-<script type="math/tex; mode=display">
-jointJs=
-\left[
- \begin{matrix}
-   RestJoint  \\
-   0 
-  \end{matrix} 
-\right]，
-tmp2=thResults*jointJs=
-\left[
- \begin{matrix}
-   R_{trans}RestJoint  \\
-   0 
-  \end{matrix} 
-\right]</script><script type="math/tex; mode=display">
-thResults2=thResults-
-
-\left[
- \begin{matrix}
-   0& tmp2
-  \end{matrix} 
-\right]
-=
-\left[
- \begin{matrix}
-   R_{transe}& V_{transe}-R_{trans}RestJoint   \\
-   0& 1 
-  \end{matrix} 
-\right]</script><p>可以看出，th_results2就是最终的变换矩阵，也即论文中的G’函数，th_results2长度{batch size，16,4,4}</p>
-<h5 id="生成最终结果"><a href="#生成最终结果" class="headerlink" title="生成最终结果"></a>生成最终结果</h5><p>之后，将th_results2与混合权重矩阵th_weights相乘，得到th_T，th_weights长度为{778,16}，th_T长度为{batch size，4, 4,778}</p>
-<p>将骨骼变换前的最终静止Mesh即th_v_posed转换为齐次坐标th_rest_shape_h，长度{batch size，4,778}，并补上维度，化为{batch size，1，4,778}</p>
-<p>最后，混合蒙皮，将th_T点乘th_rest_shape_h，并沿第三维求和，结果为th_verts，长度{batch size，778,4}即为最终结果。</p>
-<p>这几步的计算顺序与论文中描述的是不同的，其中最让人费解的可能是最后一步：为什么选用th_T点乘th_rest_shape_h并沿第三维求和？第三维的维数为4，并非核心公式的K=16</p>
-<p>实质上，此处的求和并非核心公式中混合各骨骼预测值的过程，各骨骼选择混合的过程已经在生成th_T时经历过了，这也是为什么th_T的维度为{batch size，4，4，778}，本质上就是778个矩阵，对应了778个Rest Joint，只不过这里是变换矩阵的转置，因此之后使用了点乘求和的形式</p>
-<p>对于矩阵A，向量B，有：</p>
-<script type="math/tex; mode=display">
-AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有vertex</p>
-<p>之后是生成常见的21个手部关节点，从th_results_global选出joint，在16个Joint的基础上加上tip并重新排序</p>
-<p>可以选择palm（中指和手腕的中心）作为模型的中心来替代手腕，也可以选择其他的Joint</p>
-<p>之后可以进行预制的移动</p>
-<p>最后乘以1000转换为<em>milimeters</em></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
+  </nav>
+
 
 
           </div>
@@ -1652,7 +2085,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1729,7 +2162,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">10.5k</span>
+    <span title="Site words total count">11.8k</span>
   
 </div>
 
