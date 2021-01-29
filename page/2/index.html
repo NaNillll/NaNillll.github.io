@@ -235,6 +235,653 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/02/CG2/" itemprop="url">CG2 transform</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T00:09:29+08:00">
+                2020-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  751
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="2D-transformations"><a href="#2D-transformations" class="headerlink" title="2D transformations"></a>2D transformations</h3><img src="/2020/11/02/CG2/1.PNG" class>
+<img src="/2020/11/02/CG2/2.PNG" class>
+<img src="/2020/11/02/CG2/3.PNG" class>
+<img src="/2020/11/02/CG2/4.PNG" class>
+<img src="/2020/11/02/CG2/5.PNG" class>
+<h3 id="Homogeneous-coordinates齐次坐标"><a href="#Homogeneous-coordinates齐次坐标" class="headerlink" title="Homogeneous coordinates齐次坐标"></a>Homogeneous coordinates齐次坐标</h3><p>为了将多种变换写在一个矩阵内，将坐标在之前的基础上加上一维</p>
+<img src="/2020/11/02/CG2/6.PNG" class>
+<p>最后一维可取任何非零值</p>
+<img src="/2020/11/02/CG2/7.PNG" class>
+<h3 id="Composing-transforms组合变换"><a href="#Composing-transforms组合变换" class="headerlink" title="Composing transforms组合变换"></a>Composing transforms组合变换</h3><img src="/2020/11/02/CG2/8.PNG" class>
+<p>注意，变换的顺序不一定可换。例如先绕原点旋转后平移显然与先平移再旋转结果不同</p>
+<p>只要不涉及维度变换，变换矩阵满秩，而矩阵的逆矩阵就是逆变换的矩阵</p>
+<h3 id="3D-Rotation"><a href="#3D-Rotation" class="headerlink" title="3D Rotation"></a>3D Rotation</h3><p>一般将旋转分解为绕x，y，z的旋转，这也被成为欧拉角</p>
+<img src="/2020/11/02/CG2/9.PNG" class>
+<p>绕y轴旋转矩阵左上角与二维相同，而y，z，x对应左上角矩阵，可以看作x，y，z矩阵的3x3矩阵向右下移位一位的结果</p>
+<p>旋转还有另一种表达方式——轴角，轴为单位向量</p>
+<p>轴角与旋转矩阵的变换关系如罗德里格斯方程所示：</p>
+<img src="/2020/11/02/CG2/10.PNG" class>
+<p><a href="https://www.cnblogs.com/jingrui/p/9712461.html" target="_blank" rel="noopener">https://www.cnblogs.com/jingrui/p/9712461.html</a></p>
+<h3 id="View-Camera-transformation"><a href="#View-Camera-transformation" class="headerlink" title="View/Camera transformation"></a>View/Camera transformation</h3><img src="/2020/11/02/CG2/11.PNG" class>
+<p>可以分解为平移和旋转变换</p>
+<p>直接写从世界空间到相机空间的旋转变换比较困难，但是从相机空间到世界空间的变换很简单</p>
+<img src="/2020/11/02/CG2/12.PNG" class>
+<img src="/2020/11/02/CG2/13.PNG" class>
+<h3 id="Projection-transformation"><a href="#Projection-transformation" class="headerlink" title="Projection transformation"></a>Projection transformation</h3><img src="/2020/11/02/CG2/14.PNG" class>
+<p>将相机空间中物体投影到<script type="math/tex">[-1,1]^3</script>的Canonical Space的变换</p>
+<h4 id="Orthographic-Projection"><a href="#Orthographic-Projection" class="headerlink" title="Orthographic Projection"></a>Orthographic Projection</h4><p>将空间内的点全部投影到<script type="math/tex">[-1,1]^3</script>的空间内</p>
+<p>可以分解为平移中心至原点，压缩两部分</p>
+<img src="/2020/11/02/CG2/15.PNG" class>
+<p>一个问题是，如果使用如上图的右手系，则沿-z看去，靠近的点反而z值大，也就是在变换中将near clip plane投影至1，而far clip plane投影至-1</p>
+<p>这也是为什么许多引擎使用左手系</p>
+<h4 id="Perspective-Projection"><a href="#Perspective-Projection" class="headerlink" title="Perspective Projection"></a>Perspective Projection</h4><img src="/2020/11/02/CG2/16.PNG" class>
+<p>推导过程：</p>
+<img src="/2020/11/02/CG2/17.PNG" class>
+<p>可以看到，在这条直线上的点，x与y应该投影到相同的位置，因此可以将点先全部压缩到near clip plane上</p>
+<p>图中的n与z均为负值，这也确保了x与y不会发生对称互换</p>
+<img src="/2020/11/02/CG2/18.PNG" class>
+<img src="/2020/11/02/CG2/19.PNG" class>
+<p>这样可以实现其中的三行</p>
+<p>对于第三行，考虑这是关于z的变换，与x，y无关，因此前2位为0；而near/far plane投影的结果依然是near/far plane，可以建立二元一次方程</p>
+<img src="/2020/11/02/CG2/20.PNG" class>
+<p>这样就实现了将空间内的点投影到了一个矩形空间，底为near clip plane，z值在near/far clip plane之间</p>
+<p>接下来只需要将矩形压缩到<script type="math/tex">[-1,1]^3</script>的空间内即可，假如继续使用右手系的话，就会出现和之前相同的结果，near clip plane会投影到1处；但其实很多资料中对z的变换加上了负值，使得near clip plane投影至-1，far plane投影至1 ，这并不是一个很重要的问题</p>
+<img src="/2020/11/02/CG2/21.PNG" class>
+<img src="/2020/11/02/CG2/22.PNG" class>
+<p>（图中的near与far为正值，但是依然是右手系，压缩前near clip plane大于far clip plane）</p>
+<h3 id="MVP-Transform"><a href="#MVP-Transform" class="headerlink" title="MVP Transform"></a>MVP Transform</h3><p>三种变换组合在一起的变换</p>
+<img src="/2020/11/02/CG2/23.PNG" class>
+<h3 id="Screen-Transform"><a href="#Screen-Transform" class="headerlink" title="Screen Transform"></a>Screen Transform</h3><p>将Canonical Space投射到Screen上</p>
+<p>Screen可以看作一个二维的数组，长宽即为它的分辨率</p>
+<img src="/2020/11/02/CG2/24.PNG" class>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/01/CG1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/01/CG1/" itemprop="url">CG1 流水线概况</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-01T23:39:51+08:00">
+                2020-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  196
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <img src="/2020/11/01/CG1/1.PNG" class>
+<p>vertex processing进行Model, View, Projection transforms</p>
+<p>fragment processing进行Z-Buffer</p>
+<p>vertex processing和fragment processing都有可能进行shading和texture mapping</p>
+<img src="/2020/11/01/CG1/2.PNG" class>
+<p>输入流水线的为geometric primitives，例如三角，线等。每个primitive都包含vertex，而vertex又自带许多属性，比如位置，颜色，法线，材质等</p>
+<img src="/2020/11/01/CG1/3.PNG" class>
+<img src="/2020/11/01/CG1/4.PNG" class>
+<p>简而言之，vertex通过插值进行光栅化，生成三维的fragment，fragment同样包含许多属性，而fragment经过处理后投影到屏幕形成pixel</p>
+<img src="/2020/11/01/CG1/5.PNG" class>
+<p>具体到空间的变换如上图所示</p>
+<p>在fragment merge时，需要处理不同物体间的遮挡关系</p>
+<p>一种方法是painting algorithm，从最远处到最近处不断覆盖，但是这种算法无法处理物体相互遮挡的问题</p>
+<p>另一种更加常见的方法是Z-Buffer算法，非常直观：</p>
+<img src="/2020/11/01/CG1/6.PNG" class>
+<img src="/2020/11/01/CG1/7.PNG" class>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/27/games101-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/10/27/games101-1/" itemprop="url">Transformation</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-27T22:46:52+08:00">
+                2020-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  63
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="2D-transformations"><a href="#2D-transformations" class="headerlink" title="2D transformations"></a>2D transformations</h3><h4 id="Scale-Non-Uniform"><a href="#Scale-Non-Uniform" class="headerlink" title="Scale (Non-Uniform)"></a>Scale (Non-Uniform)</h4><img src="/2020/10/27/games101-1/1.PNG" class>
+<h4 id="Scale-Uniform"><a href="#Scale-Uniform" class="headerlink" title="Scale (Uniform)"></a>Scale (Uniform)</h4><img src="/2020/10/27/games101-1/2.PNG" class>
+<h4 id="Reflection-Matrix"><a href="#Reflection-Matrix" class="headerlink" title="Reflection Matrix"></a>Reflection Matrix</h4><img src="/2020/10/27/games101-1/3.PNG" class>
+<h4 id="Shear-Matrix"><a href="#Shear-Matrix" class="headerlink" title="Shear Matrix"></a>Shear Matrix</h4><img src="/2020/10/27/games101-1/4.PNG" class>
+<h4 id="Rotation-Matrix"><a href="#Rotation-Matrix" class="headerlink" title="Rotation Matrix"></a>Rotation Matrix</h4><img src="/2020/10/27/games101-1/5.PNG" class>
+<h4 id="Translation-Matrix"><a href="#Translation-Matrix" class="headerlink" title="Translation Matrix"></a>Translation Matrix</h4><img src="/2020/10/27/games101-1/6.PNG" class>
+<h4 id="Composing-Transforms"><a href="#Composing-Transforms" class="headerlink" title="Composing Transforms"></a>Composing Transforms</h4><img src="/2020/10/27/games101-1/7.PNG" class>
+<p>顺序非常重要！</p>
+<h3 id="3D-Transformations"><a href="#3D-Transformations" class="headerlink" title="3D Transformations"></a>3D Transformations</h3><p>使用齐次坐标</p>
+<h4 id="Rotation"><a href="#Rotation" class="headerlink" title="Rotation"></a>Rotation</h4><img src="/2020/10/27/games101-1/8.PNG" class>
+<p>左上角3x3矩阵向右下循环移位，相当于xyz轴对应参数转换为yzx轴</p>
+<h4 id="Rodrigues’-Rotation-Formula"><a href="#Rodrigues’-Rotation-Formula" class="headerlink" title="Rodrigues’ Rotation Formula"></a>Rodrigues’ Rotation Formula</h4><img src="/2020/10/27/games101-1/9.PNG" class>
+<h3 id="View-Camera-transformation"><a href="#View-Camera-transformation" class="headerlink" title="View / Camera transformation"></a>View / Camera transformation</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/" itemprop="url">快慢指针</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-25T15:00:28+08:00">
+                2020-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  640
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="主要思想"><a href="#主要思想" class="headerlink" title="主要思想"></a>主要思想</h3><p>使用两个指针同时遍历链表/数组，但是两个指针快慢/起始位置不同，以此达到某种效果</p>
+<h4 id="快慢不同"><a href="#快慢不同" class="headerlink" title="快慢不同"></a>快慢不同</h4><h5 id="142-环形链表-II"><a href="#142-环形链表-II" class="headerlink" title="142. 环形链表 II"></a><a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/" target="_blank" rel="noopener">142. 环形链表 II</a></h5><img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/1.PNG" class>
+<p>最直接的方法是使用遍历，使用哈希表存储结点地址，这样仅需遍历一遍</p>
+<p>另一种方法是使用快慢指针，fast一次前进两个位置，slow一次。假如有环，那么fast一定先进入环。当slow进入环后，slow在一圈之内一定会被fast追赶上</p>
+<img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/2.PNG" class>
+<p>假设在紫色位置两者相遇，则<script type="math/tex">a+b+k(b+c)=2(a+b)</script>,<script type="math/tex">a=k(b+c)-b</script></p>
+<p>假如此时slow继续前进a，会到达相交点。因此，此时令新指针从起始处运动，则会与slow交于目标位置</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">detectCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">       ListNode*fast=head,*slow=head;</span><br><span class="line">       <span class="keyword">while</span>(fast &amp;&amp; fast-&gt;next)&#123;</span><br><span class="line">           fast=fast-&gt;next-&gt;next;</span><br><span class="line">           slow=slow-&gt;next;</span><br><span class="line">           <span class="keyword">if</span>(fast==slow)&#123;</span><br><span class="line">               ListNode*tmp=head;</span><br><span class="line">               <span class="keyword">while</span>(tmp!=slow)&#123;</span><br><span class="line">                   tmp=tmp-&gt;next;</span><br><span class="line">                   slow=slow-&gt;next;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">return</span> tmp;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="起始位置不同"><a href="#起始位置不同" class="headerlink" title="起始位置不同"></a>起始位置不同</h4><h5 id="19-删除链表的倒数第N个节点"><a href="#19-删除链表的倒数第N个节点" class="headerlink" title="19. 删除链表的倒数第N个节点"></a><a href="https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener">19. 删除链表的倒数第N个节点</a></h5><img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/3.PNG" class>
+<p>只要找到第N个节点就可以解决问题了。令快指针先前进N，然后慢指针与他一起前进直到快指针到达结尾NULL，此时的位置就是倒数第N个节点</p>
+<p>至于删除时，可能删除的恰好是头结点，因此需要单独讨论，或者加上dummy node</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeNthFromEnd</span><span class="params">(ListNode* head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        ListNode*fast=head,*slow=head,*prev;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            fast=fast-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!fast)&#123;</span><br><span class="line">            head=head-&gt;next;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        fast=fast-&gt;next;</span><br><span class="line">        <span class="keyword">while</span>(fast)&#123;</span><br><span class="line">            fast=fast-&gt;next;</span><br><span class="line">            slow=slow-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        slow-&gt;next=slow-&gt;next-&gt;next;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="160-相交链表"><a href="#160-相交链表" class="headerlink" title="160. 相交链表"></a><a href="https://leetcode-cn.com/problems/intersection-of-two-linked-lists/" target="_blank" rel="noopener">160. 相交链表</a></h5><img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/4.PNG" class>
+<p>找到两个链表相差多少，之后长链表对应的快指针先前进对应距离，然后快慢指针同时前进直到相遇或者到达结尾</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">getIntersectionNode</span><span class="params">(ListNode *headA, ListNode *headB)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len1=<span class="number">0</span>,len2=<span class="number">0</span>;</span><br><span class="line">        ListNode*pA=headA,*pB=headB;</span><br><span class="line">        <span class="keyword">while</span>(pA)&#123;</span><br><span class="line">            pA=pA-&gt;next;</span><br><span class="line">            len1+=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(pB)&#123;</span><br><span class="line">            pB=pB-&gt;next;</span><br><span class="line">            len2+=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode*tmp=(len1&gt;len2?headA:headB);</span><br><span class="line">        <span class="keyword">int</span> dif=<span class="built_in">abs</span>(len1-len2);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;dif;++i)&#123;</span><br><span class="line">            tmp=tmp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode*tmpp=(len1&gt;len2?headB:headA);</span><br><span class="line">        <span class="keyword">while</span>(tmpp!=<span class="literal">NULL</span> &amp;&amp; tmpp!=tmp)&#123;</span><br><span class="line">            tmp=tmp-&gt;next;</span><br><span class="line">            tmpp=tmpp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!tmpp)<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>也可以写成更绕的方法</p>
+<img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/5.PNG" class>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (headA == <span class="keyword">null</span> || headB == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    ListNode pA = headA, pB = headB;</span><br><span class="line">    <span class="keyword">while</span> (pA != pB) &#123;</span><br><span class="line">        pA = pA == <span class="keyword">null</span> ? headB : pA.next;</span><br><span class="line">        pB = pB == <span class="keyword">null</span> ? headA : pB.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/17/one-d-stack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1497,7 +2144,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1558,7 +2205,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
     <footer id="footer" class="footer">
       <div class="footer-inner">
         
-<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -1574,7 +2221,7 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">13.7k</span>
+    <span title="Site words total count">22k</span>
   
 </div>
 

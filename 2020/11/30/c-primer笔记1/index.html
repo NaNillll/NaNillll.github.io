@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta name="google-site-verification" content="kWcVT9oyylmyb6DohoXWge7VpBUZQVIptcOSS5Gr9wc" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="c++可以看作由三个部分构成：  低级C 现代高级语言特性 标准库  UNIX与windows执行完成程序后，可以用echo获得返回值  UNIX $ echo $? windows $ echo  %ERRORLEVEL%  UNIX用 $? 变量保存上一个已执行命令的退出状态码，一般没有规律可循，退出状态码0为成功，最大255，有些有特殊含义比如权限不足 shell脚本一般以最后一个命令的退出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++primer笔记1">
+<meta property="og:url" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/index.html">
+<meta property="og:site_name" content="The Grimoire of NaNillll">
+<meta property="og:description" content="c++可以看作由三个部分构成：  低级C 现代高级语言特性 标准库  UNIX与windows执行完成程序后，可以用echo获得返回值  UNIX $ echo $? windows $ echo  %ERRORLEVEL%  UNIX用 $? 变量保存上一个已执行命令的退出状态码，一般没有规律可循，退出状态码0为成功，最大255，有些有特殊含义比如权限不足 shell脚本一般以最后一个命令的退出">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/2.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/3.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/1.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/4.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/5.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/6.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/7.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/8.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/9.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/11.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/18.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/12.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/13.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/14.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/15.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/16.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/19.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/20.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/17.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/21.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/22.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/23.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/24.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/25.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/26.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/27.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/28.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/29.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/30.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/31.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/33.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/34.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/35.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/36.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/37.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/38.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/39.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/40.PNG">
+<meta property="article:published_time" content="2020-11-30T05:13:36.000Z">
+<meta property="article:modified_time" content="2020-12-03T02:43:39.978Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/2.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/11/30/c-primer笔记1/"/>
+
+
+
+
+
+  <title>c++primer笔记1 | The Grimoire of NaNillll</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">The Grimoire of NaNillll</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">c++primer笔记1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-30T13:13:36+08:00">
+                2020-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.4k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>c++可以看作由三个部分构成：</p>
+<ol>
+<li>低级C</li>
+<li>现代高级语言特性</li>
+<li>标准库</li>
+</ol>
+<p>UNIX与windows执行完成程序后，可以用echo获得返回值</p>
+<ol>
+<li>UNIX $ echo $?</li>
+<li>windows $ echo  %ERRORLEVEL%</li>
+</ol>
+<p>UNIX用 $? 变量保存上一个已执行命令的退出状态码，一般没有规律可循，退出状态码0为成功，最大255，有些有特殊含义比如权限不足</p>
+<p>shell脚本一般以最后一个命令的退出状态码作为退出状态码，shell脚本函数可以看作小的脚本，$?也可以提取函数退出状态码</p>
+<p>std::cout&lt;&lt;”ENTER”&lt;&lt;std::endl 等价于 (std::cout&lt;&lt;”ENTER”)&lt;&lt;std::endl , &lt;&lt; 左侧必须是ostream对象， std::endl是一种操纵符，效果是结束当前行同时刷新缓冲区</p>
+<p>>&gt;运算符相似</p>
+<p>多行注释不能嵌套，想要注释包括注释的代码段最好使用//</p>
+<p>windows下EOF为^z, UNIX为^D</p>
+<p>cerr是ostream对象，一般也写到与标准输出相同的设备，但是写到cerr的对象不缓冲</p>
+<p>c++规定，尺寸上，short&lt;=int&lt;=long&lt;=long long</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/2.PNG" class>
+<p>c++标准是标准，编译器具体怎么实现另说</p>
+<p>字符型有三种：char，signed char， unsigned char，这很奇怪，实际只有带不带符号两种，char会根据编译器转换为其中一种，所以尽量不要用这个做运算</p>
+<p>除此之外字符型还要很多扩展类型，比如wchar_t(wide_char_type,c/c++里很多_ t类型 )， char16_t等</p>
+<p>比如wchar_t用于确保存放机器基本字符集中任意字符对应的值，这个大小在不同系统上不一样。很多符号的存储需要多于一个字节，例如汉字一般需要2个字节存储，这个与编码格式也有关</p>
+<p>直接把宽窄字符混用会出现问题，具体怎样输出和编码格式也有关，c/c++编码是一个复杂的问题</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/3.PNG" class>
+<p><a href="https://www.cnblogs.com/lanhaicode/p/10574260.html" target="_blank" rel="noopener">宽字符wchar_t和窄字符char——putwchar、wprintf - 蓝海人 - 博客园 (cnblogs.com)</a></p>
+<p><a href="https://www.zhihu.com/question/54664311" target="_blank" rel="noopener">为什么大多数的 C++ 的开源库都喜欢自己实现 string？ - 知乎 (zhihu.com)</a></p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/1.PNG" class>
+<p>当计算式里既有有符号又有无符号，会自动全部转换为无符号进行计算。所以这两种形式最好不要混用</p>
+<p>同时，在使用无符号时一定要非常小心，比如如果在循环变量使用了无符号，很容易就因为达不到负值永远循环下去</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/4.PNG" class>
+<p>c++支持分离式编译，每个文件可以单独的被编译</p>
+<p>声明与定义是不同的：声明使得名字被程序知道，但是只有定义才能创建与名字相关的实体，申请内存</p>
+<p>如果想要声明但不定义一个变量，需要使用extern。一个变量可以被声明很多次，但是只能被定义一次</p>
+<p>extern int a=0 既定义又声明了变量</p>
+<p>在函数体内部不能初始化用extern标记的变量，但可以修改</p>
+<p>c++是静态类型语言，即在编译阶段检查类型</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/5.PNG" class>
+<p>最好多用nullptr，这是c++11引入的一种特殊类型的字面值，它可以转换为任何类型的指针</p>
+<p>NULL是一种预处理变量，c++中他就是0</p>
+<p><a href="https://zhuanlan.zhihu.com/p/79883965" target="_blank" rel="noopener">为什么建议你用nullptr而不是NULL - 知乎 (zhihu.com)</a>（c++中）</p>
+<p>void<em>指针：与其他指针比较，作为函数输入输出，赋值给其他void </em>指针。不能直接操作指向的对象，因为不知道这个对象是什么类型</p>
+<p>在c++11中，花括号初始化得到了全面应用，这种方法叫“列表初始化”。但是这种赋值不能窄化转换</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/6.PNG" class>
+<p>int *&amp;r ：对指针的引用。阅读时从右到左，先读到的有最直接的影响</p>
+<p>int&amp;*：不允许</p>
+<p>int*const a :常量指针</p>
+<p>const int* const a：指向常量的常量指针</p>
+<p>可以用顶层const（指针/变量本身是const）和底层const（指向const）来表示</p>
+<p>顶层const实质只是“自认为”const，指向的变量变化后他也会变化</p>
+<p>正常情况，const必须初始化</p>
+<p>编译器对const默认的操作是把所有出现常量的位置都换成对应的值，因此如果包含多个文件，每一个文件都必须定义常量，因此默认情况下，const只在文件内部有效。多个文件出现了同名的变量，等同于不同文件里定义了独立的变量</p>
+<p>如果想要实现共享同一个变量的效果的话，对于const常量不管是声明还是定义都添加extern关键字，这样即便没有初始化也不会报错了</p>
+<p>常量对象的引用必须由常量的引用进行</p>
+<p>引用也像一种常量，因为不能解绑</p>
+<p>引用必须与原数据类型相同，但是有两个例外：</p>
+<ol>
+<li>初始化常量引用可以使用任何表达式作为初始值——这个过程本质是创建了一个新的临时量并让常量绑定上去，如果是非常量引用的话改变引用值只会改变临时量，没有意义因而报错</li>
+<li>常量的引用可以绑定到非常量上，但是反之不可</li>
+</ol>
+<p>c++11引入constexpr，用这个声明的变量一定是常量，而且必须用常量表达式初始化，否则报错</p>
+<p>不过constexpr修饰指针只会设置为顶层const。他的初值必须设置为具有固定地址的对象。一般来说函数体内的对象内存不固定，因此不可被指向</p>
+<p>字面值类型：算数，引用，指针等值易求得的类型，他们可以被定义为constexpr。</p>
+<p>类型别名</p>
+<ol>
+<li>typedef double  wages</li>
+<li>using wages=double</li>
+</ol>
+<p>typedef int arrT[10]; arrT是一个类型，表示含有10个int的数组</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/7.PNG" class>
+<p>auto说明符：自动推算应该赋予的类型，c++11引入</p>
+<p>但是存在一些区别：引用作为初始值时，忽略引用；忽略顶层const；如果想要保持需要明确指出</p>
+<p>decltype：返回操作数的数据类型，c++11引入</p>
+<p>如果返回的是引用类型，则必须对应操作：decltype(*p) c 必须初始化，因为是int&amp;</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/8.PNG" class>
+<p>类内初始化：c++11支持类内初始化，必须用等号或{}，不可用圆括号</p>
+<p>预处理器：编译之前执行的一段程序，例如#include，#include会把定义的头文件直接插入代替</p>
+<p>头文件保护符：#define （把一个名字设定为预处理变量） #ifndef #endif ，避免重定义</p>
+<p>预处理变量无视c++中关于作用域的规则，这个变量在整个程序内必须唯一</p>
+<p><a href="https://zhuanlan.zhihu.com/p/94249215" target="_blank" rel="noopener">编译原理—C语言C文件和头文件的关系 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/28235828" target="_blank" rel="noopener">不同编译器是如何处理预编译头文件的？ - 知乎 (zhihu.com)</a></p>
+<p><a href="https://www.zhihu.com/question/20484931" target="_blank" rel="noopener">(1 封私信) Linux 中的动态链接库和静态链接库是干什么的？ - 知乎 (zhihu.com)</a></p>
+<p>using namespace::name; 表明使用name时我们从命名空间std中获取</p>
+<p>头文件一般不要使用using声明，因为头文件被拷贝到所有引用他的文件里，会造成声明的污染，容易出问题</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/9.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/11.PNG" class>
+<p>string.size()返回string::size_type类，这个类属于与机器无关的配套类，是无符号整型数</p>
+<p>c++11 范围for：</p>
+<p>for(declaration : expresssion)    state</p>
+<p>declaration 可以通过引用来修改原序列的值</p>
+<p>范围for不能在遍历过程中改变序列的大小；凡是使用了迭代器的循环体，都不能向容器内添加元素</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/18.PNG" class>
+<p>虽然数组与指针本质很像，但是少数情况下还得分清</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/12.PNG" class>
+<p>vector最好初始时不设置长度再逐个插入，这样大多数情况下性能更好，违反常识</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/13.PNG" class>
+<p>迭代器与指针操作类似，也有*，++，-&gt;运算符</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/14.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/15.PNG" class>
+<p>常量对象的迭代器还是常量迭代器</p>
+<p>c++11引入了cbegin与cend明确返回常量迭代器</p>
+<p>迭代器间可以进行算数运算，返回类型为difference_type,带符号整型</p>
+<p>迭代器与整数可以进行运算，超出迭代器会指向end</p>
+<p>数组长度初始化必须使用常量</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/16.PNG" class>
+<p>从内向外读</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/19.PNG" class>
+<p>很麻烦</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/20.PNG" class>
+<p>多用auto，用begin与end也可以判断数组始末</p>
+<p>size_t，无符号，大的可以表示内存中任意对象大小，可以用来定义数组下标</p>
+<p>c++11引入了针对数组的begin与end，返回对应指针</p>
+<p>指针之间可以运算，也可以与整数运算，但是要检查是否超出范围</p>
+<p>标准库下标必须是无符号，数组未必</p>
+<p>少用C风格的字符串</p>
+<p>可以使用带空字符的字符数组与string初始化/运算</p>
+<p>反过来必须使用c_str()，返回的是const cahr*类型指针，指向与string相同的内存。因此string更改后c字符串也会更改</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/17.PNG" class>
+<p>优先级规定了运算对象的组合方式，但是没有说明按照什么顺序求值</p>
+<p>cout&lt;&lt;i&lt;&lt;++i的结果是不可知的，因为没有定义求值顺序</p>
+<p>因此建议多用括号；如果改变了某个运算对象的值，在其他地方不要再使用这个运算对象</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/21.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/22.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/23.PNG" class>
+<p>cond？exp1：exp2</p>
+<p>sizeof （type）</p>
+<p>sizeof expr</p>
+<p>c++11引入了sizeof（char），可以直接取类而非实体</p>
+<p>sizeof处理数组可以得到整个数组占用的大小；string/vector只返回固定部分不包括元素占有的空间</p>
+<p>算数转换</p>
+<ol>
+<li><p>整型提升，把小整数变成大整数，char与bool提升到int或long</p>
+</li>
+<li><p>无符号，与机器本身有关</p>
+</li>
+</ol>
+<p>其他隐式转换：数组转指针；指针间的转换；判断语句中转bool；非常量转常量（常量很多时候只是“认为”自己是常量）</p>
+<p>强制类型转换</p>
+<p>cast-name&lt; type &gt;(expression);</p>
+<p>static_cast:只要不包含底层const都可以转换</p>
+<p>const_cast:只能改变底层const，这样编译器就不再组织对这个对象进行写操作</p>
+<p>reinterpret_cast</p>
+<p>type(expr)或(type)expr：旧式类型转换</p>
+<p>传统for初始化语句只有一句，因此如果是多个变量初始化就应该同一个类型</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/24.PNG" class>
+<p>如果try中出现异常，会层层上传直到找到匹配的catch语句；如果找不到，转到terminate标准库函数，之后终止程序</p>
+<p>catch(…)可以接受所有异常</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/25.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/26.PNG" class>
+<p>自动对象：只在块执行期间存在的对象</p>
+<p>局部静态对象：第一次经过时初始化，直到程序结束才销毁</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/27.PNG" class>
+<p>函数传参的类型原则和之前变量的初始化是一样的</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/28.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/29.PNG" class>
+<p>这些写法，总是感觉让人困惑但是意义不大。除非是传入的数组已经确定了，不然和传指针没有区别</p>
+<p>c++11引入了initializer_list，这是一种标准库，表示某种特定值的数组</p>
+<p>可以作为形参，得到未知数量的参数</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/30.PNG" class>
+<p>省略符形参：用省略符代替任意数量形参，只能出现在形参列表的最后一位</p>
+<p><a href="https://blog.csdn.net/liyazhen2011/article/details/82288306" target="_blank" rel="noopener">c++中的省略号_万里归来少年心-CSDN博客_c++ 省略号</a></p>
+<p>调用运算符的优先级和点运算符以及箭头运算符相同，满足左结合律</p>
+<p>c++11规定，函数可以返回花括号包围的列表，这个列表可以结合返回值进行初始化</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/31.PNG" class>
+
+<p>​    </p>
+<p>尾置返回类型，c++11</p>
+<p>auto func(int i)-&gt;int(*)[10]</p>
+<p>把真正起到作用的返回值放到了最后</p>
+<p>decltype(odd ) *arrPtr(int i)</p>
+<p>或者使用关键字，更加简洁</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/33.PNG" class>
+<p>默认实参声明：虽然一个函数的多次声明是合法的，但是每一个形参只能被赋予一次默认实参</p>
+<p>局部函数不能作为默认实参，除此以外任何表达式都可以作为实参</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/34.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/35.PNG" class>
+<p>constexpr函数：返回类型与形参都必须是字面值，函数体里有且只能有一条return</p>
+<p>如果返回值是常量，执行初始化时，编译器会把函数的调用替换成结果值，也被隐式指定为内联函数</p>
+<p>constexpr返回值可以不是常量（我傻了，那这有什么用啊）</p>
+<p><a href="https://www.zhihu.com/question/274323507" target="_blank" rel="noopener">(1 封私信) constexpr究竟有什么用？ - 知乎 (zhihu.com)</a></p>
+<p><a href="https://www.zhihu.com/question/35614219" target="_blank" rel="noopener">(1 封私信) C++ const 和 constexpr 的区别？ - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/258105708" target="_blank" rel="noopener">C++干货系列——从编译期常量谈到constexpr(三) - 知乎 (zhihu.com)</a></p>
+<p>博大精深</p>
+<p>assert：预处理宏。如果表达式为假则终止程序，否则什么也不做</p>
+<p>DEBUG</p>
+<p>cc -D NDEBUG main.c    关闭debug；等于在文件开头假如 #define NDEBUG</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/36.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/37.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/38.PNG" class>
+<p>虽然const int与int不算重载，但是常量引用是可以的。指向常量的指针也是这样。底层const可以重载</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/39.PNG" class>
+<p>函数指针：</p>
+<p>bool (*pf)(const string&amp; , const string &amp;);未初始化</p>
+<p>pf=func；等价于 pf=&amp;func</p>
+<p>调用对应函数是也可以不解指针</p>
+<p>pf（“A”，“B”）等价于(*pf)（“A”，“B”）</p>
+<p>如果指向重载函数，指针必须与其中某一个精确匹配</p>
+<p>函数指针也可以作为参数传递：</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/40.PNG" class>
+<p>函数指针也可以作为返回值：</p>
+
+<p>定义在类内部的函数是隐式的inline函数</p>
+<p>常量对象，常量对象的引用以及指针都只能调用常量成员函数；非常量对象也能调用</p>
+<p>常量成员函数即在参数列表后加上const，这个函数只能读取成员而不能修改。除非mutable关键字</p>
+<p>成员函数体内可以随意使用类中的其他成员，因为编译器会先编译成员声明，再编译成员函数体</p>
+<p>任何函数体外定义的变量会初始化0，函数体内的内置变量将不被初始化</p>
+<p>对于一个普通的类中，必须定义自己的默认构造函数</p>
+<ol>
+<li>只有类内不包含任何构造函数时，编译器才会自动生成一个构造函数</li>
+<li>块内的内置类型与符合类型默认初始化，成为未定义的</li>
+<li>如果类中存在其他没有默认构造函数的成员，编译器无法正常运行</li>
+</ol>
+<p>在类的声明之后定义之前他是一个不完全类型，这是一个非常有限的类型，只能定义引用/声明/用于函数声明</p>
+<p>c++11引入了=default参数。如果构造时使用默认行为，则再参数列表上加上这一句</p>
+<p>友元只能在类内部声明，具体位置不限，不受访问控制级别的限制</p>
+<p>友元的声明只说明了访问的权限，并不是真正的声明，一般需要在类的外部再次声明</p>
+<p>无需在声明与定义的未知都写上inline，一般建议只在定义处写出</p>
+<p>因为内联函数要在调用点展开，所以<strong>编译器必须随处可见内联函数的定义</strong>，要不然就成了非内联函数的调用了。所以，这要求每个调用了内联函数的文件都出现了该<strong>内联函数的定义</strong>。因此，将<strong>内联函数的定义</strong>放在<strong>头文件</strong>里实现是合适的，省却你为每个文件实现一次的麻烦</p>
+<p>mutable关键字可以使得成员即使在const成员函数中也发生改变</p>
+<p>c++11支持类内初始值，但是必须使用=或者花括号</p>
+<p>常量成员函数和非常量成员函数也可以重载</p>
+<p>类也可以只声明不定义</p>
+<p>类的成员类型不能是自己</p>
+<p>类也可以作为友元</p>
+<p>友元不具有传递性</p>
+<p>重载函数需要分别声明友元</p>
+<p>一个类就是一个作用域。一旦遇到了域名（函数名处）其余部分就不用再授权了。因此返回值还需要继续授权</p>
+
+<p>类中不可重新定义外层作用域里的名字typedef</p>
+<p>::height 显示调用外围的变量</p>
+
+<p>建议构造函数初始值的顺序和成员声明的顺序一样</p>
+<p>c++11引入了委托构造函数，托给其他定义更加完全的非委托构造函数。会先执行代码体里的代码，再委托给委托者的函数体</p>
+
+<p>允许转换构造函数。可以隐式转换，但是只允许一步类类型转换；且需要多个实参的构造函数无法隐式转换</p>
+<p>explicit关键字可以禁止隐式转换，这个关键字只能用于类内声明时，类外能也不应重复</p>
+<p>explicit构造函数只能用于直接初始化，不能用于拷贝形式的初始化</p>
+
+
+
+
+
+<p>在类外初始化静态成员函数不用static</p>
+
+<p>类的静态成员通常不应该在类的内部初始化，除非静态成员是constexpr</p>
+<p>即使一个常量静态函数在类内部初始化了，通常也需要在类的外部定义一下，只不过不用定义</p>
+<p>静态成员的优势在于可以用于某些非静态无法使用的场景</p>
+<ol>
+<li>可以将静态成员作为默认实参</li>
+<li>可以是不完全类型</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/07/%E5%AD%97%E7%AC%A6%E4%B8%B2DP/" rel="next" title="字符串DP">
+                <i class="fa fa-chevron-left"></i> 字符串DP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/03/cpp-primer2/" rel="prev" title="cpp-primer2">
+                cpp-primer2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/NaNillll" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+  
+ 
+  
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">22k</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

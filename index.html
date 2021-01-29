@@ -235,6 +235,1017 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/14/CPF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/12/14/CPF/" itemprop="url">CPF</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-14T13:55:34+08:00">
+                2020-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  959
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ContactPotentialField (CPF):</p>
+<p>建模物体与手之间的接触，建立弹性势能的场，这样就可以把问题转化为最小化势能</p>
+<p>Modeling theInteraction sce-nario ofHand andObject,MIHO</p>
+<p>学习框架</p>
+<p>k-mano</p>
+<p>沿twist-splay-bend轴进行运动学限制，同时指骨区域通过下采样加上了锚点。锚点用来计算弹性，简化计算</p>
+<img src="/2020/12/14/CPF/1.PNG" class>
+<p>CPF</p>
+<p>通过弹簧质点系统处理接触</p>
+<p>接触就是一个弹簧系统：两个单位质点分别位于物体与手，分别为$V_j^o,V_i^h$</p>
+<p>吸引弹簧：将物体上的每个点与最近的手上的点连接弹簧</p>
+<p>排斥弹簧：</p>
+<img src="/2020/12/14/CPF/2.PNG" class>
+<p>求得最自然的手势，即为求势能最小之和：</p>
+<p>$E_{elast}=\sum_i^{N_H}\sum_j^{N_O}(E_{ij}^{atr}+E_{ij}^{rpl})$</p>
+<p>与之前一样，计算时实际上用的是手上的锚点</p>
+<img src="/2020/12/14/CPF/4.PNG" class>
+<p>$k_{ij}^{atr}$为可学习的参数，为了每个吸引力基本平衡，与$\Delta l_ij$成反比。为了学习这个参数，生成了许多伪ground truth，<script type="math/tex">K_{ij}^{GT}</script>,然后以此训练模型</p>
+<p>经验上将$k_{ij}^{rpl}$设为1e-3</p>
+<p>MIHO</p>
+<img src="/2020/12/14/CPF/3.PNG" class>
+<p>HoNet粗略回归出物体和手势</p>
+<p> Pixel-wise  Contact  Recovery.PiCR</p>
+<img src="/2020/12/14/CPF/5.PNG" class>
+<p>pi为透视投影；b为backbone，Hourglass Networks ；z为物体z坐标（因为投影损失了），f为PIFu，hvc,hcr，hae都是PointNet</p>
+<p>$VC \in R^{N_o}$为物体上每个点与手接触的概率</p>
+<img src="/2020/12/14/CPF/6.PNG" class>
+<p>$CR \in R^{N_O \times 17}$,落在17个区域的概率</p>
+<img src="/2020/12/14/CPF/7.PNG" class>
+<p>$AE \in R^{N_o}$,$k_{ij}$的预测值，属于0~1，可以看作物体与手的接近程度</p>
+<img src="/2020/12/14/CPF/8.PNG" class>
+<img src="/2020/12/14/CPF/9.PNG" class>
+<p>Grasping Energy Optimizer, GeO</p>
+<p>通过预测的CPF来改进HoNet预测值</p>
+<p>预测物体等于预测变换矩阵</p>
+<p>对于mano</p>
+<p>首先，防止手弯折，twist</p>
+<p>其次，对于非关节点，惩罚splay</p>
+<p>然后，惩罚bend如果超过90°</p>
+<p>然后惩罚预测的偏移</p>
+<img src="/2020/12/14/CPF/10.PNG" class>
+<p>Datasets</p>
+<p>First-person hand action benchmark, FHB</p>
+<p>  In our experiments, we use a subset of FHBthat contains 4 objects with a scanned model and pose anno-tation. We only use theactionsplit following the protocol of[19, 43], and filter out the samples with a minimum hand-object distance greater than 5mm,  which yields us 7223samples for training and 7373 for testing.</p>
+<p>HO3D</p>
+<p>Metrics</p>
+<p>Mean 3D errors，顶点误差</p>
+<p>Penetration depth，穿过的最大距离</p>
+<p>Solid intersection volume，将物体体素化，与手重叠的数量和</p>
+<p>Disjointedness  errors，指尖区域顶点距离最近的物体表面的平均值</p>
+<p>Abnormality scores，手twist和spay的平均距离</p>
+<p>Implementation Details</p>
+<p>K-mano</p>
+<p>需要将轴角分解为twist， splay， bend。首先将mano自带的作为splay，子节点指向该节点的方向作为twist，叉乘得到bend；然后将bend与twist叉乘得到最后的splay</p>
+<p>锚点需要在手的表面，同时需要对mano参数可导。每一个锚点可以用周围的三个顶点线性组合，从而梯度传到mano参数上</p>
+<img src="/2020/12/14/CPF/11.PNG" class>
+<p>生成锚点需要控制点，有些位置控制点就是锚点；指尖需要提升锚点的密度，首先过控制点做直线找到交点，然后做锥形，控制点是顶点，交点为基准点中心，根据区域内各点到控制点的最大距离估计基准点半径;选择三种均匀分布在锥面上的射线作为新的射线投射方向，得到锚点</p>
+<p>Elastic Energy Analysis</p>
+<img src="/2020/12/14/CPF/12.PNG" class>
+<p>直接使用一个神经网络预测<script type="math/tex">k^{GT}_{ij}</script>容易过拟合，因此使用层连网络</p>
+<p>HO3D Dataset</p>
+<p>因为要6D，很多物体不适合，比如水罐；而且对于很多测试集中的抓取姿势并不稳定，比如bleach cleanser bottle</p>
+<p> Data Augmentation</p>
+<p>为了生成更多姿态，随机扰动带标注的手与物体的姿态，在物体系下；然后渲染到相机系下；</p>
+<p>生成更多稳定的抓取姿态：手动将手围绕包围盒移动，使用GeO改善姿态。但是这里无法使用CPF中的attractive  springs，因此使用其他方法来替代 </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/03/cpp-primer2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/12/03/cpp-primer2/" itemprop="url">cpp-primer2</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-03T10:44:58+08:00">
+                2020-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  651
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="IO库"><a href="#IO库" class="headerlink" title="IO库"></a>IO库</h3><h4 id="IO类"><a href="#IO类" class="headerlink" title="IO类"></a>IO类</h4><img src="/2020/12/03/cpp-primer2/1.PNG" class>
+<p>char虽然不是io类，但是也可以进行形似的操作</p>
+<img src="/2020/12/03/cpp-primer2/9.PNG" class>
+<p>IO对象无法拷贝，因此不能将形参或者返回类型设置为流类型，通常应该使用引用</p>
+<img src="/2020/12/03/cpp-primer2/2.PNG" class>
+<p>badit表示系统级错误，一般置位后流无法再使用；failit一般指可恢复错误，通常可以修复；到达文件尾部，eof与failbit都会置位。</p>
+<p>一般使用good与！fail判断流的总体状态</p>
+<p>rdstate初始化值为0，badbit等实际是掩码，即该bit实际对应的是哪一位，与rdstate进行操作后可以得到最终结果</p>
+<p>为了节约时间，引入了缓冲区机制</p>
+<img src="/2020/12/03/cpp-primer2/3.PNG" class>
+<img src="/2020/12/03/cpp-primer2/4.PNG" class>
+<p>flush刷新缓冲区，ends插入空字符后刷新缓冲区</p>
+<p>使用unibuf操纵符后每一次写操作自动进行一次flush操作</p>
+<p>tie函数具有两个版本：不带参数的返回指向输出流的指针；带参数的接受一个指向ostream的指针，将自己关联到这个指针上</p>
+<p>每个流最多同时关联到一个流，但是多个流可以同时关联到同一个ostream上</p>
+<h4 id="文件输入输出"><a href="#文件输入输出" class="headerlink" title="文件输入输出"></a>文件输入输出</h4><img src="/2020/12/03/cpp-primer2/5.PNG" class>
+<p>可以使用open与close关联文件，如果open失败可以检查failbit</p>
+<p>当fstream对象被销毁时，比如离开定义域，会自动调用close</p>
+<img src="/2020/12/03/cpp-primer2/6.PNG" class>
+<img src="/2020/12/03/cpp-primer2/7.PNG" class>
+<p>可以看到模式实际也是类似掩码的类型</p>
+<p>每一次调用open时都可以改变文件模式</p>
+<img src="/2020/12/03/cpp-primer2/8.PNG" class>
+<h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><img src="/2020/12/03/cpp-primer2/10.PNG" class>
+<img src="/2020/12/03/cpp-primer2/11.PNG" class>
+<img src="/2020/12/03/cpp-primer2/12.PNG" class>
+<img src="/2020/12/03/cpp-primer2/13.PNG" class>
+<img src="/2020/12/03/cpp-primer2/14.PNG" class>
+<img src="/2020/12/03/cpp-primer2/15.PNG" class>
+<img src="/2020/12/03/cpp-primer2/16.PNG" class>
+<p>因为插入时是在iter的前面插入，恰好能够在任何一个位置包括最末/最初插入元素</p>
+<p>除array外，swap不对任何元素进行拷贝删除或插入，可以再常数时间内完成。array的swap操作会真正的交换他们的元素</p>
+<p>新标准库中既有成员函数的swap，又有非成员版本的swap</p>
+<p>容器也可以进行比较，比较与char数组的比较模式相同</p>
+<img src="/2020/12/03/cpp-primer2/17.PNG" class>
+<p>push_back本质是在容器尾部创建添加了新元素，是拷贝而不是元素本身</p>
+<img src="/2020/12/03/cpp-primer2/18.PNG" class>
+<img src="/2020/12/03/cpp-primer2/19.PNG" class>
+<p>容器的返回值只是拷贝，如果想要引用需要加上引用类型</p>
+<p>下标运算符并不检查是否越界，at函数可以检测，越界后会报错</p>
+<img src="/2020/12/03/cpp-primer2/20.PNG" class>
+<img src="/2020/12/03/cpp-primer2/21.PNG" class>
+<img src="/2020/12/03/cpp-primer2/22.PNG" class>
+<img src="/2020/12/03/cpp-primer2/23.PNG" class>
+<p>不要保存end返回的迭代器，因为每一次插入和弹出会使得之前的end失效</p>
+<img src="/2020/12/03/cpp-primer2/24.PNG" class>
+<img src="/2020/12/03/cpp-primer2/25.PNG" class>
+<img src="/2020/12/03/cpp-primer2/26.PNG" class>
+<p>string类提供了很多搜索函数，如果搜索失败，就会返回一个string::npos的static成员，这个成员的类型是const string::size_type成员，初始化为-1</p>
+<img src="/2020/12/03/cpp-primer2/27.PNG" class>
+<img src="/2020/12/03/cpp-primer2/28.PNG" class>
+<img src="/2020/12/03/cpp-primer2/29.PNG" class>
+<img src="/2020/12/03/cpp-primer2/30.PNG" class>
+<p>适配器例如stack，stack<string,vector< string> &gt;即vector作为基本容器，保存string，同时按照栈行事的一种结构</string,vector<></p>
+<p>第二个参数——基本结构可以省去，stack与queue都是默认deque</p>
+<img src="/2020/12/03/cpp-primer2/31.PNG" class>
+<h3 id="泛型算法"><a href="#泛型算法" class="headerlink" title="泛型算法"></a>泛型算法</h3><p>标准库没有给每一个容器加入大量功能，而是提供了一组可以共用的算法</p>
+<p>迭代器令算法不依赖于容器，但是算法依赖于元素类型的操作（例如元素之间如何比较）</p>
+<img src="/2020/12/03/cpp-primer2/32.PNG" class>
+<p>泛型算法有上百个</p>
+<p>只读算法</p>
+<p>find，count，accumulate</p>
+<img src="/2020/12/03/cpp-primer2/33.PNG" class>
+<p>equal，接受三个迭代器：第一个容器的起止，第二个序列的首元素。它默认第二个序列至少与前者一样长，它也只检查那么长。接受三个迭代器的算法都是这样，注意不要越界了</p>
+<p>对于操作两个容器的函数，可能两个容器元素内的类型根本不一样，但是只要两者能够比较即可</p>
+<p>fill，接受一对迭代器表示范围，第三个参数表示要填上的元素值</p>
+<p>fill_n，第一个为迭代器，第二个参数表示写入的元素数，第三个表示写入的值。注意算法不检查写操作，一定要写入的位置之前就有元素才行</p>
+<p>插入迭代器：通过这种迭代器赋值，实际是插入了一个新的元素</p>
+<p>back_inserter，接受一个指向容器的引用，返回一个与该容器绑定的插入迭代器，通过这个迭代器赋值，就会加入这个定值的元素</p>
+<img src="/2020/12/03/cpp-primer2/34.PNG" class>
+<p>copy，经典三个迭代器，也是需要接收方已经有这么多的空间。返回值恰好是拷贝的尾元素后的位置</p>
+<img src="/2020/12/03/cpp-primer2/35.PNG" class>
+<p>这个拷贝的目的也需要对应长度的空间，或者用插入迭代器</p>
+<img src="/2020/12/03/cpp-primer2/36.PNG" class>
+<p>非常怪的方法。unique不能清除元素——标准库算法都是对迭代器操作，无法直接添加与删除元素。unique的作用就是把重复的元素都换到序列最后，返回第一个重复元素的位置</p>
+<p>有些算法需要比较元素，对于这种算法可以进行定制，使用自定义的操作符。这种算法需要的额外参数叫谓词，分为一元与二元谓词</p>
+<p>对于更灵活的使用情况，c++11引入了lambda表达式</p>
+<img src="/2020/12/03/cpp-primer2/37.PNG" class>
+<p>如果忽略返回类型，只有一个return，lambda会自己推测；如果函数体内，包括除return语句之外的内容，且没有指明返回类型，则返回void</p>
+<p>lambda可以使用环境的局部变量，但是必须在列表内指明，cin等全局变量不用</p>
+<img src="/2020/12/03/cpp-primer2/38.PNG" class>
+<p>如果想要在lambda里改变捕获的变量，需要在参数列表首加上关键字mutable</p>
+<p>c++11引入了bind函数，这个函数本质也是一个适配器</p>
+<img src="/2020/12/03/cpp-primer2/39.PNG" class>
+<p>_n名字存放在std::place_holder命名空间</p>
+<img src="/2020/12/03/cpp-primer2/40.PNG" class>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/" itemprop="url">c++primer笔记1</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-30T13:13:36+08:00">
+                2020-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.4k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>c++可以看作由三个部分构成：</p>
+<ol>
+<li>低级C</li>
+<li>现代高级语言特性</li>
+<li>标准库</li>
+</ol>
+<p>UNIX与windows执行完成程序后，可以用echo获得返回值</p>
+<ol>
+<li>UNIX $ echo $?</li>
+<li>windows $ echo  %ERRORLEVEL%</li>
+</ol>
+<p>UNIX用 $? 变量保存上一个已执行命令的退出状态码，一般没有规律可循，退出状态码0为成功，最大255，有些有特殊含义比如权限不足</p>
+<p>shell脚本一般以最后一个命令的退出状态码作为退出状态码，shell脚本函数可以看作小的脚本，$?也可以提取函数退出状态码</p>
+<p>std::cout&lt;&lt;”ENTER”&lt;&lt;std::endl 等价于 (std::cout&lt;&lt;”ENTER”)&lt;&lt;std::endl , &lt;&lt; 左侧必须是ostream对象， std::endl是一种操纵符，效果是结束当前行同时刷新缓冲区</p>
+<p>>&gt;运算符相似</p>
+<p>多行注释不能嵌套，想要注释包括注释的代码段最好使用//</p>
+<p>windows下EOF为^z, UNIX为^D</p>
+<p>cerr是ostream对象，一般也写到与标准输出相同的设备，但是写到cerr的对象不缓冲</p>
+<p>c++规定，尺寸上，short&lt;=int&lt;=long&lt;=long long</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/2.PNG" class>
+<p>c++标准是标准，编译器具体怎么实现另说</p>
+<p>字符型有三种：char，signed char， unsigned char，这很奇怪，实际只有带不带符号两种，char会根据编译器转换为其中一种，所以尽量不要用这个做运算</p>
+<p>除此之外字符型还要很多扩展类型，比如wchar_t(wide_char_type,c/c++里很多_ t类型 )， char16_t等</p>
+<p>比如wchar_t用于确保存放机器基本字符集中任意字符对应的值，这个大小在不同系统上不一样。很多符号的存储需要多于一个字节，例如汉字一般需要2个字节存储，这个与编码格式也有关</p>
+<p>直接把宽窄字符混用会出现问题，具体怎样输出和编码格式也有关，c/c++编码是一个复杂的问题</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/3.PNG" class>
+<p><a href="https://www.cnblogs.com/lanhaicode/p/10574260.html" target="_blank" rel="noopener">宽字符wchar_t和窄字符char——putwchar、wprintf - 蓝海人 - 博客园 (cnblogs.com)</a></p>
+<p><a href="https://www.zhihu.com/question/54664311" target="_blank" rel="noopener">为什么大多数的 C++ 的开源库都喜欢自己实现 string？ - 知乎 (zhihu.com)</a></p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/1.PNG" class>
+<p>当计算式里既有有符号又有无符号，会自动全部转换为无符号进行计算。所以这两种形式最好不要混用</p>
+<p>同时，在使用无符号时一定要非常小心，比如如果在循环变量使用了无符号，很容易就因为达不到负值永远循环下去</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/4.PNG" class>
+<p>c++支持分离式编译，每个文件可以单独的被编译</p>
+<p>声明与定义是不同的：声明使得名字被程序知道，但是只有定义才能创建与名字相关的实体，申请内存</p>
+<p>如果想要声明但不定义一个变量，需要使用extern。一个变量可以被声明很多次，但是只能被定义一次</p>
+<p>extern int a=0 既定义又声明了变量</p>
+<p>在函数体内部不能初始化用extern标记的变量，但可以修改</p>
+<p>c++是静态类型语言，即在编译阶段检查类型</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/5.PNG" class>
+<p>最好多用nullptr，这是c++11引入的一种特殊类型的字面值，它可以转换为任何类型的指针</p>
+<p>NULL是一种预处理变量，c++中他就是0</p>
+<p><a href="https://zhuanlan.zhihu.com/p/79883965" target="_blank" rel="noopener">为什么建议你用nullptr而不是NULL - 知乎 (zhihu.com)</a>（c++中）</p>
+<p>void<em>指针：与其他指针比较，作为函数输入输出，赋值给其他void </em>指针。不能直接操作指向的对象，因为不知道这个对象是什么类型</p>
+<p>在c++11中，花括号初始化得到了全面应用，这种方法叫“列表初始化”。但是这种赋值不能窄化转换</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/6.PNG" class>
+<p>int *&amp;r ：对指针的引用。阅读时从右到左，先读到的有最直接的影响</p>
+<p>int&amp;*：不允许</p>
+<p>int*const a :常量指针</p>
+<p>const int* const a：指向常量的常量指针</p>
+<p>可以用顶层const（指针/变量本身是const）和底层const（指向const）来表示</p>
+<p>顶层const实质只是“自认为”const，指向的变量变化后他也会变化</p>
+<p>正常情况，const必须初始化</p>
+<p>编译器对const默认的操作是把所有出现常量的位置都换成对应的值，因此如果包含多个文件，每一个文件都必须定义常量，因此默认情况下，const只在文件内部有效。多个文件出现了同名的变量，等同于不同文件里定义了独立的变量</p>
+<p>如果想要实现共享同一个变量的效果的话，对于const常量不管是声明还是定义都添加extern关键字，这样即便没有初始化也不会报错了</p>
+<p>常量对象的引用必须由常量的引用进行</p>
+<p>引用也像一种常量，因为不能解绑</p>
+<p>引用必须与原数据类型相同，但是有两个例外：</p>
+<ol>
+<li>初始化常量引用可以使用任何表达式作为初始值——这个过程本质是创建了一个新的临时量并让常量绑定上去，如果是非常量引用的话改变引用值只会改变临时量，没有意义因而报错</li>
+<li>常量的引用可以绑定到非常量上，但是反之不可</li>
+</ol>
+<p>c++11引入constexpr，用这个声明的变量一定是常量，而且必须用常量表达式初始化，否则报错</p>
+<p>不过constexpr修饰指针只会设置为顶层const。他的初值必须设置为具有固定地址的对象。一般来说函数体内的对象内存不固定，因此不可被指向</p>
+<p>字面值类型：算数，引用，指针等值易求得的类型，他们可以被定义为constexpr。</p>
+<p>类型别名</p>
+<ol>
+<li>typedef double  wages</li>
+<li>using wages=double</li>
+</ol>
+<p>typedef int arrT[10]; arrT是一个类型，表示含有10个int的数组</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/7.PNG" class>
+<p>auto说明符：自动推算应该赋予的类型，c++11引入</p>
+<p>但是存在一些区别：引用作为初始值时，忽略引用；忽略顶层const；如果想要保持需要明确指出</p>
+<p>decltype：返回操作数的数据类型，c++11引入</p>
+<p>如果返回的是引用类型，则必须对应操作：decltype(*p) c 必须初始化，因为是int&amp;</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/8.PNG" class>
+<p>类内初始化：c++11支持类内初始化，必须用等号或{}，不可用圆括号</p>
+<p>预处理器：编译之前执行的一段程序，例如#include，#include会把定义的头文件直接插入代替</p>
+<p>头文件保护符：#define （把一个名字设定为预处理变量） #ifndef #endif ，避免重定义</p>
+<p>预处理变量无视c++中关于作用域的规则，这个变量在整个程序内必须唯一</p>
+<p><a href="https://zhuanlan.zhihu.com/p/94249215" target="_blank" rel="noopener">编译原理—C语言C文件和头文件的关系 - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/28235828" target="_blank" rel="noopener">不同编译器是如何处理预编译头文件的？ - 知乎 (zhihu.com)</a></p>
+<p><a href="https://www.zhihu.com/question/20484931" target="_blank" rel="noopener">(1 封私信) Linux 中的动态链接库和静态链接库是干什么的？ - 知乎 (zhihu.com)</a></p>
+<p>using namespace::name; 表明使用name时我们从命名空间std中获取</p>
+<p>头文件一般不要使用using声明，因为头文件被拷贝到所有引用他的文件里，会造成声明的污染，容易出问题</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/9.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/11.PNG" class>
+<p>string.size()返回string::size_type类，这个类属于与机器无关的配套类，是无符号整型数</p>
+<p>c++11 范围for：</p>
+<p>for(declaration : expresssion)    state</p>
+<p>declaration 可以通过引用来修改原序列的值</p>
+<p>范围for不能在遍历过程中改变序列的大小；凡是使用了迭代器的循环体，都不能向容器内添加元素</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/18.PNG" class>
+<p>虽然数组与指针本质很像，但是少数情况下还得分清</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/12.PNG" class>
+<p>vector最好初始时不设置长度再逐个插入，这样大多数情况下性能更好，违反常识</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/13.PNG" class>
+<p>迭代器与指针操作类似，也有*，++，-&gt;运算符</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/14.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/15.PNG" class>
+<p>常量对象的迭代器还是常量迭代器</p>
+<p>c++11引入了cbegin与cend明确返回常量迭代器</p>
+<p>迭代器间可以进行算数运算，返回类型为difference_type,带符号整型</p>
+<p>迭代器与整数可以进行运算，超出迭代器会指向end</p>
+<p>数组长度初始化必须使用常量</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/16.PNG" class>
+<p>从内向外读</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/19.PNG" class>
+<p>很麻烦</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/20.PNG" class>
+<p>多用auto，用begin与end也可以判断数组始末</p>
+<p>size_t，无符号，大的可以表示内存中任意对象大小，可以用来定义数组下标</p>
+<p>c++11引入了针对数组的begin与end，返回对应指针</p>
+<p>指针之间可以运算，也可以与整数运算，但是要检查是否超出范围</p>
+<p>标准库下标必须是无符号，数组未必</p>
+<p>少用C风格的字符串</p>
+<p>可以使用带空字符的字符数组与string初始化/运算</p>
+<p>反过来必须使用c_str()，返回的是const cahr*类型指针，指向与string相同的内存。因此string更改后c字符串也会更改</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/17.PNG" class>
+<p>优先级规定了运算对象的组合方式，但是没有说明按照什么顺序求值</p>
+<p>cout&lt;&lt;i&lt;&lt;++i的结果是不可知的，因为没有定义求值顺序</p>
+<p>因此建议多用括号；如果改变了某个运算对象的值，在其他地方不要再使用这个运算对象</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/21.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/22.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/23.PNG" class>
+<p>cond？exp1：exp2</p>
+<p>sizeof （type）</p>
+<p>sizeof expr</p>
+<p>c++11引入了sizeof（char），可以直接取类而非实体</p>
+<p>sizeof处理数组可以得到整个数组占用的大小；string/vector只返回固定部分不包括元素占有的空间</p>
+<p>算数转换</p>
+<ol>
+<li><p>整型提升，把小整数变成大整数，char与bool提升到int或long</p>
+</li>
+<li><p>无符号，与机器本身有关</p>
+</li>
+</ol>
+<p>其他隐式转换：数组转指针；指针间的转换；判断语句中转bool；非常量转常量（常量很多时候只是“认为”自己是常量）</p>
+<p>强制类型转换</p>
+<p>cast-name&lt; type &gt;(expression);</p>
+<p>static_cast:只要不包含底层const都可以转换</p>
+<p>const_cast:只能改变底层const，这样编译器就不再组织对这个对象进行写操作</p>
+<p>reinterpret_cast</p>
+<p>type(expr)或(type)expr：旧式类型转换</p>
+<p>传统for初始化语句只有一句，因此如果是多个变量初始化就应该同一个类型</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/24.PNG" class>
+<p>如果try中出现异常，会层层上传直到找到匹配的catch语句；如果找不到，转到terminate标准库函数，之后终止程序</p>
+<p>catch(…)可以接受所有异常</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/25.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/26.PNG" class>
+<p>自动对象：只在块执行期间存在的对象</p>
+<p>局部静态对象：第一次经过时初始化，直到程序结束才销毁</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/27.PNG" class>
+<p>函数传参的类型原则和之前变量的初始化是一样的</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/28.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/29.PNG" class>
+<p>这些写法，总是感觉让人困惑但是意义不大。除非是传入的数组已经确定了，不然和传指针没有区别</p>
+<p>c++11引入了initializer_list，这是一种标准库，表示某种特定值的数组</p>
+<p>可以作为形参，得到未知数量的参数</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/30.PNG" class>
+<p>省略符形参：用省略符代替任意数量形参，只能出现在形参列表的最后一位</p>
+<p><a href="https://blog.csdn.net/liyazhen2011/article/details/82288306" target="_blank" rel="noopener">c++中的省略号_万里归来少年心-CSDN博客_c++ 省略号</a></p>
+<p>调用运算符的优先级和点运算符以及箭头运算符相同，满足左结合律</p>
+<p>c++11规定，函数可以返回花括号包围的列表，这个列表可以结合返回值进行初始化</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/31.PNG" class>
+
+<p>​    </p>
+<p>尾置返回类型，c++11</p>
+<p>auto func(int i)-&gt;int(*)[10]</p>
+<p>把真正起到作用的返回值放到了最后</p>
+<p>decltype(odd ) *arrPtr(int i)</p>
+<p>或者使用关键字，更加简洁</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/33.PNG" class>
+<p>默认实参声明：虽然一个函数的多次声明是合法的，但是每一个形参只能被赋予一次默认实参</p>
+<p>局部函数不能作为默认实参，除此以外任何表达式都可以作为实参</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/34.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/35.PNG" class>
+<p>constexpr函数：返回类型与形参都必须是字面值，函数体里有且只能有一条return</p>
+<p>如果返回值是常量，执行初始化时，编译器会把函数的调用替换成结果值，也被隐式指定为内联函数</p>
+<p>constexpr返回值可以不是常量（我傻了，那这有什么用啊）</p>
+<p><a href="https://www.zhihu.com/question/274323507" target="_blank" rel="noopener">(1 封私信) constexpr究竟有什么用？ - 知乎 (zhihu.com)</a></p>
+<p><a href="https://www.zhihu.com/question/35614219" target="_blank" rel="noopener">(1 封私信) C++ const 和 constexpr 的区别？ - 知乎 (zhihu.com)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/258105708" target="_blank" rel="noopener">C++干货系列——从编译期常量谈到constexpr(三) - 知乎 (zhihu.com)</a></p>
+<p>博大精深</p>
+<p>assert：预处理宏。如果表达式为假则终止程序，否则什么也不做</p>
+<p>DEBUG</p>
+<p>cc -D NDEBUG main.c    关闭debug；等于在文件开头假如 #define NDEBUG</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/36.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/37.PNG" class>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/38.PNG" class>
+<p>虽然const int与int不算重载，但是常量引用是可以的。指向常量的指针也是这样。底层const可以重载</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/39.PNG" class>
+<p>函数指针：</p>
+<p>bool (*pf)(const string&amp; , const string &amp;);未初始化</p>
+<p>pf=func；等价于 pf=&amp;func</p>
+<p>调用对应函数是也可以不解指针</p>
+<p>pf（“A”，“B”）等价于(*pf)（“A”，“B”）</p>
+<p>如果指向重载函数，指针必须与其中某一个精确匹配</p>
+<p>函数指针也可以作为参数传递：</p>
+<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/40.PNG" class>
+<p>函数指针也可以作为返回值：</p>
+
+<p>定义在类内部的函数是隐式的inline函数</p>
+<p>常量对象，常量对象的引用以及指针都只能调用常量成员函数；非常量对象也能调用</p>
+<p>常量成员函数即在参数列表后加上const，这个函数只能读取成员而不能修改。除非mutable关键字</p>
+<p>成员函数体内可以随意使用类中的其他成员，因为编译器会先编译成员声明，再编译成员函数体</p>
+<p>任何函数体外定义的变量会初始化0，函数体内的内置变量将不被初始化</p>
+<p>对于一个普通的类中，必须定义自己的默认构造函数</p>
+<ol>
+<li>只有类内不包含任何构造函数时，编译器才会自动生成一个构造函数</li>
+<li>块内的内置类型与符合类型默认初始化，成为未定义的</li>
+<li>如果类中存在其他没有默认构造函数的成员，编译器无法正常运行</li>
+</ol>
+<p>在类的声明之后定义之前他是一个不完全类型，这是一个非常有限的类型，只能定义引用/声明/用于函数声明</p>
+<p>c++11引入了=default参数。如果构造时使用默认行为，则再参数列表上加上这一句</p>
+<p>友元只能在类内部声明，具体位置不限，不受访问控制级别的限制</p>
+<p>友元的声明只说明了访问的权限，并不是真正的声明，一般需要在类的外部再次声明</p>
+<p>无需在声明与定义的未知都写上inline，一般建议只在定义处写出</p>
+<p>因为内联函数要在调用点展开，所以<strong>编译器必须随处可见内联函数的定义</strong>，要不然就成了非内联函数的调用了。所以，这要求每个调用了内联函数的文件都出现了该<strong>内联函数的定义</strong>。因此，将<strong>内联函数的定义</strong>放在<strong>头文件</strong>里实现是合适的，省却你为每个文件实现一次的麻烦</p>
+<p>mutable关键字可以使得成员即使在const成员函数中也发生改变</p>
+<p>c++11支持类内初始值，但是必须使用=或者花括号</p>
+<p>常量成员函数和非常量成员函数也可以重载</p>
+<p>类也可以只声明不定义</p>
+<p>类的成员类型不能是自己</p>
+<p>类也可以作为友元</p>
+<p>友元不具有传递性</p>
+<p>重载函数需要分别声明友元</p>
+<p>一个类就是一个作用域。一旦遇到了域名（函数名处）其余部分就不用再授权了。因此返回值还需要继续授权</p>
+
+<p>类中不可重新定义外层作用域里的名字typedef</p>
+<p>::height 显示调用外围的变量</p>
+
+<p>建议构造函数初始值的顺序和成员声明的顺序一样</p>
+<p>c++11引入了委托构造函数，托给其他定义更加完全的非委托构造函数。会先执行代码体里的代码，再委托给委托者的函数体</p>
+
+<p>允许转换构造函数。可以隐式转换，但是只允许一步类类型转换；且需要多个实参的构造函数无法隐式转换</p>
+<p>explicit关键字可以禁止隐式转换，这个关键字只能用于类内声明时，类外能也不应重复</p>
+<p>explicit构造函数只能用于直接初始化，不能用于拷贝形式的初始化</p>
+
+
+
+
+
+<p>在类外初始化静态成员函数不用static</p>
+
+<p>类的静态成员通常不应该在类的内部初始化，除非静态成员是constexpr</p>
+<p>即使一个常量静态函数在类内部初始化了，通常也需要在类的外部定义一下，只不过不用定义</p>
+<p>静态成员的优势在于可以用于某些非静态无法使用的场景</p>
+<ol>
+<li>可以将静态成员作为默认实参</li>
+<li>可以是不完全类型</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/07/%E5%AD%97%E7%AC%A6%E4%B8%B2DP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/07/%E5%AD%97%E7%AC%A6%E4%B8%B2DP/" itemprop="url">字符串DP</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-07T11:22:51+08:00">
+                2020-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>动态规划本质就是遍历，遍历各种情况</p>
+<p>只不过找到了各个情况的相互关系，将大的问题拆解为小的问题，但是在遍历中是自下而上的，逐渐达到最终的目的</p>
+<p>情况的转移为转移方程，这是动态规划的核心</p>
+<p>找到转移方向，然后找到遍历的方向，画二维图更为直观</p>
+<h3 id="53-最大子序和"><a href="#53-最大子序和" class="headerlink" title="53. 最大子序和"></a><a href="https://leetcode-cn.com/problems/maximum-subarray/" target="_blank" rel="noopener">53. 最大子序和</a></h3><p>给定一个整数数组 <code>nums</code> ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<p>这道题中不可取空字串，因此做法不太一样</p>
+<p>假如可取空串，只需遍历时检查是否全为负值取零</p>
+<p>设<script type="math/tex">dp[i]</script>为以<script type="math/tex">nums[i]</script>结尾的最大连续子数组</p>
+<p>则转移方程<script type="math/tex">dp[i]=max(nums[i],nums[i]+dp[i-1])</script></p>
+<p>具体边界处，令<script type="math/tex">dp[0]=nums[0]</script>，遍历即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">list</span>[nums.<span class="built_in">size</span>()];</span><br><span class="line">        <span class="built_in">list</span>[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">        res=<span class="built_in">list</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;nums.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            <span class="built_in">list</span>[i]=<span class="built_in">max</span>(<span class="built_in">list</span>[i<span class="number">-1</span>]+nums[i],nums[i]);</span><br><span class="line">            res=<span class="built_in">max</span>(res,<span class="built_in">list</span>[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>因为只需<script type="math/tex">dp[i]</script>与<script type="math/tex">dp[i-1]</script>间的转移，不开数组只用两个int即可</p>
+<h3 id="300-最长上升子序列"><a href="#300-最长上升子序列" class="headerlink" title="300. 最长上升子序列"></a><a href="https://leetcode-cn.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener">300. 最长上升子序列</a></h3><p>给定一个无序的整数数组，找到其中最长上升子序列的长度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [10,9,2,5,3,7,101,18]</span><br><span class="line">输出: 4 </span><br><span class="line">解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。</span><br></pre></td></tr></table></figure>
+<p>设<script type="math/tex">dp[i]</script>为以<script type="math/tex">nums[i]</script>结尾的最长上升子序列长度，则<script type="math/tex">dp[i+1]=max(1,dp[j]+1),for j <i+1 \&\& dp[i+1]>dp[j]</script></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n=(<span class="keyword">int</span>)nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n, <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            dp[i] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[j] &lt; nums[i]) &#123;</span><br><span class="line">                    dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> *max_element(dp.<span class="built_in">begin</span>(), dp.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>另一种方法，贪心算法</p>
+<p>尽可能让序列上升的慢一些，设<script type="math/tex">list[i]</script>表示长度为i的上升序列结尾值，这样在遍历时：如果遍历值大于最长的上升的结尾值，直接插入list末尾（相当于最长上升序列更长了）；否则在list找到他可以替代的位置，也就是它大于该位置之前的值，小于之后的值，它小于该位置的原先值（这样相当于这个长度的上升序列上升的更慢了）</p>
+<p>在插入时，为了便于处理，可以最开始在list中插入最小值INT_MIN，这样不用再考虑空序列</p>
+<p>在查找时也可以使用二分查找，这样时间复杂度进一步下降</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!nums.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;<span class="built_in">list</span>;</span><br><span class="line">        <span class="built_in">list</span>.push_back(INT_MIN  );</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;<span class="built_in">list</span>.back())&#123;</span><br><span class="line">                <span class="built_in">list</span>.push_back(nums[i]);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;<span class="built_in">list</span>.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[i]&lt;<span class="built_in">list</span>[j]&amp;&amp;nums[i]&gt;<span class="built_in">list</span>[j<span class="number">-1</span>])&#123;</span><br><span class="line">                    <span class="built_in">list</span>[j]=nums[i];</span><br><span class="line">                &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">list</span>.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="1143-最长公共子序列"><a href="#1143-最长公共子序列" class="headerlink" title="1143. 最长公共子序列"></a><a href="https://leetcode-cn.com/problems/longest-common-subsequence/" target="_blank" rel="noopener">1143. 最长公共子序列</a></h3><p>给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列的长度。</p>
+<p>一个字符串的 子序列 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。<br>例如，”ace” 是 “abcde” 的子序列，但 “aec” 不是 “abcde” 的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。</p>
+<p>若这两个字符串没有公共子序列，则返回 0。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：text1 &#x3D; &quot;abcde&quot;, text2 &#x3D; &quot;ace&quot; </span><br><span class="line">输出：3  </span><br><span class="line">解释：最长公共子序列是 &quot;ace&quot;，它的长度为 3。</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">text1[i]!=text2[j],dp[i][j]=max(dp[i-1][j],dp[i][j-1])</script><script type="math/tex; mode=display">text1[i]==text2[j],dp[i][j]=dp[i-1][j-1]+1</script><p>按照转移方程，需要从左上向下一列一列的填充，但是初始化很麻烦，为了避免最左侧一行填充的问题，可以多开一列全零</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">longestCommonSubsequence</span><span class="params">(<span class="built_in">string</span> text1, <span class="built_in">string</span> text2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//初始化很麻烦，不如多开一行</span></span><br><span class="line">        <span class="keyword">int</span> **dp=<span class="keyword">new</span> <span class="keyword">int</span>*[text1.<span class="built_in">size</span>()+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;text1.<span class="built_in">size</span>()+<span class="number">1</span>;++i)&#123;</span><br><span class="line">            dp[i]=<span class="keyword">new</span> <span class="keyword">int</span>[text2.<span class="built_in">size</span>()+<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;text2.<span class="built_in">size</span>()+<span class="number">1</span>;++j)&#123;</span><br><span class="line">                dp[i][j]=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=text1.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=text2.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(text1[i<span class="number">-1</span>]==text2[j<span class="number">-1</span>])&#123;</span><br><span class="line">                    dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>]+<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    dp[i][j]=<span class="built_in">max</span>(dp[i<span class="number">-1</span>][j],dp[i][j<span class="number">-1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[text1.<span class="built_in">size</span>()][text2.<span class="built_in">size</span>()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="516-最长回文子序列"><a href="#516-最长回文子序列" class="headerlink" title="516. 最长回文子序列"></a><a href="https://leetcode-cn.com/problems/longest-palindromic-subsequence/" target="_blank" rel="noopener">516. 最长回文子序列</a></h3><p>给定一个字符串 <code>s</code> ，找到其中最长的回文子序列，并返回该序列的长度。可以假设 <code>s</code> 的最大长度为 <code>1000</code> 。</p>
+<p>输入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;bbbab&quot;</span><br></pre></td></tr></table></figure>
+<p>输出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4	#bbbb</span><br></pre></td></tr></table></figure>
+<p>设<script type="math/tex">dp[i][j]</script>为第i到第j个组成的子序列中回文的长度，则</p>
+<script type="math/tex; mode=display">text1[i]!=text2[j],dp[i][j]=max(dp[i+1][j],dp[i][j-1])</script><script type="math/tex; mode=display">text1[i]==text2[j],dp[i][j]=dp[i+1][j-1]+2</script><p>这道题最有趣的就是遍历填表的顺序了</p>
+<img src="/2020/11/07/%E5%AD%97%E7%AC%A6%E4%B8%B2DP/2.PNG" class>
+<img src="/2020/11/07/%E5%AD%97%E7%AC%A6%E4%B8%B2DP/1.PNG" class>
+<p>按照斜着遍历，j-i本质就是序列的长度，从这个角度理解也很简单：先填上所有更短的序列，那么长的序列一定能够拆分了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">longestPalindromeSubseq</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> **dp=<span class="keyword">new</span> <span class="keyword">int</span>*[s.<span class="built_in">size</span>()];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            dp[i]=<span class="keyword">new</span> <span class="keyword">int</span>[s.<span class="built_in">size</span>()];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;s.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                dp[i][j]=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            dp[i][i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> len=<span class="number">2</span>;len&lt;=s.<span class="built_in">size</span>();++len)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=len<span class="number">-1</span>;j&lt;s.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(s[j-len+<span class="number">1</span>]==s[j])&#123;</span><br><span class="line">                    dp[j-len+<span class="number">1</span>][j]=dp[j+<span class="number">2</span>-len][j<span class="number">-1</span>]+<span class="number">2</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    dp[j-len+<span class="number">1</span>][j]=<span class="built_in">max</span>(dp[j-len+<span class="number">2</span>][j],dp[j-len+<span class="number">1</span>][j<span class="number">-1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][s.<span class="built_in">size</span>()<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>还有一种思路是让原字符串与逆字符串求最长公共字符串，这种方法需要填整个N*N的表，但是上述方法半个表即可</p>
+<h3 id="5-最长回文子串"><a href="#5-最长回文子串" class="headerlink" title="5. 最长回文子串"></a><a href="https://leetcode-cn.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener">5. 最长回文子串</a></h3><p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;babad&quot;</span><br><span class="line">输出: &quot;bab&quot;</span><br><span class="line">注意: &quot;aba&quot; 也是一个有效答案。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;cbbd&quot;</span><br><span class="line">输出: &quot;bb&quot;</span><br></pre></td></tr></table></figure>
+<p>这个题与上面的最大区别在于“字串”必须是连续的，子序列不一定</p>
+<p>设<script type="math/tex">dp[i][j]</script>为第i到第j个组成的子序列中回文的长度，则</p>
+<script type="math/tex; mode=display">text1[i]==text2[j]\&\&dp[i][j]!=0,dp[i][j]=dp[i+1][j-1]+2</script><script type="math/tex; mode=display">ELSE,dp[i][j]=0</script><p>但是还有一个额外情况，i+1&gt;j-1时，表示字串长度为2，此时dp[i+1] [j-1]无值可取，需要单独讨论</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">longestPalindrome</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!s.<span class="built_in">size</span>())<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> **dp=<span class="keyword">new</span> <span class="keyword">int</span>*[s.<span class="built_in">size</span>()];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            dp[i]=<span class="keyword">new</span> <span class="keyword">int</span>[s.<span class="built_in">size</span>()];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;s.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                dp[i][j]=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            dp[i][i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> maxLen=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> start=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">end</span>=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;s.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;j;++i)&#123;</span><br><span class="line">                <span class="keyword">if</span>(s[i]==s[j] &amp;&amp; dp[i+<span class="number">1</span>][j<span class="number">-1</span>] || s[i]==s[j] &amp;&amp; i+<span class="number">1</span>&gt;j<span class="number">-1</span>)&#123;</span><br><span class="line">                    dp[i][j]=dp[i+<span class="number">1</span>][j<span class="number">-1</span>]+<span class="number">2</span>;</span><br><span class="line">                    <span class="keyword">if</span>(j-i+<span class="number">1</span>&gt;maxLen)&#123;</span><br><span class="line">                        maxLen=j-i+<span class="number">1</span>;</span><br><span class="line">                        start=i;</span><br><span class="line">                        <span class="built_in">end</span>=j;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substr(start,maxLen);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个题也可以用dp[i] [j]做bool值，表示第i到j的字串是否为回文，节省空间，但是时间复杂度没有变化</p>
+<p>或者用马拉车算法<a href="https://zhuanlan.zhihu.com/p/70532099" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/70532099</a></p>
+<h3 id="72-编辑距离"><a href="#72-编辑距离" class="headerlink" title="72. 编辑距离"></a><a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">72. 编辑距离</a></h3><p>给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数 。</p>
+<p>你可以对一个单词进行如下三种操作：</p>
+<p>插入一个字符<br>删除一个字符<br>替换一个字符</p>
+<p>这个题看着复杂，其实解法挺直观</p>
+<p>设<script type="math/tex">dp[i][j]</script>为第一个字串前i位到第二个前j位需要的步数</p>
+<p>则如果使用插入或者删除，都有</p>
+<script type="math/tex; mode=display">dp[i][j]=min(dp[i-1][j],dp[i][j-1])</script><p>如果使用替换，有</p>
+<script type="math/tex; mode=display">dp[i][j]=dp[i-1][j-1]+1，且第一个的i位与第二个的j位不同</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minDistance</span><span class="params">(<span class="built_in">string</span> word1, <span class="built_in">string</span> word2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = word1.length();</span><br><span class="line">        <span class="keyword">int</span> m = word2.length();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 有一个字符串为空串</span></span><br><span class="line">        <span class="keyword">if</span> (n * m == <span class="number">0</span>) <span class="keyword">return</span> n + m;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// DP 数组</span></span><br><span class="line">        <span class="keyword">int</span> D[n + <span class="number">1</span>][m + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 边界状态初始化</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n + <span class="number">1</span>; i++) &#123;</span><br><span class="line">            D[i][<span class="number">0</span>] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; m + <span class="number">1</span>; j++) &#123;</span><br><span class="line">            D[<span class="number">0</span>][j] = j;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算所有 DP 值</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n + <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; m + <span class="number">1</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">int</span> left = D[i - <span class="number">1</span>][j] + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">int</span> down = D[i][j - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">int</span> left_down = D[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">                <span class="keyword">if</span> (word1[i - <span class="number">1</span>] != word2[j - <span class="number">1</span>]) left_down += <span class="number">1</span>;</span><br><span class="line">                D[i][j] = <span class="built_in">min</span>(left, <span class="built_in">min</span>(down, left_down));</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> D[n][m];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1256,653 +2267,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/11/02/CG2/" itemprop="url">CG2 transform</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T00:09:29+08:00">
-                2020-11-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  751
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="2D-transformations"><a href="#2D-transformations" class="headerlink" title="2D transformations"></a>2D transformations</h3><img src="/2020/11/02/CG2/1.PNG" class>
-<img src="/2020/11/02/CG2/2.PNG" class>
-<img src="/2020/11/02/CG2/3.PNG" class>
-<img src="/2020/11/02/CG2/4.PNG" class>
-<img src="/2020/11/02/CG2/5.PNG" class>
-<h3 id="Homogeneous-coordinates齐次坐标"><a href="#Homogeneous-coordinates齐次坐标" class="headerlink" title="Homogeneous coordinates齐次坐标"></a>Homogeneous coordinates齐次坐标</h3><p>为了将多种变换写在一个矩阵内，将坐标在之前的基础上加上一维</p>
-<img src="/2020/11/02/CG2/6.PNG" class>
-<p>最后一维可取任何非零值</p>
-<img src="/2020/11/02/CG2/7.PNG" class>
-<h3 id="Composing-transforms组合变换"><a href="#Composing-transforms组合变换" class="headerlink" title="Composing transforms组合变换"></a>Composing transforms组合变换</h3><img src="/2020/11/02/CG2/8.PNG" class>
-<p>注意，变换的顺序不一定可换。例如先绕原点旋转后平移显然与先平移再旋转结果不同</p>
-<p>只要不涉及维度变换，变换矩阵满秩，而矩阵的逆矩阵就是逆变换的矩阵</p>
-<h3 id="3D-Rotation"><a href="#3D-Rotation" class="headerlink" title="3D Rotation"></a>3D Rotation</h3><p>一般将旋转分解为绕x，y，z的旋转，这也被成为欧拉角</p>
-<img src="/2020/11/02/CG2/9.PNG" class>
-<p>绕y轴旋转矩阵左上角与二维相同，而y，z，x对应左上角矩阵，可以看作x，y，z矩阵的3x3矩阵向右下移位一位的结果</p>
-<p>旋转还有另一种表达方式——轴角，轴为单位向量</p>
-<p>轴角与旋转矩阵的变换关系如罗德里格斯方程所示：</p>
-<img src="/2020/11/02/CG2/10.PNG" class>
-<p><a href="https://www.cnblogs.com/jingrui/p/9712461.html" target="_blank" rel="noopener">https://www.cnblogs.com/jingrui/p/9712461.html</a></p>
-<h3 id="View-Camera-transformation"><a href="#View-Camera-transformation" class="headerlink" title="View/Camera transformation"></a>View/Camera transformation</h3><img src="/2020/11/02/CG2/11.PNG" class>
-<p>可以分解为平移和旋转变换</p>
-<p>直接写从世界空间到相机空间的旋转变换比较困难，但是从相机空间到世界空间的变换很简单</p>
-<img src="/2020/11/02/CG2/12.PNG" class>
-<img src="/2020/11/02/CG2/13.PNG" class>
-<h3 id="Projection-transformation"><a href="#Projection-transformation" class="headerlink" title="Projection transformation"></a>Projection transformation</h3><img src="/2020/11/02/CG2/14.PNG" class>
-<p>将相机空间中物体投影到<script type="math/tex">[-1,1]^3</script>的Canonical Space的变换</p>
-<h4 id="Orthographic-Projection"><a href="#Orthographic-Projection" class="headerlink" title="Orthographic Projection"></a>Orthographic Projection</h4><p>将空间内的点全部投影到<script type="math/tex">[-1,1]^3</script>的空间内</p>
-<p>可以分解为平移中心至原点，压缩两部分</p>
-<img src="/2020/11/02/CG2/15.PNG" class>
-<p>一个问题是，如果使用如上图的右手系，则沿-z看去，靠近的点反而z值大，也就是在变换中将near clip plane投影至1，而far clip plane投影至-1</p>
-<p>这也是为什么许多引擎使用左手系</p>
-<h4 id="Perspective-Projection"><a href="#Perspective-Projection" class="headerlink" title="Perspective Projection"></a>Perspective Projection</h4><img src="/2020/11/02/CG2/16.PNG" class>
-<p>推导过程：</p>
-<img src="/2020/11/02/CG2/17.PNG" class>
-<p>可以看到，在这条直线上的点，x与y应该投影到相同的位置，因此可以将点先全部压缩到near clip plane上</p>
-<p>图中的n与z均为负值，这也确保了x与y不会发生对称互换</p>
-<img src="/2020/11/02/CG2/18.PNG" class>
-<img src="/2020/11/02/CG2/19.PNG" class>
-<p>这样可以实现其中的三行</p>
-<p>对于第三行，考虑这是关于z的变换，与x，y无关，因此前2位为0；而near/far plane投影的结果依然是near/far plane，可以建立二元一次方程</p>
-<img src="/2020/11/02/CG2/20.PNG" class>
-<p>这样就实现了将空间内的点投影到了一个矩形空间，底为near clip plane，z值在near/far clip plane之间</p>
-<p>接下来只需要将矩形压缩到<script type="math/tex">[-1,1]^3</script>的空间内即可，假如继续使用右手系的话，就会出现和之前相同的结果，near clip plane会投影到1处；但其实很多资料中对z的变换加上了负值，使得near clip plane投影至-1，far plane投影至1 ，这并不是一个很重要的问题</p>
-<img src="/2020/11/02/CG2/21.PNG" class>
-<img src="/2020/11/02/CG2/22.PNG" class>
-<p>（图中的near与far为正值，但是依然是右手系，压缩前near clip plane大于far clip plane）</p>
-<h3 id="MVP-Transform"><a href="#MVP-Transform" class="headerlink" title="MVP Transform"></a>MVP Transform</h3><p>三种变换组合在一起的变换</p>
-<img src="/2020/11/02/CG2/23.PNG" class>
-<h3 id="Screen-Transform"><a href="#Screen-Transform" class="headerlink" title="Screen Transform"></a>Screen Transform</h3><p>将Canonical Space投射到Screen上</p>
-<p>Screen可以看作一个二维的数组，长宽即为它的分辨率</p>
-<img src="/2020/11/02/CG2/24.PNG" class>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/01/CG1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/11/01/CG1/" itemprop="url">CG1 流水线概况</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-01T23:39:51+08:00">
-                2020-11-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  196
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <img src="/2020/11/01/CG1/1.PNG" class>
-<p>vertex processing进行Model, View, Projection transforms</p>
-<p>fragment processing进行Z-Buffer</p>
-<p>vertex processing和fragment processing都有可能进行shading和texture mapping</p>
-<img src="/2020/11/01/CG1/2.PNG" class>
-<p>输入流水线的为geometric primitives，例如三角，线等。每个primitive都包含vertex，而vertex又自带许多属性，比如位置，颜色，法线，材质等</p>
-<img src="/2020/11/01/CG1/3.PNG" class>
-<img src="/2020/11/01/CG1/4.PNG" class>
-<p>简而言之，vertex通过插值进行光栅化，生成三维的fragment，fragment同样包含许多属性，而fragment经过处理后投影到屏幕形成pixel</p>
-<img src="/2020/11/01/CG1/5.PNG" class>
-<p>具体到空间的变换如上图所示</p>
-<p>在fragment merge时，需要处理不同物体间的遮挡关系</p>
-<p>一种方法是painting algorithm，从最远处到最近处不断覆盖，但是这种算法无法处理物体相互遮挡的问题</p>
-<p>另一种更加常见的方法是Z-Buffer算法，非常直观：</p>
-<img src="/2020/11/01/CG1/6.PNG" class>
-<img src="/2020/11/01/CG1/7.PNG" class>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/27/games101-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/10/27/games101-1/" itemprop="url">Transformation</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-27T22:46:52+08:00">
-                2020-10-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  63
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="2D-transformations"><a href="#2D-transformations" class="headerlink" title="2D transformations"></a>2D transformations</h3><h4 id="Scale-Non-Uniform"><a href="#Scale-Non-Uniform" class="headerlink" title="Scale (Non-Uniform)"></a>Scale (Non-Uniform)</h4><img src="/2020/10/27/games101-1/1.PNG" class>
-<h4 id="Scale-Uniform"><a href="#Scale-Uniform" class="headerlink" title="Scale (Uniform)"></a>Scale (Uniform)</h4><img src="/2020/10/27/games101-1/2.PNG" class>
-<h4 id="Reflection-Matrix"><a href="#Reflection-Matrix" class="headerlink" title="Reflection Matrix"></a>Reflection Matrix</h4><img src="/2020/10/27/games101-1/3.PNG" class>
-<h4 id="Shear-Matrix"><a href="#Shear-Matrix" class="headerlink" title="Shear Matrix"></a>Shear Matrix</h4><img src="/2020/10/27/games101-1/4.PNG" class>
-<h4 id="Rotation-Matrix"><a href="#Rotation-Matrix" class="headerlink" title="Rotation Matrix"></a>Rotation Matrix</h4><img src="/2020/10/27/games101-1/5.PNG" class>
-<h4 id="Translation-Matrix"><a href="#Translation-Matrix" class="headerlink" title="Translation Matrix"></a>Translation Matrix</h4><img src="/2020/10/27/games101-1/6.PNG" class>
-<h4 id="Composing-Transforms"><a href="#Composing-Transforms" class="headerlink" title="Composing Transforms"></a>Composing Transforms</h4><img src="/2020/10/27/games101-1/7.PNG" class>
-<p>顺序非常重要！</p>
-<h3 id="3D-Transformations"><a href="#3D-Transformations" class="headerlink" title="3D Transformations"></a>3D Transformations</h3><p>使用齐次坐标</p>
-<h4 id="Rotation"><a href="#Rotation" class="headerlink" title="Rotation"></a>Rotation</h4><img src="/2020/10/27/games101-1/8.PNG" class>
-<p>左上角3x3矩阵向右下循环移位，相当于xyz轴对应参数转换为yzx轴</p>
-<h4 id="Rodrigues’-Rotation-Formula"><a href="#Rodrigues’-Rotation-Formula" class="headerlink" title="Rodrigues’ Rotation Formula"></a>Rodrigues’ Rotation Formula</h4><img src="/2020/10/27/games101-1/9.PNG" class>
-<h3 id="View-Camera-transformation"><a href="#View-Camera-transformation" class="headerlink" title="View / Camera transformation"></a>View / Camera transformation</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/" itemprop="url">快慢指针</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-25T15:00:28+08:00">
-                2020-10-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  640
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="主要思想"><a href="#主要思想" class="headerlink" title="主要思想"></a>主要思想</h3><p>使用两个指针同时遍历链表/数组，但是两个指针快慢/起始位置不同，以此达到某种效果</p>
-<h4 id="快慢不同"><a href="#快慢不同" class="headerlink" title="快慢不同"></a>快慢不同</h4><h5 id="142-环形链表-II"><a href="#142-环形链表-II" class="headerlink" title="142. 环形链表 II"></a><a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/" target="_blank" rel="noopener">142. 环形链表 II</a></h5><img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/1.PNG" class>
-<p>最直接的方法是使用遍历，使用哈希表存储结点地址，这样仅需遍历一遍</p>
-<p>另一种方法是使用快慢指针，fast一次前进两个位置，slow一次。假如有环，那么fast一定先进入环。当slow进入环后，slow在一圈之内一定会被fast追赶上</p>
-<img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/2.PNG" class>
-<p>假设在紫色位置两者相遇，则<script type="math/tex">a+b+k(b+c)=2(a+b)</script>,<script type="math/tex">a=k(b+c)-b</script></p>
-<p>假如此时slow继续前进a，会到达相交点。因此，此时令新指针从起始处运动，则会与slow交于目标位置</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">detectCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">       ListNode*fast=head,*slow=head;</span><br><span class="line">       <span class="keyword">while</span>(fast &amp;&amp; fast-&gt;next)&#123;</span><br><span class="line">           fast=fast-&gt;next-&gt;next;</span><br><span class="line">           slow=slow-&gt;next;</span><br><span class="line">           <span class="keyword">if</span>(fast==slow)&#123;</span><br><span class="line">               ListNode*tmp=head;</span><br><span class="line">               <span class="keyword">while</span>(tmp!=slow)&#123;</span><br><span class="line">                   tmp=tmp-&gt;next;</span><br><span class="line">                   slow=slow-&gt;next;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">return</span> tmp;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h4 id="起始位置不同"><a href="#起始位置不同" class="headerlink" title="起始位置不同"></a>起始位置不同</h4><h5 id="19-删除链表的倒数第N个节点"><a href="#19-删除链表的倒数第N个节点" class="headerlink" title="19. 删除链表的倒数第N个节点"></a><a href="https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener">19. 删除链表的倒数第N个节点</a></h5><img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/3.PNG" class>
-<p>只要找到第N个节点就可以解决问题了。令快指针先前进N，然后慢指针与他一起前进直到快指针到达结尾NULL，此时的位置就是倒数第N个节点</p>
-<p>至于删除时，可能删除的恰好是头结点，因此需要单独讨论，或者加上dummy node</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeNthFromEnd</span><span class="params">(ListNode* head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        ListNode*fast=head,*slow=head,*prev;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            fast=fast-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!fast)&#123;</span><br><span class="line">            head=head-&gt;next;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        fast=fast-&gt;next;</span><br><span class="line">        <span class="keyword">while</span>(fast)&#123;</span><br><span class="line">            fast=fast-&gt;next;</span><br><span class="line">            slow=slow-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        slow-&gt;next=slow-&gt;next-&gt;next;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h5 id="160-相交链表"><a href="#160-相交链表" class="headerlink" title="160. 相交链表"></a><a href="https://leetcode-cn.com/problems/intersection-of-two-linked-lists/" target="_blank" rel="noopener">160. 相交链表</a></h5><img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/4.PNG" class>
-<p>找到两个链表相差多少，之后长链表对应的快指针先前进对应距离，然后快慢指针同时前进直到相遇或者到达结尾</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">getIntersectionNode</span><span class="params">(ListNode *headA, ListNode *headB)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len1=<span class="number">0</span>,len2=<span class="number">0</span>;</span><br><span class="line">        ListNode*pA=headA,*pB=headB;</span><br><span class="line">        <span class="keyword">while</span>(pA)&#123;</span><br><span class="line">            pA=pA-&gt;next;</span><br><span class="line">            len1+=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(pB)&#123;</span><br><span class="line">            pB=pB-&gt;next;</span><br><span class="line">            len2+=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode*tmp=(len1&gt;len2?headA:headB);</span><br><span class="line">        <span class="keyword">int</span> dif=<span class="built_in">abs</span>(len1-len2);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;dif;++i)&#123;</span><br><span class="line">            tmp=tmp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode*tmpp=(len1&gt;len2?headB:headA);</span><br><span class="line">        <span class="keyword">while</span>(tmpp!=<span class="literal">NULL</span> &amp;&amp; tmpp!=tmp)&#123;</span><br><span class="line">            tmp=tmp-&gt;next;</span><br><span class="line">            tmpp=tmpp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!tmpp)<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>也可以写成更绕的方法</p>
-<img src="/2020/10/25/%E5%BF%AB%E6%85%A2%E9%93%BE%E8%A1%A8/5.PNG" class>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (headA == <span class="keyword">null</span> || headB == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    ListNode pA = headA, pB = headB;</span><br><span class="line">    <span class="keyword">while</span> (pA != pB) &#123;</span><br><span class="line">        pA = pA == <span class="keyword">null</span> ? headB : pA.next;</span><br><span class="line">        pB = pB == <span class="keyword">null</span> ? headA : pB.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1952,7 +2316,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2013,7 +2377,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         
-<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -2029,7 +2393,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">13.7k</span>
+    <span title="Site words total count">22k</span>
   
 </div>
 

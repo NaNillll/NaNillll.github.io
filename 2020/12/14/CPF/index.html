@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta name="google-site-verification" content="kWcVT9oyylmyb6DohoXWge7VpBUZQVIptcOSS5Gr9wc" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ContactPotentialField (CPF): 建模物体与手之间的接触，建立弹性势能的场，这样就可以把问题转化为最小化势能 Modeling theInteraction sce-nario ofHand andObject,MIHO 学习框架 k-mano 沿twist-splay-bend轴进行运动学限制，同时指骨区域通过下采样加上了锚点。锚点用来计算弹性，简化计算  CPF 通过弹">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CPF">
+<meta property="og:url" content="http://yoursite.com/2020/12/14/CPF/index.html">
+<meta property="og:site_name" content="The Grimoire of NaNillll">
+<meta property="og:description" content="ContactPotentialField (CPF): 建模物体与手之间的接触，建立弹性势能的场，这样就可以把问题转化为最小化势能 Modeling theInteraction sce-nario ofHand andObject,MIHO 学习框架 k-mano 沿twist-splay-bend轴进行运动学限制，同时指骨区域通过下采样加上了锚点。锚点用来计算弹性，简化计算  CPF 通过弹">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/1.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/2.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/4.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/3.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/5.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/6.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/7.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/8.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/9.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/10.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/11.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/12/14/CPF/12.PNG">
+<meta property="article:published_time" content="2020-12-14T05:55:34.000Z">
+<meta property="article:modified_time" content="2020-12-15T14:15:59.413Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/12/14/CPF/1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/12/14/CPF/"/>
+
+
+
+
+
+  <title>CPF | The Grimoire of NaNillll</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">The Grimoire of NaNillll</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/14/CPF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CPF</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-14T13:55:34+08:00">
+                2020-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  959
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ContactPotentialField (CPF):</p>
+<p>建模物体与手之间的接触，建立弹性势能的场，这样就可以把问题转化为最小化势能</p>
+<p>Modeling theInteraction sce-nario ofHand andObject,MIHO</p>
+<p>学习框架</p>
+<p>k-mano</p>
+<p>沿twist-splay-bend轴进行运动学限制，同时指骨区域通过下采样加上了锚点。锚点用来计算弹性，简化计算</p>
+<img src="/2020/12/14/CPF/1.PNG" class>
+<p>CPF</p>
+<p>通过弹簧质点系统处理接触</p>
+<p>接触就是一个弹簧系统：两个单位质点分别位于物体与手，分别为$V_j^o,V_i^h$</p>
+<p>吸引弹簧：将物体上的每个点与最近的手上的点连接弹簧</p>
+<p>排斥弹簧：</p>
+<img src="/2020/12/14/CPF/2.PNG" class>
+<p>求得最自然的手势，即为求势能最小之和：</p>
+<p>$E_{elast}=\sum_i^{N_H}\sum_j^{N_O}(E_{ij}^{atr}+E_{ij}^{rpl})$</p>
+<p>与之前一样，计算时实际上用的是手上的锚点</p>
+<img src="/2020/12/14/CPF/4.PNG" class>
+<p>$k_{ij}^{atr}$为可学习的参数，为了每个吸引力基本平衡，与$\Delta l_ij$成反比。为了学习这个参数，生成了许多伪ground truth，<script type="math/tex">K_{ij}^{GT}</script>,然后以此训练模型</p>
+<p>经验上将$k_{ij}^{rpl}$设为1e-3</p>
+<p>MIHO</p>
+<img src="/2020/12/14/CPF/3.PNG" class>
+<p>HoNet粗略回归出物体和手势</p>
+<p> Pixel-wise  Contact  Recovery.PiCR</p>
+<img src="/2020/12/14/CPF/5.PNG" class>
+<p>pi为透视投影；b为backbone，Hourglass Networks ；z为物体z坐标（因为投影损失了），f为PIFu，hvc,hcr，hae都是PointNet</p>
+<p>$VC \in R^{N_o}$为物体上每个点与手接触的概率</p>
+<img src="/2020/12/14/CPF/6.PNG" class>
+<p>$CR \in R^{N_O \times 17}$,落在17个区域的概率</p>
+<img src="/2020/12/14/CPF/7.PNG" class>
+<p>$AE \in R^{N_o}$,$k_{ij}$的预测值，属于0~1，可以看作物体与手的接近程度</p>
+<img src="/2020/12/14/CPF/8.PNG" class>
+<img src="/2020/12/14/CPF/9.PNG" class>
+<p>Grasping Energy Optimizer, GeO</p>
+<p>通过预测的CPF来改进HoNet预测值</p>
+<p>预测物体等于预测变换矩阵</p>
+<p>对于mano</p>
+<p>首先，防止手弯折，twist</p>
+<p>其次，对于非关节点，惩罚splay</p>
+<p>然后，惩罚bend如果超过90°</p>
+<p>然后惩罚预测的偏移</p>
+<img src="/2020/12/14/CPF/10.PNG" class>
+<p>Datasets</p>
+<p>First-person hand action benchmark, FHB</p>
+<p>  In our experiments, we use a subset of FHBthat contains 4 objects with a scanned model and pose anno-tation. We only use theactionsplit following the protocol of[19, 43], and filter out the samples with a minimum hand-object distance greater than 5mm,  which yields us 7223samples for training and 7373 for testing.</p>
+<p>HO3D</p>
+<p>Metrics</p>
+<p>Mean 3D errors，顶点误差</p>
+<p>Penetration depth，穿过的最大距离</p>
+<p>Solid intersection volume，将物体体素化，与手重叠的数量和</p>
+<p>Disjointedness  errors，指尖区域顶点距离最近的物体表面的平均值</p>
+<p>Abnormality scores，手twist和spay的平均距离</p>
+<p>Implementation Details</p>
+<p>K-mano</p>
+<p>需要将轴角分解为twist， splay， bend。首先将mano自带的作为splay，子节点指向该节点的方向作为twist，叉乘得到bend；然后将bend与twist叉乘得到最后的splay</p>
+<p>锚点需要在手的表面，同时需要对mano参数可导。每一个锚点可以用周围的三个顶点线性组合，从而梯度传到mano参数上</p>
+<img src="/2020/12/14/CPF/11.PNG" class>
+<p>生成锚点需要控制点，有些位置控制点就是锚点；指尖需要提升锚点的密度，首先过控制点做直线找到交点，然后做锥形，控制点是顶点，交点为基准点中心，根据区域内各点到控制点的最大距离估计基准点半径;选择三种均匀分布在锥面上的射线作为新的射线投射方向，得到锚点</p>
+<p>Elastic Energy Analysis</p>
+<img src="/2020/12/14/CPF/12.PNG" class>
+<p>直接使用一个神经网络预测<script type="math/tex">k^{GT}_{ij}</script>容易过拟合，因此使用层连网络</p>
+<p>HO3D Dataset</p>
+<p>因为要6D，很多物体不适合，比如水罐；而且对于很多测试集中的抓取姿势并不稳定，比如bleach cleanser bottle</p>
+<p> Data Augmentation</p>
+<p>为了生成更多姿态，随机扰动带标注的手与物体的姿态，在物体系下；然后渲染到相机系下；</p>
+<p>生成更多稳定的抓取姿态：手动将手围绕包围盒移动，使用GeO改善姿态。但是这里无法使用CPF中的attractive  springs，因此使用其他方法来替代 </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/03/cpp-primer2/" rel="next" title="cpp-primer2">
+                <i class="fa fa-chevron-left"></i> cpp-primer2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/NaNillll" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+  
+ 
+  
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">22k</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
