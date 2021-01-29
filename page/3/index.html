@@ -76,7 +76,7 @@
 
 
 
-  <meta name="keywords" content="CG,Paper," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -87,25 +87,11 @@
 
 
 
-<meta name="description" content="什么是SMPLSMPL论文地址：https:&#x2F;&#x2F;smpl.is.tue.mpg.de&#x2F; 总而言之，SMPL就是通过LBS技术生成人体模型的算法，作者已经训练好了很多参数，使用时只需要输入shape参数beta和pose参数theta即可 LBS是SMPL模型的前提 既然是LBS，就需要Joint，SMPL共有K&#x3D;23个Joint，可以生成N&#x3D;6890个 vertices SMPL的计算过程核心公式">
-<meta property="og:type" content="article">
-<meta property="og:title" content="论文源码笔记SMPL_MANO">
-<meta property="og:url" content="http://yoursite.com/2020/07/13/SMPL-MANO/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Grimoire of NaNillll">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
 <meta property="og:site_name" content="The Grimoire of NaNillll">
-<meta property="og:description" content="什么是SMPLSMPL论文地址：https:&#x2F;&#x2F;smpl.is.tue.mpg.de&#x2F; 总而言之，SMPL就是通过LBS技术生成人体模型的算法，作者已经训练好了很多参数，使用时只需要输入shape参数beta和pose参数theta即可 LBS是SMPL模型的前提 既然是LBS，就需要Joint，SMPL共有K&#x3D;23个Joint，可以生成N&#x3D;6890个 vertices SMPL的计算过程核心公式">
-<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/1.PNG">
-<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/2.PNG">
-<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/3.PNG">
-<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/4.PNG">
-<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/5.PNG">
-<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/6.PNG">
-<meta property="og:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/4.PNG">
-<meta property="article:published_time" content="2020-07-12T16:32:26.000Z">
-<meta property="article:modified_time" content="2020-11-02T05:24:23.539Z">
-<meta property="article:tag" content="CG">
-<meta property="article:tag" content="Paper">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/13/SMPL-MANO/1.PNG">
 
 
 
@@ -135,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/07/13/SMPL-MANO/"/>
+  <link rel="canonical" href="http://yoursite.com/page/3/"/>
 
 
 
 
 
-  <title>论文源码笔记SMPL_MANO | The Grimoire of NaNillll</title>
+  <title>The Grimoire of NaNillll</title>
   
 
 
@@ -160,7 +146,8 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -233,9 +220,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -265,7 +252,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">论文源码笔记SMPL_MANO</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/13/SMPL-MANO/" itemprop="url">论文源码笔记SMPL_MANO</a></h1>
         
 
         <div class="post-meta">
@@ -334,7 +323,9 @@
       
 
       
-        <h3 id="什么是SMPL"><a href="#什么是SMPL" class="headerlink" title="什么是SMPL"></a>什么是SMPL</h3><p>SMPL论文地址：<a href="https://smpl.is.tue.mpg.de/" target="_blank" rel="noopener">https://smpl.is.tue.mpg.de/</a></p>
+        
+          
+            <h3 id="什么是SMPL"><a href="#什么是SMPL" class="headerlink" title="什么是SMPL"></a>什么是SMPL</h3><p>SMPL论文地址：<a href="https://smpl.is.tue.mpg.de/" target="_blank" rel="noopener">https://smpl.is.tue.mpg.de/</a></p>
 <p>总而言之，SMPL就是通过LBS技术生成人体模型的算法，作者已经训练好了很多参数，使用时只需要输入shape参数beta和pose参数theta即可</p>
 <p>LBS是SMPL模型的前提</p>
 <p>既然是LBS，就需要Joint，SMPL共有K=23个Joint，可以生成N=6890个 vertices</p>
@@ -427,6 +418,8 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
 <p>之后可以进行预制的移动</p>
 <p>最后乘以1000转换为<em>milimeters</em></p>
 
+          
+        
       
     </div>
     
@@ -441,38 +434,14 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/CG/" rel="tag"><i class="fa fa-tag"></i> CG</a>
-          
-            <a href="/tags/Paper/" rel="tag"><i class="fa fa-tag"></i> Paper</a>
-          
-        </div>
+
+      
+
       
 
       
       
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/07/14/LBS/" rel="prev" title="LBS">
-                LBS <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -482,11 +451,13 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/">&lt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 
           </div>
@@ -494,10 +465,6 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
 
 
           
-
-  
-
-
 
         </div>
         
@@ -518,17 +485,8 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -589,22 +547,6 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是SMPL"><span class="nav-number">1.</span> <span class="nav-text">什么是SMPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMPL的计算过程"><span class="nav-number">2.</span> <span class="nav-text">SMPL的计算过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是MANO？"><span class="nav-number">3.</span> <span class="nav-text">什么是MANO？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MANO的代码分析"><span class="nav-number">4.</span> <span class="nav-text">MANO的代码分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#init函数"><span class="nav-number">5.</span> <span class="nav-text">init函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#forward函数"><span class="nav-number">5.1.</span> <span class="nav-text">forward函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#生成rest-pose"><span class="nav-number">5.1.1.</span> <span class="nav-text">生成rest pose</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成transformation"><span class="nav-number">5.1.2.</span> <span class="nav-text">生成transformation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成最终结果"><span class="nav-number">5.1.3.</span> <span class="nav-text">生成最终结果</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -753,10 +695,6 @@ AB=（A*B^T）.sum(1)</script><p>到现在，已经生成了目标Mesh的所有v
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
