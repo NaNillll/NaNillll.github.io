@@ -235,6 +235,377 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/02/CG5/" itemprop="url">CG5 Texuring Mapping</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T18:13:00+08:00">
+                2020-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  493
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Texuring-Defination"><a href="#Texuring-Defination" class="headerlink" title="Texuring Defination"></a>Texuring Defination</h3><p>使用纹理来修改物体的表面的每一个位置，纹理可以来源于</p>
+<ol>
+<li>图片</li>
+<li>函数</li>
+<li>其他数据结构</li>
+</ol>
+<p>主要在shading中进行修改</p>
+<h3 id="Texture-Pipeline"><a href="#Texture-Pipeline" class="headerlink" title="Texture Pipeline"></a>Texture Pipeline</h3><img src="/2020/11/02/CG5/1.PNG" class>
+<img src="/2020/11/02/CG5/2.PNG" class>
+<h4 id="The-projector-Function"><a href="#The-projector-Function" class="headerlink" title="The projector Function"></a>The projector Function</h4><p>将三维坐标投影到二维</p>
+<img src="/2020/11/02/CG5/3.PNG" class>
+<img src="/2020/11/02/CG5/4.PNG" class>
+<img src="/2020/11/02/CG5/5.PNG" class>
+<img src="/2020/11/02/CG5/6.PNG" class>
+<img src="/2020/11/02/CG5/7.PNG" class>
+<h4 id="The-Corresponder-Function"><a href="#The-Corresponder-Function" class="headerlink" title="The Corresponder Function"></a>The Corresponder Function</h4><p>映射函数，<script type="math/tex">[u,v]^2->[0,1]^2</script></p>
+<p>但是可能会超出该范围，需要对应进行填充</p>
+<img src="/2020/11/02/CG5/8.PNG" class>
+<img src="/2020/11/02/CG5/9.PNG" class>
+<h3 id="Texture-Magnification"><a href="#Texture-Magnification" class="headerlink" title="Texture Magnification"></a>Texture Magnification</h3><p>处理纹理太小，分辨率不够的情况</p>
+<p>主要通过插值</p>
+<img src="/2020/11/02/CG5/10.PNG" class>
+<h4 id="Bilinear-Interpolation"><a href="#Bilinear-Interpolation" class="headerlink" title="Bilinear Interpolation"></a>Bilinear Interpolation</h4><img src="/2020/11/02/CG5/11.PNG" class>
+<h3 id="Texture-Magnification-1"><a href="#Texture-Magnification-1" class="headerlink" title="Texture Magnification"></a>Texture Magnification</h3><p>纹理太大，分辨率太高</p>
+<p>其实这和反采样是很相似的问题</p>
+<h4 id="Supersampling"><a href="#Supersampling" class="headerlink" title="Supersampling"></a>Supersampling</h4><p>太慢</p>
+<h4 id="Mipmap"><a href="#Mipmap" class="headerlink" title="Mipmap"></a>Mipmap</h4><p>提前计算出纹理降低分辨率后的结果，在需要取纹理时找到对应位置并插值即可</p>
+<img src="/2020/11/02/CG5/12.PNG" class>
+<p>为了更好的过度，比如为第1.3层插值，需要用到三线性插值——在不同层得到的结果间插值</p>
+<img src="/2020/11/02/CG5/13.PNG" class>
+<h4 id="Anisotropic-Filtering"><a href="#Anisotropic-Filtering" class="headerlink" title="Anisotropic Filtering"></a>Anisotropic Filtering</h4><p>在各个方向上的取值频率不同</p>
+<p>同时取样形状也不一定是矩形</p>
+<img src="/2020/11/02/CG5/14.PNG" class>
+<img src="/2020/11/02/CG5/15.PNG" class>
+<h3 id="Bump-Mapping凹凸贴图"><a href="#Bump-Mapping凹凸贴图" class="headerlink" title="Bump Mapping凹凸贴图"></a>Bump Mapping凹凸贴图</h3><p>修改表面法线的方向。可能只是在shading部分使用该法线，而在其他部分使用顶点本身的法线</p>
+<h4 id="heightfield"><a href="#heightfield" class="headerlink" title="heightfield"></a>heightfield</h4><p>一种方法是存储顶点的高度，并计算法线</p>
+<img src="/2020/11/02/CG5/16.PNG" class>
+<h4 id="normal-map"><a href="#normal-map" class="headerlink" title="normal map"></a>normal map</h4><p>一种方法是将法线直接存储在贴图中</p>
+<img src="/2020/11/02/CG5/17.PNG" class>
+<img src="/2020/11/02/CG5/18.PNG" class>
+<p>然而，法线显然无法存储在世界坐标系下，一般存储在切线坐标系下：</p>
+<img src="/2020/11/02/CG5/19.PNG" class>
+<p>每个顶点的切线坐标系下存储在每个顶点中</p>
+<h3 id="Parallax-Mapping视差贴图"><a href="#Parallax-Mapping视差贴图" class="headerlink" title="Parallax Mapping视差贴图"></a>Parallax Mapping视差贴图</h3><p>凹凸贴图的一个问题是这种凹凸性本身是有问题的——既不会因为凹凸产生相互的遮挡，在视角移动后凹凸效果也不会变化</p>
+<p>视差贴图本身是通过贴图，预测某个视角下应该看到物体的哪个位置，通过偏移进行取样</p>
+<p><a href="https://blog.csdn.net/HappyKocola/article/details/72812081" target="_blank" rel="noopener">https://blog.csdn.net/HappyKocola/article/details/72812081</a></p>
+<h3 id="Environment-Map"><a href="#Environment-Map" class="headerlink" title="Environment Map"></a>Environment Map</h3><p>最常见的是球形贴图</p>
+<img src="/2020/11/02/CG5/20.PNG" class>
+<p>用于反射，透射，天空盒等</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/02/CG4/" itemprop="url">CG4 基本shading</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T14:40:16+08:00">
+                2020-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  493
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="shading-Defifinition"><a href="#shading-Defifinition" class="headerlink" title="shading Defifinition"></a>shading Defifinition</h3><img src="/2020/11/02/CG4/2.PNG" class>
+<img src="/2020/11/02/CG4/3.PNG" class>
+<p>shading大致可以分为两种：</p>
+<ol>
+<li>photorealistic shading，近似真实的效果</li>
+<li>stylized shading，不求真实，但求具有艺术效果</li>
+</ol>
+<h3 id="Blinn-Phong-Reflectance-Model"><a href="#Blinn-Phong-Reflectance-Model" class="headerlink" title="Blinn-Phong Reflectance Model"></a>Blinn-Phong Reflectance Model</h3><p>主要由三部分构成</p>
+<img src="/2020/11/02/CG4/1.PNG" class>
+<img src="/2020/11/02/CG4/11.PNG" class>
+<p>注意，这个方法并不是完全依照现实物理定律得出的结果。但是在图形学中：只要看起来是好的，那么它就是对的</p>
+<h4 id="Diffuse-Reflflection"><a href="#Diffuse-Reflflection" class="headerlink" title="Diffuse Reflflection"></a>Diffuse Reflflection</h4><p>漫反射没有方向性，因此大小与视角无关</p>
+<p>漫反射强弱与光照强度有关，而光照强度除了和光照本身属性相关以外，还与与法线夹角和到光源距离有关</p>
+<img src="/2020/11/02/CG4/4.PNG" class>
+<img src="/2020/11/02/CG4/5.PNG" class>
+<p>最终结果如下：</p>
+<img src="/2020/11/02/CG4/6.PNG" class>
+<img src="/2020/11/02/CG4/7.PNG" class>
+<h4 id="Specular-Term-BlinnPhong"><a href="#Specular-Term-BlinnPhong" class="headerlink" title="Specular Term (BlinnPhong)"></a>Specular Term (BlinnPhong)</h4><p>计算反射的高光项，这一项与视角有关。显然视角越靠近反射方向，高光应该越明显</p>
+<p>但是计算这个反射方向太花时间了，因此通过计算半程向量与法线的夹角，近似度量这一项</p>
+<img src="/2020/11/02/CG4/8.PNG" class>
+<img src="/2020/11/02/CG4/9.PNG" class>
+<h4 id="Ambient-Term"><a href="#Ambient-Term" class="headerlink" title="Ambient Term"></a>Ambient Term</h4><p>环境光照，完全近似的结果，用来弥补被忽略的各种光</p>
+<img src="/2020/11/02/CG4/10.PNG" class>
+<h3 id="Gooch-Shading-Model"><a href="#Gooch-Shading-Model" class="headerlink" title="Gooch Shading Model"></a>Gooch Shading Model</h3><p> non-photorealistic rendering</p>
+<p>本质是在冷色与暖色间插值，法线越朝向光照方向，越显示暖色；越背离光照方向，越显示冷色；同时也可以加入高光项</p>
+<img src="/2020/11/02/CG4/12.PNG" class>
+<img src="/2020/11/02/CG4/13.PNG" class>
+<p>其中r是反射方向，只要将n投影到l上，然后倍长形成菱形，就可以推导出</p>
+<h3 id="Light-Sources"><a href="#Light-Sources" class="headerlink" title="Light Sources"></a>Light Sources</h3><h4 id="Directional-Lights"><a href="#Directional-Lights" class="headerlink" title="Directional Lights"></a>Directional Lights</h4><p>没有位置，只有方向和大小，不会衰减</p>
+<h4 id="Point-Lights"><a href="#Point-Lights" class="headerlink" title="Point Lights"></a>Point Lights</h4><p>有位置，没有大小与尺寸，会因为距离衰减，四面八方发射光照</p>
+<img src="/2020/11/02/CG4/15.PNG" class>
+<h4 id="Spotlights"><a href="#Spotlights" class="headerlink" title="Spotlights"></a>Spotlights</h4><p>有位置，锥形放射，随光线角度以及距离衰减</p>
+<img src="/2020/11/02/CG4/14.PNG" class>
+<h3 id="Shading-Frequencies"><a href="#Shading-Frequencies" class="headerlink" title="Shading Frequencies"></a>Shading Frequencies</h3><h4 id="flat-shading"><a href="#flat-shading" class="headerlink" title="flat shading"></a>flat shading</h4><p>每个三角形进行一次，法线即片元的法线</p>
+<img src="/2020/11/02/CG4/16.PNG" class>
+<h4 id="Gouraud-shading："><a href="#Gouraud-shading：" class="headerlink" title="Gouraud shading："></a>Gouraud shading：</h4><p>每个顶点进行一次，沿片元插值</p>
+<img src="/2020/11/02/CG4/17.PNG" class>
+<p>顶点的法线有两种来源：</p>
+<ol>
+<li>从几何体中得到</li>
+<li>依照周围片元的法线插值</li>
+</ol>
+<h4 id="Phong-shading"><a href="#Phong-shading" class="headerlink" title="Phong shading"></a>Phong shading</h4><p>每个pixel进行计算</p>
+<img src="/2020/11/02/CG4/18.PNG" class>
+<p>pixel的法线由顶点重心插值得到</p>
+<img src="/2020/11/02/CG4/19.PNG" class>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1628,410 +1999,6 @@ p_h^{t-1}</script><p>最终，使用上面得到的新的pose值</p>
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/31/Pytorch-Note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/31/Pytorch-Note/" itemprop="url">笔记Pytorch-Notes</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-31T18:20:19+08:00">
-                2020-07-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  3.3k
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><em><del>约等于直接翻译</del></em></p>
-<h2 id="AUTOGRAD-SEMANTICS"><a href="#AUTOGRAD-SEMANTICS" class="headerlink" title="AUTOGRAD SEMANTICS"></a>AUTOGRAD SEMANTICS</h2><p><a href="https://pytorch.org/docs/1.1.0/notes/autograd.html" target="_blank" rel="noopener">https://pytorch.org/docs/1.1.0/notes/autograd.html</a></p>
-<h3 id="Excluding-subgraphs-from-backward"><a href="#Excluding-subgraphs-from-backward" class="headerlink" title="Excluding subgraphs from backward"></a>Excluding subgraphs from backward</h3><p>任何Tensor都有一个bool变量requires_grad，用于梯度计算时选择是否排除相关子图</p>
-<p>只有一个操作的所有输入Tensor均不需求梯度，输出的Tensor才不需要求梯度</p>
-<p>新建的Tensor默认不需求梯度，而新建的nn模块一般来说默认需要</p>
-<p>可以通过这个机制只训练网络的某一部分</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">model = torchvision.models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> model.parameters():</span><br><span class="line">    param.requires_grad = <span class="literal">False</span></span><br><span class="line"><span class="comment"># Replace the last fully-connected layer</span></span><br><span class="line"><span class="comment"># Parameters of newly constructed modules have requires_grad=True by default</span></span><br><span class="line">model.fc = nn.Linear(<span class="number">512</span>, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Optimize only the classifier</span></span><br><span class="line">optimizer = optim.SGD(model.fc.parameters(), lr=<span class="number">1e-2</span>, momentum=<span class="number">0.9</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="How-autograd-encodes-the-history"><a href="#How-autograd-encodes-the-history" class="headerlink" title="How autograd encodes the history"></a>How autograd encodes the history</h3><p>autograd 记录了一个计算图，包含了所有产生新数据的操作，这是一个有向无环图，叶节点是输入Tensor，根节点是输出Tensor。利用这个图可以很便利的计算梯度。</p>
-<p>autograd 将这个图保存为包含autograd.Function类的图，在前向传播时建立起这个图，Tensor的.grad_fn作为entry指向这个图，反向传播时使用该图进行梯度计算</p>
-<p>每一个iteration都会从头重新自动生成计算图</p>
-<h3 id="In-place-operations-with-autograd"><a href="#In-place-operations-with-autograd" class="headerlink" title="In-place operations with autograd"></a>In-place operations with autograd</h3><p>in-place operation在指改变一个tensor的值的时候，不经过复制操作，直接在原内存上改变它的值。对此类操作的autograd 是比较困难的，而且这类操作并不会很好的节约内存，所以请尽量不要使用。减少in-place操作的两个理由：</p>
-<p>1.可能会overwrite需要求导的变量</p>
-<p>2.Out-of-place的操作只需在计算图中新建变量，而每次inplace操作都需要修改该操作所有输入的创建者，重写计算图</p>
-<p>为了保证inplace操作的正确性，每一个tensor保存了一个version  counter，记录被修改的次数。当Function保存tensor用于反向传播时，会保存所有输入tensor的version counter，访问self.saved_tensors后，将对其进行检查，如果该值大于保存的值，则会报错。</p>
-<h2 id="BROADCASTING-SEMANTICS"><a href="#BROADCASTING-SEMANTICS" class="headerlink" title="BROADCASTING  SEMANTICS"></a>BROADCASTING  SEMANTICS</h2><p><a href="https://pytorch.org/docs/1.1.0/notes/broadcasting.html" target="_blank" rel="noopener">https://pytorch.org/docs/1.1.0/notes/broadcasting.html</a></p>
-<p>喜闻乐见的广播机制</p>
-<p>两个tensor可以广播，必须满足：</p>
-<p>1.每个tensor至少一维</p>
-<p>2.从最后一维开始，两tensor的维数必须相同或其中一个为1或其中一个不存在</p>
-<p>如果两个tensor可以广播，则结果的尺寸：</p>
-<p>1.如果维数不等，则在较少的tensor前置1维直到相等</p>
-<p>2.结果的每一维的维数，是两个tensor中维数更多的</p>
-<p>对于inplace操作，inplace tensor不能被改变尺寸</p>
-<h3 id="Backwards-compatibility"><a href="#Backwards-compatibility" class="headerlink" title="Backwards compatibility"></a>Backwards compatibility</h3><p>在之前的版本中，只要两个tensor元素数量相同，就能都自动view成一维然后pointwise 操作。现在的Pytorch支持了广播，因此现在如果两个tensor不能广播但元素数量相同，pointwise 会警告</p>
-<p>同样，引入这样的广播机制可能在向后传播时产生不兼容的情况，为了确定这种情况，可以将torch.utils.backcompat.broadcast_warning.enabled设置为True，来生成相关的警告</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.utils.backcompat.broadcast_warning.enabled=<span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.add(torch.ones(<span class="number">4</span>,<span class="number">1</span>), torch.ones(<span class="number">4</span>))</span><br><span class="line">__main__:<span class="number">1</span>: UserWarning: self <span class="keyword">and</span> other do <span class="keyword">not</span> have the same shape, but are broadcastable, <span class="keyword">and</span> have the same number of elements.</span><br><span class="line">Changing behavior <span class="keyword">in</span> a backwards incompatible manner to broadcasting rather than viewing <span class="keyword">as</span> <span class="number">1</span>-dimensional.</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>常见的某积：</p>
-<p><a href="https://www.cnblogs.com/steven-yang/p/6348112.html" target="_blank" rel="noopener">https://www.cnblogs.com/steven-yang/p/6348112.html</a></p>
-<p><a href="https://zh.wikipedia.org/wiki/外積_(消歧義" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E5%A4%96%E7%A9%8D_(%E6%B6%88%E6%AD%A7%E7%BE%A9)</a>)</p>
-</blockquote>
-<h2 id="CUDA-SEMANTICS"><a href="#CUDA-SEMANTICS" class="headerlink" title="CUDA SEMANTICS"></a>CUDA SEMANTICS</h2><p><a href="https://pytorch.org/docs/1.1.0/notes/cuda.html" target="_blank" rel="noopener">https://pytorch.org/docs/1.1.0/notes/cuda.html</a></p>
-<p>torch.cuda类用于进行cuda操作，记录当前默认的GPU。可以使用torch.cuda.device类进行修改</p>
-<p>但是一旦某个tensor的cuda确定了，由这个tensor生成的tensor也在同一设备</p>
-<p>默认情况下，不允许跨GPU操作，除了copy_()和其他具有类似复制功能的操作，比如to()或cuda()</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">cuda = torch.device(<span class="string">'cuda'</span>)     <span class="comment"># Default CUDA device</span></span><br><span class="line">cuda0 = torch.device(<span class="string">'cuda:0'</span>)</span><br><span class="line">cuda2 = torch.device(<span class="string">'cuda:2'</span>)  <span class="comment"># GPU 2 (these are 0-indexed)</span></span><br><span class="line"></span><br><span class="line">x = torch.tensor([<span class="number">1.</span>, <span class="number">2.</span>], device=cuda0)</span><br><span class="line"><span class="comment"># x.device is device(type='cuda', index=0)</span></span><br><span class="line">y = torch.tensor([<span class="number">1.</span>, <span class="number">2.</span>]).cuda()</span><br><span class="line"><span class="comment"># y.device is device(type='cuda', index=0)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> torch.cuda.device(<span class="number">1</span>):</span><br><span class="line">    <span class="comment"># allocates a tensor on GPU 1</span></span><br><span class="line">    a = torch.tensor([<span class="number">1.</span>, <span class="number">2.</span>], device=cuda)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># transfers a tensor from CPU to GPU 1</span></span><br><span class="line">    b = torch.tensor([<span class="number">1.</span>, <span class="number">2.</span>]).cuda()</span><br><span class="line">    <span class="comment"># a.device and b.device are device(type='cuda', index=1)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># You can also use ``Tensor.to`` to transfer a tensor:</span></span><br><span class="line">    b2 = torch.tensor([<span class="number">1.</span>, <span class="number">2.</span>]).to(device=cuda)</span><br><span class="line">    <span class="comment"># b.device and b2.device are device(type='cuda', index=1)</span></span><br><span class="line"></span><br><span class="line">    c = a + b</span><br><span class="line">    <span class="comment"># c.device is device(type='cuda', index=1)</span></span><br><span class="line"></span><br><span class="line">    z = x + y</span><br><span class="line">    <span class="comment"># z.device is device(type='cuda', index=0)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># even within a context, you can specify the device</span></span><br><span class="line">    <span class="comment"># (or give a GPU index to the .cuda call)</span></span><br><span class="line">    d = torch.randn(<span class="number">2</span>, device=cuda2)</span><br><span class="line">    e = torch.randn(<span class="number">2</span>).to(cuda2)</span><br><span class="line">    f = torch.randn(<span class="number">2</span>).cuda(cuda2)</span><br><span class="line">    <span class="comment"># d.device, e.device, and f.device are all device(type='cuda', index=2)</span></span><br></pre></td></tr></table></figure>
-<h3 id="异步操作"><a href="#异步操作" class="headerlink" title="异步操作"></a>异步操作</h3><p>通常情况下，GPU操作异步。显然，异步操作有很多好处</p>
-<p>如果要强制同步计算，设置环境变量CUDA_LAUNCH_BLOCKING=1，便于debug时寻找错误</p>
-<p>一些诸如to()和copy()的函数可以显示设置non_blocking来绕过同步</p>
-<h3 id="CUDA-streams"><a href="#CUDA-streams" class="headerlink" title="CUDA streams"></a>CUDA streams</h3><p>cuda流是每个设备的线性执行序列。不同设备间操作并行，而同一cuda流中操作按序</p>
-<p>pytorch会自动的对默认流进行调度，但是对于用户自己创建的流就需要用户自行调度了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cuda = torch.device(<span class="string">'cuda'</span>)</span><br><span class="line">s = torch.cuda.Stream()  <span class="comment"># Create a new stream.</span></span><br><span class="line">A = torch.empty((<span class="number">100</span>, <span class="number">100</span>), device=cuda).normal_(<span class="number">0.0</span>, <span class="number">1.0</span>)</span><br><span class="line"><span class="keyword">with</span> torch.cuda.stream(s):</span><br><span class="line">    <span class="comment"># sum() may start execution before normal_() finishes!</span></span><br><span class="line">    B = torch.sum(A)</span><br></pre></td></tr></table></figure>
-<h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><p>PyTorch使用缓存分配器来加速内存分配，无需设备同步即可快速释放内存。 但是，如果使用nvidia-smi，分配器管理的未使用内存仍将显示。可以使用empty_cache来释放这些未使用的缓存，但是这样并不增加Pytorch可用的GPU内存</p>
-<h3 id="Best-practices"><a href="#Best-practices" class="headerlink" title="Best practices"></a>Best practices</h3><p>首先，确定是否使用GPU，一般使用cuda.is_available()判断，然后设置</p>
-<p>在使用多GPU时，设置CUDA_VISIBLE_DEVICES来确定可用的GPU。手动设置默认GPU可以使用torch.cuda.device()</p>
-<p>torch.Tensor.new_<em>类和 </em> _like类函数创建新tensor时会保存包括cuda属性在内的大部分属性，这是一种在前向传播过程中新建变量比较好的方法</p>
-<p>源于pinned (page-locked) memory的数据从主机搬运到GPU上会更快，可以使用pin_memoy()生成cpu tensor得到副本</p>
-<p>此外，一旦固定张量或存储，就可以使用异步GPU副本。只需将一个额外的non_blocking = True参数传递给cuda()调用即可。这可用于重叠进行数据传输与计算。</p>
-<p>在创建DataLoader时可以设置pin_memory = True</p>
-<p>可以使用nn.DataParallel 代替multiprocessing进行多进程操作，后者经常会出现很多问题</p>
-<h2 id="EXTENDING-PYTORCH"><a href="#EXTENDING-PYTORCH" class="headerlink" title="EXTENDING PYTORCH"></a>EXTENDING PYTORCH</h2><p><a href="https://pytorch.org/docs/1.1.0/notes/extending.html" target="_blank" rel="noopener">https://pytorch.org/docs/1.1.0/notes/extending.html</a></p>
-<h3 id="扩展torch-autograd"><a href="#扩展torch-autograd" class="headerlink" title="扩展torch.autograd"></a>扩展torch.autograd</h3><p>tensor上的每一个操作都会创建一个新的function 对象，执行计算并记录进行的情况。计算的历史保存为DAG，顶点为function，边为计算关系（input &lt;- output），反向传播用拓扑排序的顺序来传递梯度</p>
-<p>每一个function的object都只能在前向传播中使用一次</p>
-<p>扩展torch.autograd等同于添加orch.autograd.Function的一个子类。任何torch.autograd的新函数都需要实现forward()和backward()</p>
-<ul>
-<li>forward：进行该function操作。可以输入任意多任何类型的参数，其中有些还可以作为optional的，第一个参数必须是用于保存上下文的ctx，在反向传播中被用于获得function的参数。记录历史的（即requires_grad = True）的Tensor参数将在调用之前不跟踪历史，且将会加入到计算图中。返回值可以是单个tensor或tensor的tuple</li>
-<li>backward：对该function求导。接受上文的ctx作为第一个参数，接着跟随和forward返回的数量相同的参数。返回值数量应该和forward输入值相同。ctx可用于获取前向传播中保存的tensor参数。ctx也有一个tuple 变量ctx.needs_input_grad用于控制每一个input是否需要求梯度。每一传入的参数都是该节点关于给定output的梯度，而返回值应该是关于相应input的梯度，如果该input不是tensor类或者不需要求导，可以返回None</li>
-</ul>
-<p>torch.nn类中线性函数的实例</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Inherit from Function</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LinearFunction</span><span class="params">(Function)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Note that both forward and backward are @staticmethods</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="comment"># bias is an optional argument</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(ctx, input, weight, bias=None)</span>:</span></span><br><span class="line">        ctx.save_for_backward(input, weight, bias)</span><br><span class="line">        output = input.mm(weight.t())</span><br><span class="line">        <span class="keyword">if</span> bias <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            output += bias.unsqueeze(<span class="number">0</span>).expand_as(output)</span><br><span class="line">        <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line">    <span class="comment"># This function has only a single output, so it gets only one gradient</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">backward</span><span class="params">(ctx, grad_output)</span>:</span></span><br><span class="line">        <span class="comment"># This is a pattern that is very convenient - at the top of backward</span></span><br><span class="line">        <span class="comment"># unpack saved_tensors and initialize all gradients w.r.t. inputs to</span></span><br><span class="line">        <span class="comment"># None. Thanks to the fact that additional trailing Nones are</span></span><br><span class="line">        <span class="comment"># ignored, the return statement is simple even when the function has</span></span><br><span class="line">        <span class="comment"># optional inputs.</span></span><br><span class="line">        input, weight, bias = ctx.saved_tensors</span><br><span class="line">        grad_input = grad_weight = grad_bias = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># These needs_input_grad checks are optional and there only to</span></span><br><span class="line">        <span class="comment"># improve efficiency. If you want to make your code simpler, you can</span></span><br><span class="line">        <span class="comment"># skip them. Returning gradients for inputs that don't require it is</span></span><br><span class="line">        <span class="comment"># not an error.</span></span><br><span class="line">        <span class="keyword">if</span> ctx.needs_input_grad[<span class="number">0</span>]:</span><br><span class="line">            grad_input = grad_output.mm(weight)</span><br><span class="line">        <span class="keyword">if</span> ctx.needs_input_grad[<span class="number">1</span>]:</span><br><span class="line">            grad_weight = grad_output.t().mm(input)</span><br><span class="line">        <span class="keyword">if</span> bias <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">and</span> ctx.needs_input_grad[<span class="number">2</span>]:</span><br><span class="line">            grad_bias = grad_output.sum(<span class="number">0</span>).squeeze(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> grad_input, grad_weight, grad_bias</span><br></pre></td></tr></table></figure>
-<p>为了利用该函数，将他的apply形式起别名:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linear = LinearFunction.apply</span><br></pre></td></tr></table></figure>
-<p>当然，也可以使用none-Tensor参数来传参：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MulConstant</span><span class="params">(Function)</span>:</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(ctx, tensor, constant)</span>:</span></span><br><span class="line">        <span class="comment"># ctx is a context object that can be used to stash information</span></span><br><span class="line">        <span class="comment"># for backward computation</span></span><br><span class="line">        ctx.constant = constant</span><br><span class="line">        <span class="keyword">return</span> tensor * constant</span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">backward</span><span class="params">(ctx, grad_output)</span>:</span></span><br><span class="line">        <span class="comment"># We return as many input gradients as there were arguments.</span></span><br><span class="line">        <span class="comment"># Gradients of non-Tensor arguments to forward must be None.</span></span><br><span class="line">        <span class="keyword">return</span> grad_output * ctx.constant, <span class="literal">None</span></span><br></pre></td></tr></table></figure>
-<p>backward的输入也可以是记录历史的tensor，因此可以在backward中实现高阶微分操作</p>
-<p>如果要对自己编写的模块进行梯度校验，可以使用torch.autograd.gradcheck模块</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> gradcheck</span><br><span class="line"></span><br><span class="line"><span class="comment"># gradcheck takes a tuple of tensors as input, check if your gradient</span></span><br><span class="line"><span class="comment"># evaluated with these tensors are close enough to numerical</span></span><br><span class="line"><span class="comment"># approximations and returns True if they all verify this condition.</span></span><br><span class="line">input = (torch.randn(<span class="number">20</span>,<span class="number">20</span>,dtype=torch.double,requires_grad=<span class="literal">True</span>), torch.randn(<span class="number">30</span>,<span class="number">20</span>,dtype=torch.double,requires_grad=<span class="literal">True</span>))</span><br><span class="line">test = gradcheck(linear, input, eps=<span class="number">1e-6</span>, atol=<span class="number">1e-4</span>)</span><br><span class="line">print(test)</span><br></pre></td></tr></table></figure>
-<h3 id="扩展torch-nn"><a href="#扩展torch-nn" class="headerlink" title="扩展torch.nn"></a>扩展torch.nn</h3><p>nn导出两种接口，modules versions and functional versions</p>
-<h3 id="添加新的Module"><a href="#添加新的Module" class="headerlink" title="添加新的Module"></a>添加新的Module</h3><p>由于nn大量利用了autograd，因此添加新模块需要实现一个进行操作和求梯度的Function</p>
-<p>要想将Function扩充为一个module，需要实现：</p>
-<p><strong> init</strong>：可选，输入相关参数，初始化parameter和buffer</p>
-<p>forward：实例化function并用它进行操作计算</p>
-<blockquote>
-<p>什么是buffer：</p>
-<p><a href="https://zhuanlan.zhihu.com/p/89442276" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/89442276</a></p>
-<p><a href="https://stackoverflow.com/questions/57540745/what-is-the-difference-between-register-parameter-and-register-buffer-in-pytorch" target="_blank" rel="noopener">https://stackoverflow.com/questions/57540745/what-is-the-difference-between-register-parameter-and-register-buffer-in-pytorch</a></p>
-</blockquote>
-<p>一个Linear模块的实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Linear</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, input_features, output_features, bias=True)</span>:</span></span><br><span class="line">        super(Linear, self).__init__()</span><br><span class="line">        self.input_features = input_features</span><br><span class="line">        self.output_features = output_features</span><br><span class="line"></span><br><span class="line">        <span class="comment"># nn.Parameter is a special kind of Tensor, that will get</span></span><br><span class="line">        <span class="comment"># automatically registered as Module's parameter once it's assigned</span></span><br><span class="line">        <span class="comment"># as an attribute. Parameters and buffers need to be registered, or</span></span><br><span class="line">        <span class="comment"># they won't appear in .parameters() (doesn't apply to buffers), and</span></span><br><span class="line">        <span class="comment"># won't be converted when e.g. .cuda() is called. You can use</span></span><br><span class="line">        <span class="comment"># .register_buffer() to register buffers.</span></span><br><span class="line">        <span class="comment"># nn.Parameters require gradients by default.</span></span><br><span class="line">        self.weight = nn.Parameter(torch.Tensor(output_features, input_features))</span><br><span class="line">        <span class="keyword">if</span> bias:</span><br><span class="line">            self.bias = nn.Parameter(torch.Tensor(output_features))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># You should always register all possible parameters, but the</span></span><br><span class="line">            <span class="comment"># optional ones can be None if you want.</span></span><br><span class="line">            self.register_parameter(<span class="string">'bias'</span>, <span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Not a very smart way to initialize weights</span></span><br><span class="line">        self.weight.data.uniform_(<span class="number">-0.1</span>, <span class="number">0.1</span>)</span><br><span class="line">        <span class="keyword">if</span> bias <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.bias.data.uniform_(<span class="number">-0.1</span>, <span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, input)</span>:</span></span><br><span class="line">        <span class="comment"># See the autograd section for explanation of what happens here.</span></span><br><span class="line">        <span class="keyword">return</span> LinearFunction.apply(input, self.weight, self.bias)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">extra_repr</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># (Optional)Set the extra information about this module. You can test</span></span><br><span class="line">        <span class="comment"># it by printing an object of this class.</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'in_features=&#123;&#125;, out_features=&#123;&#125;, bias=&#123;&#125;'</span>.format(</span><br><span class="line">            self.in_features, self.out_features, self.bias <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span></span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
-<h2 id="节约GPU的内存"><a href="#节约GPU的内存" class="headerlink" title="节约GPU的内存"></a>节约GPU的内存</h2><p><a href="https://pytorch.org/docs/1.1.0/notes/faq.html" target="_blank" rel="noopener">https://pytorch.org/docs/1.1.0/notes/faq.html</a></p>
-<h3 id="My-model-reports-“cuda-runtime-error-2-out-of-memory”"><a href="#My-model-reports-“cuda-runtime-error-2-out-of-memory”" class="headerlink" title="My model reports “cuda runtime error(2): out of memory”"></a>My model reports “cuda runtime error(2): out of memory”</h3><p>用完了GPU的内存，常见解决方法如下：</p>
-<p>1.不要积累训练循环的历史</p>
-<p>一般来说，包含记录梯度的tensor的计算都需要保存计算历史，不要让这样的tensor参与存在周期大于循环的计算中，比如累计计数。相反，应该使用detach或者直接访问基础数据</p>
-<p>参考下面的代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">total_loss = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    optimizer.zero_grad()</span><br><span class="line">    output = model(input)</span><br><span class="line">    loss = criterion(output)</span><br><span class="line">    loss.backward()</span><br><span class="line">    optimizer.step()</span><br><span class="line">    total_loss += loss</span><br></pre></td></tr></table></figure>
-<p>在这里，total_loss正在累积整个训练循环的历史记录，因为loss是一个保存求梯度历史的变量</p>
-<p>要解决问题，只需要修改为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">total_loss += float(loss)</span><br></pre></td></tr></table></figure>
-<p>2.不需要的tensor和变量赶快释放</p>
-<p>对于Python，如果分配某个tensor给本地或者成员变量，直到超出这个变量的作用范围，才会释放最初的tensor</p>
-<p>参考下面的代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    intermediate = f(input[i])</span><br><span class="line">    result += g(intermediate)</span><br><span class="line">output = h(result)</span><br><span class="line"><span class="keyword">return</span> output</span><br></pre></td></tr></table></figure>
-<p>在这里，即使h正在执行，intermediate也会被保存，因为它的作用域超出了循环的结尾。为了显示释放空间，可以使用del intermediate</p>
-<p>3.不要在太大的序列上跑RNN</p>
-<p>4.不要使用太大的linear layers</p>
-<h2 id="SERIALIZATION-SEMANTICS"><a href="#SERIALIZATION-SEMANTICS" class="headerlink" title="SERIALIZATION SEMANTICS"></a>SERIALIZATION SEMANTICS</h2><p><a href="https://pytorch.org/docs/1.1.0/notes/serialization.html" target="_blank" rel="noopener">https://pytorch.org/docs/1.1.0/notes/serialization.html</a></p>
-<h3 id="保存模型的方法"><a href="#保存模型的方法" class="headerlink" title="保存模型的方法"></a>保存模型的方法</h3><p>1.只保存模型参数（推荐）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">torch.save(the_model.state_dict(), PATH)</span><br><span class="line"></span><br><span class="line">the_model = TheModelClass(*args, **kwargs)</span><br><span class="line">the_model.load_state_dict(torch.load(PATH))</span><br></pre></td></tr></table></figure>
-<p>2.保存整个模型</p>
-<p>在这种情况下，序列化的数据将绑定到特定类和确切的目录，因此在其他project中使用时或重构后，可能会出现很多报错</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">torch.save(the_model, PATH)</span><br><span class="line"></span><br><span class="line">the_model = torch.load(PATH)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><a href="https://www.jianshu.com/p/60fc57e19615" target="_blank" rel="noopener">https://www.jianshu.com/p/60fc57e19615</a></p>
-</blockquote>
-<h2 id="多进程实例"><a href="#多进程实例" class="headerlink" title="多进程实例"></a>多进程实例</h2><p><a href="https://pytorch.org/docs/1.1.0/notes/multiprocessing.html" target="_blank" rel="noopener">https://pytorch.org/docs/1.1.0/notes/multiprocessing.html</a></p>
-<p>torch.multiprocessing用来替代Python本身的mutiprocessing</p>
-<h2 id="设置随机数种子便于复现"><a href="#设置随机数种子便于复现" class="headerlink" title="设置随机数种子便于复现"></a>设置随机数种子便于复现</h2><p><a href="https://pytorch.org/docs/1.1.0/notes/randomness.html" target="_blank" rel="noopener">https://pytorch.org/docs/1.1.0/notes/randomness.html</a></p>
-<p>网络的参数最初是随机的</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/14/LBS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/14/LBS/" itemprop="url">LBS</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-14T12:03:37+08:00">
-                2020-07-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  688
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="什么是Skinned-Mesh？"><a href="#什么是Skinned-Mesh？" class="headerlink" title="什么是Skinned Mesh？"></a>什么是Skinned Mesh？</h3><p>骨骼蒙皮。可以想象成整体的Mesh由很多子Mesh构成，每一个Mesh附着在Bone上，而Bone的方向和长度都由Joint确定，这样通过确定每一个Joint（Bone）就可以确定每一个子Mesh的坐标了。</p>
-<h3 id="什么是LBS（Linear-Blending-Skinning）？"><a href="#什么是LBS（Linear-Blending-Skinning）？" class="headerlink" title="什么是LBS（Linear Blending Skinning）？"></a>什么是LBS（Linear Blending Skinning）？</h3><p>线性混合蒙皮。更进一步，每一个子Mesh（也就是Mesh的每一个Vertex）由多个Joint共同确定，赋给每一个Joint不同的权重，公式如下：</p>
-<script type="math/tex; mode=display">
-P’_i=\prod^m_{j=1}{w_{i,j}R_jP_i}</script><p>Pi表示初始位置时Vertex i在初始Joint j空间下的坐标，Rj表示此时刻world空间下到Joint j的变换，wij表示Joint j对Vertex i的影响权重，Pi‘表示此时Vertex i在world空间下的坐标。</p>
-<p>上面的描述有些抽象，直观解释，就是最初某个vertex相对某个joint有偏移量d，所以移动后我们要在该joint此时的位置上加上偏移量d的变换值，作为此时该joint预测vertex应该在的位置</p>
-<h3 id="如何记录和表达Joint和Bone？"><a href="#如何记录和表达Joint和Bone？" class="headerlink" title="如何记录和表达Joint和Bone？"></a>如何记录和表达Joint和Bone？</h3><p>LBS的简洁也是复杂之处在于，LBS包含Bone之间的父子关系，主要保存的是Joint之间的相对参数。</p>
-<p>这样的简洁之处在于当祖Bone旋转或者平移时子Bone也会随之移动，其对应的Mesh也会随之移动，在处理时只需乘上一个变换矩阵即可。</p>
-<p>但是复杂之处在于这也带来了许多恼人的空间变换。</p>
-<h3 id="具体怎样计算？"><a href="#具体怎样计算？" class="headerlink" title="具体怎样计算？"></a>具体怎样计算？</h3><p><em>（我认为网上许多介绍此处的博客都忽略了Mesh或者Bone空间的时效性，也就是并没有说明清楚到底所谓的Bone空间到底在起初的位置，还是移动后的位置？<del>我觉得这一点还是比较影响理解的，也有可能是单纯的我太菜了</del>）</em></p>
-<p>简要来说</p>
-<script type="math/tex; mode=display">
-V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> Vmesh 是顶点初始的坐标，一般取在world空间下（其实是无所谓的，下一步就会转换），Bone1OffsetMatrix1用来将初始时的顶点转换到初始时的Bone1空间，CombindMatrix1 用于将此时的Bone1空间转换为world空间。而初始的Bone1和此时的Bone1是同一个Bone，Mesh随Bone而动，因此最后的结果就是此时的Mesh。</p>
-<p>在求CombindMatrix1 的过程中需要依靠父子Bone的层级关系，因为主要保存的是Joint之间的相对参数，一般需要不同层级间多个变换矩阵的连乘。</p>
-<p>当然，只看公式还是理解的不透彻，具体找一个LBS的实例代码就好了<del>（比如SMPL）</del></p>
-<blockquote>
-<p>参考资料：</p>
-<p><a href="https://www.cnblogs.com/shushen/p/5987280.html" target="_blank" rel="noopener">https://www.cnblogs.com/shushen/p/5987280.html</a></p>
-<p><a href="https://blog.csdn.net/n5/article/details/3105872" target="_blank" rel="noopener">https://blog.csdn.net/n5/article/details/3105872</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/78377681" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78377681</a></p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2081,7 +2048,7 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2094,7 +2061,7 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2158,7 +2125,7 @@ V_{world} = V_{mesh} * Bone1OffsetMatrix * CombindMatrix1 * Weight</script><p> V
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">24.1k</span>
+    <span title="Site words total count">25.9k</span>
   
 </div>
 
