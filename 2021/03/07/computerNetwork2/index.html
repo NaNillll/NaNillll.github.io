@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta name="google-site-verification" content="kWcVT9oyylmyb6DohoXWge7VpBUZQVIptcOSS5Gr9wc" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="computerNetwork," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="物理层考虑的是怎样才能在连接各种计算机的传输媒体上传输数据流 信号具体怎样传递，存在着不同方式，其中需要经过调制等信号处理手段。传输时可能是数字信号，也可能是模拟信号。前者为离散信号，后者为连续信号。二者通过采样量化等手段可以相互转化 通信的一些定义码元是用一个固定时长（码元宽度）的信号波形表示一个k进制的数字，表示离散值的基本波形。比如二进制编码时就只有两种码元 码元传递效率即单位时间内能够传递">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络层">
+<meta property="og:url" content="http://yoursite.com/2021/03/07/computerNetwork2/index.html">
+<meta property="og:site_name" content="The Grimoire of NaNillll">
+<meta property="og:description" content="物理层考虑的是怎样才能在连接各种计算机的传输媒体上传输数据流 信号具体怎样传递，存在着不同方式，其中需要经过调制等信号处理手段。传输时可能是数字信号，也可能是模拟信号。前者为离散信号，后者为连续信号。二者通过采样量化等手段可以相互转化 通信的一些定义码元是用一个固定时长（码元宽度）的信号波形表示一个k进制的数字，表示离散值的基本波形。比如二进制编码时就只有两种码元 码元传递效率即单位时间内能够传递">
+<meta property="og:image" content="http://yoursite.com/03/07/computerNetwork2/blog/blog/source/_posts/computerNetwork2/1.png">
+<meta property="og:image" content="http://yoursite.com/03/07/computerNetwork2/blog/blog/source/_posts/computerNetwork2/2.png">
+<meta property="og:image" content="http://yoursite.com/03/07/computerNetwork2/blog/blog/source/_posts/computerNetwork2/3.png">
+<meta property="article:published_time" content="2021-03-07T05:47:38.000Z">
+<meta property="article:modified_time" content="2021-03-07T07:06:54.581Z">
+<meta property="article:tag" content="computerNetwork">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/03/07/computerNetwork2/blog/blog/source/_posts/computerNetwork2/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/07/computerNetwork2/"/>
+
+
+
+
+
+  <title>网络层 | The Grimoire of NaNillll</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">The Grimoire of NaNillll</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/07/computerNetwork2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">网络层</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-07T13:47:38+08:00">
+                2021-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>物理层考虑的是怎样才能在连接各种计算机的传输媒体上传输数据流</p>
+<p>信号具体怎样传递，存在着不同方式，其中需要经过调制等信号处理手段。传输时可能是数字信号，也可能是模拟信号。前者为离散信号，后者为连续信号。二者通过采样量化等手段可以相互转化</p>
+<h2 id="通信的一些定义"><a href="#通信的一些定义" class="headerlink" title="通信的一些定义"></a>通信的一些定义</h2><p>码元是用一个固定时长（码元宽度）的信号波形表示一个k进制的数字，表示离散值的基本波形。比如二进制编码时就只有两种码元</p>
+<p>码元传递效率即单位时间内能够传递码元的个数，也即脉冲个数活信号变化的次数，单位是波特，信息传递效率即k*码元传递效率</p>
+<p>信道 —— 一般用来表示向某一个方向传送信息的媒体</p>
+<p>单向通信（单工通信）——只能有一个方向的通信而没有反方向的交互</p>
+<p>双向交替通信（半双工通信）——通信的双方都可以发送信息，但不能双方同时发送(当然也就不能同时接收)</p>
+<p>双向同时通信（全双工通信）——通信的双方可以同时发送和接收信息</p>
+<p>基带信号（即基本频带信号）—— 来自信源的信号，一般为低频不方便传输。通过调制时不同的载波，可以调制到不同的频段</p>
+<h2 id="数字数据转化为数字信号"><a href="#数字数据转化为数字信号" class="headerlink" title="数字数据转化为数字信号"></a>数字数据转化为数字信号</h2><p>不归零制：不归零制：正电平代表 1，负电平代表 0。<br>归零制：正脉冲代表 1，负脉冲代表 0。<br>曼彻斯特编码：位周期中心的向上跳变代表 0，位周期中心的向下跳变代表 1。但也可反过来定义。<br>差分曼彻斯特编码：若为1，则前半电位与上一个码元后半电位相同，0则反之</p>
+<p><img src="/03/07/computerNetwork2/blog\blog\source\_posts\computerNetwork2\1.png" alt="image-20210307140031047"></p>
+
+<h2 id="数字数据转化为模拟信号"><a href="#数字数据转化为模拟信号" class="headerlink" title="数字数据转化为模拟信号"></a>数字数据转化为模拟信号</h2><p>基本的调制方法：调幅（AM），随数字信号调节载波振幅；调频（FM）；调相（AM）</p>
+
+<p><img src="/03/07/computerNetwork2/blog\blog\source\_posts\computerNetwork2\2.png" alt="image-20210307140909735"></p>
+<p>为了提高信息传递效率，可以采用混合调制的方法，比如正交振幅调制</p>
+<h2 id="香农公式"><a href="#香农公式" class="headerlink" title="香农公式"></a>香农公式</h2><p>信号传递的过程中会出现失真，也即信道内部存在噪声S，设信号为N，信噪比(dB) = 10 log10(S/N)    (dB) </p>
+<p><img src="/03/07/computerNetwork2/blog\blog\source\_posts\computerNetwork2\3.png" alt="image-20210307142040963"></p>
+
+<p>因此若信噪比或带宽无限大时，理想传输速率无限大</p>
+<h2 id="奈奎斯特定理"><a href="#奈奎斯特定理" class="headerlink" title="奈奎斯特定理"></a>奈奎斯特定理</h2><p>在没有噪声的情况下，因为码间干扰，理想低通信道的极限数据传输率为2WlogV，V为离散码元种类总数，W为低通信道的带宽</p>
+<p>并不是香农定理的极限形式，只是从两个角度进行了分析</p>
+<h2 id="物理层下的传输媒体"><a href="#物理层下的传输媒体" class="headerlink" title="物理层下的传输媒体"></a>物理层下的传输媒体</h2><p>这些传输媒体不属于物理层</p>
+<p>可分为导引型（光缆）与非导引型（电磁波）</p>
+<h2 id="信道复用技术"><a href="#信道复用技术" class="headerlink" title="信道复用技术"></a><strong>信道</strong>复用技术</h2><p>频分复用</p>
+<p>时分复用</p>
+<p>码分复用：每一个比特时间（发送1bit需要的时间）划分为 m 个短的间隔，称为码片，每个站被指派一个唯一的 m bit 码片序列。这样每个站点的发送数据率/频带宽度变成之前的m倍。码片之间必须各不相同且正交</p>
+<h2 id="宽带接入技术"><a href="#宽带接入技术" class="headerlink" title="宽带接入技术"></a>宽带接入技术</h2><h3 id="ADSL-技术"><a href="#ADSL-技术" class="headerlink" title="ADSL 技术"></a>ADSL 技术</h3><p>用数字技术对现有的模拟电话用户线进行改造，使它能够承载宽带业务。电话只使用了低频，这样高频就可以用来上网，带宽不对称</p>
+<h3 id="DMT-技术"><a href="#DMT-技术" class="headerlink" title="DMT 技术"></a>DMT 技术</h3><p>同样是电话线，频分复用</p>
+<h3 id="。。。"><a href="#。。。" class="headerlink" title="。。。"></a>。。。</h3><h2 id="电路交换-报文交换-分组交换"><a href="#电路交换-报文交换-分组交换" class="headerlink" title="电路交换/报文交换/分组交换"></a>电路交换/报文交换/分组交换</h2><p>电路交换：数据传输前两点间建立专用的通信道路，直到通信结束后释放</p>
+<p>报文交换：无需链接，动态分配道路，数据交换的单位是报文，交换时存储转发</p>
+<p>存储转发：以太网交换机的控制器先将输入端口到来的数据包缓存起来，先检查数据包是否正确，并过滤掉冲突包错误。确定包正确后，取出目的地址，通过查找表找到想要发送的输出端口地址，然后将该包发送出去。正因如此，存储转发方式在数据处理时延时大，这是它的不足，但是它可以对进入交换机的数据包进行错误检测，并且能支持不同速度的输入/输出端口间的交换，可有效地改善网络性能。它的另一优点就是这种交换方式支持不同速度端口间的转换，保持高速端口和低速端口间协同工作。实现的办法是将10Mbps低速包存储起来，再通过100Mbps速率转发到端口上。</p>
+<p>分组交换：报文分组后的报文交换</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computerNetwork/" rel="tag"><i class="fa fa-tag"></i> computerNetwork</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/07/ComputerNetwork1/" rel="next" title="计算机网络概况">
+                <i class="fa fa-chevron-left"></i> 计算机网络概况
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/07/ComputerNetwork3/" rel="prev" title="数据链路层">
+                数据链路层 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/NaNillll" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#通信的一些定义"><span class="nav-number">1.</span> <span class="nav-text">通信的一些定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字数据转化为数字信号"><span class="nav-number">2.</span> <span class="nav-text">数字数据转化为数字信号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字数据转化为模拟信号"><span class="nav-number">3.</span> <span class="nav-text">数字数据转化为模拟信号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#香农公式"><span class="nav-number">4.</span> <span class="nav-text">香农公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奈奎斯特定理"><span class="nav-number">5.</span> <span class="nav-text">奈奎斯特定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#物理层下的传输媒体"><span class="nav-number">6.</span> <span class="nav-text">物理层下的传输媒体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信道复用技术"><span class="nav-number">7.</span> <span class="nav-text">信道复用技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#宽带接入技术"><span class="nav-number">8.</span> <span class="nav-text">宽带接入技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ADSL-技术"><span class="nav-number">8.1.</span> <span class="nav-text">ADSL 技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DMT-技术"><span class="nav-number">8.2.</span> <span class="nav-text">DMT 技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#。。。"><span class="nav-number">8.3.</span> <span class="nav-text">。。。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#电路交换-报文交换-分组交换"><span class="nav-number">9.</span> <span class="nav-text">电路交换&#x2F;报文交换&#x2F;分组交换</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+  
+ 
+  
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">42.9k</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

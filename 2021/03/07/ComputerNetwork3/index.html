@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta name="google-site-verification" content="kWcVT9oyylmyb6DohoXWge7VpBUZQVIptcOSS5Gr9wc" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ComputerNetwork," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据链路层的主要作用是如何将数据可靠地传输到相邻节点 数据链路层使用的信道主要有以下两种类型: 点对点信道。这种信道使用一对一的点对点通信方式。广播信道。这种信道使用一对多的广播通信方式，因此过程比较复杂。  数据链路物理链路 (link) 是一条点到点的物理线路段，中间没有任何其他的交换结点。除了物理线路外，还必须有通信协议来进行传输控制。软件+硬件形成了数据链路 目前最常用的方法是使用适配器（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据链路层">
+<meta property="og:url" content="http://yoursite.com/2021/03/07/ComputerNetwork3/index.html">
+<meta property="og:site_name" content="The Grimoire of NaNillll">
+<meta property="og:description" content="数据链路层的主要作用是如何将数据可靠地传输到相邻节点 数据链路层使用的信道主要有以下两种类型: 点对点信道。这种信道使用一对一的点对点通信方式。广播信道。这种信道使用一对多的广播通信方式，因此过程比较复杂。  数据链路物理链路 (link) 是一条点到点的物理线路段，中间没有任何其他的交换结点。除了物理线路外，还必须有通信协议来进行传输控制。软件+硬件形成了数据链路 目前最常用的方法是使用适配器（">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/4.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/5.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/6.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/17.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/7.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/8.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/9.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/10.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/11.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/12.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/13.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/14.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/15.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/16.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/18.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/ComputerNetwork3/19.png">
+<meta property="article:published_time" content="2021-03-07T07:07:12.000Z">
+<meta property="article:modified_time" content="2021-03-08T03:07:56.215Z">
+<meta property="article:tag" content="ComputerNetwork">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/03/07/ComputerNetwork3/blog/blog/source/_posts/computerNetwork2/4.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/07/ComputerNetwork3/"/>
+
+
+
+
+
+  <title>数据链路层 | The Grimoire of NaNillll</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">The Grimoire of NaNillll</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/07/ComputerNetwork3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据链路层</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-07T15:07:12+08:00">
+                2021-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.9k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>数据链路层的主要作用是如何将数据可靠地传输到相邻节点</p>
+<p>数据链路层使用的信道主要有以下两种类型:</p>
+<p>点对点信道。这种信道使用一对一的点对点通信方式。<br>广播信道。这种信道使用一对多的广播通信方式，因此过程比较复杂。 </p>
+<h2 id="数据链路"><a href="#数据链路" class="headerlink" title="数据链路"></a>数据链路</h2><p>物理链路 (link) 是一条点到点的物理线路段，中间没有任何其他的交换结点。除了物理线路外，还必须有通信协议来进行传输控制。软件+硬件形成了数据链路</p>
+<p>目前最常用的方法是使用适配器（即网卡）来实现这些协议的硬件和软件。一般的适配器都包括了数据链路层和物理层这两层的功能</p>
+<h2 id="三个基本问题"><a href="#三个基本问题" class="headerlink" title="三个基本问题"></a><strong>三个基本问题</strong></h2><h3 id="封装成帧"><a href="#封装成帧" class="headerlink" title="封装成帧"></a><strong>封装成帧</strong></h3><p>封装成帧 (framing) 就是在一段数据的前后分别添加首部和尾部，然后就构成了一个帧。确定帧的界限。</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\4.png" alt="image-20210307171441510"></p>
+
+<p>当数据是由可打印的 ASCII 码组成的文本文件时，帧定界可以使用特殊的帧定界符。控制字符 SOH (Start Of Header) 放在一帧的最前面，表示帧的首部开始。另一个控制字符 EOT (End Of Transmission) 表示帧的结束。</p>
+<h3 id="透明传输"><a href="#透明传输" class="headerlink" title="透明传输"></a><strong>透明传输</strong></h3><p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\5.png" alt="image-20210307171643848"></p>
+
+<h3 id="差错检测"><a href="#差错检测" class="headerlink" title="差错检测"></a><strong>差错检测</strong></h3><p>在一段时间内，传输错误的比特占所传输比特总数的比率称为误码率 BER </p>
+<p>误码率与信噪比有很大的关系</p>
+<h4 id="循环冗余检验-CRC"><a href="#循环冗余检验-CRC" class="headerlink" title="循环冗余检验 CRC"></a><strong>循环冗余检验</strong> <strong>CRC</strong></h4><p>假设待传送的一组数据 M ，k位，冗余码n位。 M 后面添加 n 个 0。得到的 (k + n) 位的数除以事先选定好的长度为 (n + 1) 位的除数 P，得出商是 Q 而余数是 R，R 是 n 位 。 将余数 R 作为冗余码拼接在数据 M 后面发送出去。</p>
+<h4 id="纠错编码"><a href="#纠错编码" class="headerlink" title="纠错编码"></a>纠错编码</h4><p>不但要提醒出现问题，最好能够定位</p>
+<p>常见方法是海明码</p>
+<p><a href="https://www.cnblogs.com/godoforange/p/12003676.html" target="_blank" rel="noopener">https://www.cnblogs.com/godoforange/p/12003676.html</a></p>
+<h2 id="组帧"><a href="#组帧" class="headerlink" title="组帧"></a>组帧</h2><p>之所以分组，是为了在出错时只需要重发出错的帧，提高效率</p>
+<p>组帧时需要首尾都有，因为网络中信息是以帧为最小单位进行传输的。而分组（IP数据报）包含在帧的数据部分内，因此无需尾部定界</p>
+<p>为了实现组帧分界，有以下方法：</p>
+<ul>
+<li>字符计数法：帧头部表明帧内字符数</li>
+<li>字符填充：见下文</li>
+<li>零比特填充：见下文</li>
+<li>违规编码：采用违规电平对</li>
+</ul>
+<h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><h3 id="停止-等待协议"><a href="#停止-等待协议" class="headerlink" title="停止-等待协议"></a>停止-等待协议</h3><p>每次只允许一帧，然后下一帧</p>
+<h3 id="滑动窗口协议"><a href="#滑动窗口协议" class="headerlink" title="滑动窗口协议"></a>滑动窗口协议</h3><h4 id="后退N帧"><a href="#后退N帧" class="headerlink" title="后退N帧"></a>后退N帧</h4><p>发送窗口不为1，接受窗口为1，每次收到确认帧，发送窗口前移一帧</p>
+<p>确认帧不一定连续，可以收到几个帧之后发送最后的接受帧号</p>
+<p>接受端只按序接受，如果中间隔帧即使收到的顺序正确也会全部丢弃</p>
+<p>不一定优于停止-等待协议</p>
+<h4 id="选择重传"><a href="#选择重传" class="headerlink" title="选择重传"></a>选择重传</h4><p>发送窗口与接受窗口均不为1</p>
+<p>如果计时器超时或者接收到否定帧NAK都会重传</p>
+<p>为了保证接受方移动后新旧窗口没有重叠，如果采用n比特对帧编号，需要：接收窗口+发送窗口&lt;=<script type="math/tex">2^n</script>。不然会出错（可以考虑n=3，接受窗口为1的情况，重传的8个帧与新的8个帧编号相同）</p>
+<p>一般情况下，接受与发送窗口大小相同</p>
+<h2 id="广域网"><a href="#广域网" class="headerlink" title="广域网"></a>广域网</h2><p>局域网的协议一般在数据链路层和物理层，而广域网在网络层</p>
+<p>PPP与HDLC是常见的两种广域网数据链路层控制协议</p>
+<h3 id="点对点协议-PPP"><a href="#点对点协议-PPP" class="headerlink" title="点对点协议 PPP"></a>点对点协议 PPP</h3><p><a href="https://www.cnblogs.com/chaguang/p/8097967.html" target="_blank" rel="noopener">https://www.cnblogs.com/chaguang/p/8097967.html</a></p>
+<p>应用在直接相连两个节点的链路上</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\6.png" alt="image-20210307172929508"></p>
+
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\17.png" alt="image-20210307201128536"></p>
+
+<p>PPP协议是一种在串行链路上传输IP数据包的一种方法，是一个协议的集合，不是单一的协议，支持建立链路的链路控制协议LCP以及一系列的NCP</p>
+<p>PPP帧如下所示</p>
+
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\7.png" alt="image-20210307173038517"></p>
+<p>为实现透明传输，当 PPP 用在同步传输链路时，协议规定采用硬件来完成比特填充；当 PPP 用在异步传输时，就使用一种特殊的字符填充法。 </p>
+
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\8.png" alt="image-20210307173358468"></p>
+
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\9.png" alt="image-20210307174107549"></p>
+
+<h3 id="HDLC协议"><a href="#HDLC协议" class="headerlink" title="HDLC协议"></a>HDLC协议</h3><p>高级链路层协议（HDLC）面向比特（PPP面向字节），不依赖于任何一种字符编码集；数据报文可透明传输，用0比特插入法；全双工；采用CRC校验</p>
+<p>适用于非平衡配置（一个主站控制其他所有）与平衡配置（链路两端是平等的复合站）</p>
+<p>HDLC有三种站：主站（控制链路，发出 命令帧）；从站（受控于主站，发出 响应帧）；复合站</p>
+<p>HDLC有三种数据操作方式：</p>
+<ul>
+<li>正常响应：主站命令，从站相应</li>
+<li>异步平衡：每个复合站都可以进行数据传输</li>
+<li>异步相应：从站未收到主站命令，也可以相应</li>
+</ul>
+<p><a href="http://www.023wg.com/message/message/cd_feature_hdlc_frame.html" target="_blank" rel="noopener">http://www.023wg.com/message/message/cd_feature_hdlc_frame.html</a></p>
+<h2 id="介质控制访问"><a href="#介质控制访问" class="headerlink" title="介质控制访问"></a>介质控制访问</h2><p>隔离来自同一信道的其他节点的信号</p>
+<h3 id="信道划分介质访问控制"><a href="#信道划分介质访问控制" class="headerlink" title="信道划分介质访问控制"></a>信道划分介质访问控制</h3><p>多路复用，比如频分/时分/波分/码分 复用</p>
+<h3 id="随机访问介质访问控制"><a href="#随机访问介质访问控制" class="headerlink" title="随机访问介质访问控制"></a>随机访问介质访问控制</h3><p>既不共享时间，也不共享空间</p>
+<p>有ALOHA/CSMA等协议</p>
+<h4 id="ALOHA协议"><a href="#ALOHA协议" class="headerlink" title="ALOHA协议"></a>ALOHA协议</h4><p>纯ALOHA：不检测直接发送，如果没有收到确认说明冲突了，重新发送</p>
+<p>时隙ALOHA：只有时隙的开始才能够发送，时隙的程度使得帧可以正好发送完毕</p>
+<h3 id="轮询访问介质访问控制"><a href="#轮询访问介质访问控制" class="headerlink" title="轮询访问介质访问控制"></a>轮询访问介质访问控制</h3><p>令牌传递</p>
+<h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><p>局域网最重要的特征就是具有广播功能</p>
+<p>局域网主要的特点有：所有站点平等，能够广播和组播，较低时延就较高的总带宽</p>
+<p>数据链路层可以拆成逻辑链路控制子层LLC与媒体介入控制子层MAC，后者提供对物理层的统一访问接口；前者为网络层提供服务接口</p>
+<p>三种特殊的局域网：</p>
+<ul>
+<li>以太网，目前应用最普遍的局域网技术，逻辑拓扑为总线形，实际可以为星形或拓展星形</li>
+<li>令牌网，逻辑环形，实际星形</li>
+<li>光纤分布数字接口FDDI，逻辑环形，实际双环结构</li>
+</ul>
+<p>IEEE802.3局域网可以简称为以太网，它与DIX Ethernet V2标准差别微小</p>
+<p>计算机与外界的连接通过网络接口板（网卡），装有处理器和控制器，实现帧的控制与交换等，具有全球唯一的一个代码MAC地址</p>
+<p>IEEE802.11是无线局域网的一系列协议，制定了MAC层协议，采用CSMA/CA协议进行介质访问控制。在无线局域网中发送过程中碰撞也要继续传递直到帧传递完全；有线会直接停止</p>
+<p>无线局域网可以分为</p>
+<ul>
+<li>固定基础设施无线局域网：无线局域网的最小构建是基本服务集（BBS），所有的站在本BBS内都可以直接通信，对站外需要经过接入点（AP），AP作用类似网桥。一个BBS可以是孤立的，也可以通过AP连接到主干分配系统DS再接入另一个基本服务集，形成扩展的服务集。也可以通过门桥接入其他类型的无线局域网</li>
+<li>无固定基础设施无线局域网自组织网络：没有AP，各移动站状态平等，中间节点都为转发节点且有路由器功能</li>
+</ul>
+<h3 id="CSMA-CD-协议"><a href="#CSMA-CD-协议" class="headerlink" title="CSMA/CD 协议"></a><strong>CSMA/CD</strong> <strong>协议</strong></h3><p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\10.png" alt="image-20210307175016131"></p>
+
+<p>CSMA/CD 含义：载波监听多点接入 / 碰撞检测  </p>
+<p>一般用于总线型以太网</p>
+<p>协议要点：</p>
+<p>(1) 准备发送。<br>(2) 检测信道。若检测到信道忙，则应不停地检测，一直等待信道转为空闲。若检测到信道空闲，并在 96 比特时间内信道保持空闲（保证了帧间最小间隔），就发送这个帧。<br>(3) 检查碰撞。在发送过程中仍不停地检测信道，即网络适配器要边发送边监听。这里只有两种可能性：<br>①发送成功：在争用期内一直未检测到碰撞。这个帧肯定能够发送成功。发送完毕后，其他什么也不做。然后回到 (1)。<br>②发送失败：在争用期内检测到碰撞。这时立即停止发送数据，并按规定发送人为干扰信号。适配器接着就执行指数退避算法，等待 r 倍 512 比特时间后，返回到步骤 (2)，继续检测信道。但若重传达 16 次仍不能成功，则停止重传而向上报错。</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\11.png" alt="image-20210307175435098"></p>
+
+<p>1990年 IEEE 制定出星形以太网 10（速率10M/s）BASE（基带）-T（双绞线） 的标准 802.3i，之后以太网也就在局域网中占据了统治地位</p>
+<p>集线器/路由器/交换机与冲突域/广播域： <a href="https://blog.csdn.net/gui951753/article/details/79402528" target="_blank" rel="noopener">https://blog.csdn.net/gui951753/article/details/79402528</a></p>
+<p>使用集线器的以太网在逻辑上仍是一个总线网，各工作站使用的还是 CSMA/CD 协议，并共享逻辑上的总线。<br>集线器很像一个多接口的转发器</p>
+<p>多个站在以太网工作时可能会发生碰撞。假设$\zeta$是以太网单程端到端传播时延。则争用期（冲突窗口期）长度为 2$\zeta$，即端到端传播时延的两倍。检测到碰撞后不发送干扰信号。 </p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\12.png" alt="image-20210307181219914"></p>
+
+<p>如果发送端在2$\zeta$内没有收到干扰信号，那么之后也不会收到干扰信号，因为并没有其他端口回复干扰。因此最小帧长为2$\zeta$*发送速率。如果收到一个帧长更小的帧，说明没有传完就被打断，直接丢弃</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\13.png" alt="image-20210307181713440"></p>
+
+<h3 id="CSMA-CA协议"><a href="#CSMA-CA协议" class="headerlink" title="CSMA/CA协议"></a>CSMA/CA协议</h3><p>用于无线区域网，无法碰撞检测</p>
+<p>修改CSMA/CD协议，将碰撞检测改为碰撞避免。不仅要等待一个时间间隔，还要竞争窗口并随机退避时间。当检测到信道空闲且数据帧是要发送的第一个数据帧时才会发送</p>
+<p>除此外还使用预约信道（通知其他站点自己传输的时长），ACK帧（发给发送方，如果收不到就要重传），RTS/CTS帧</p>
+<h3 id="以太网的-MAC-层"><a href="#以太网的-MAC-层" class="headerlink" title="以太网的 MAC 层"></a>以太网的 MAC 层</h3><p>在局域网中，硬件地址又称为物理地址，或 MAC 地址。 MAC地址是局域网通信设备或端口的唯一标识符。 </p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\14.png" alt="image-20210307182034508"></p>
+
+<p>IEEE规定地址字段的第一字节的最低位为 I/G 位。I/G 表示 Individual / Group。当 I/G位=0 时，地址字段表示一个单站地址。当 I/G位=1 时，表示组地址，用来进行多播（以前曾译为组播）。所有 48 位都为 1 时，为广播地址。只能作为目的地址使用。</p>
+<p>适配器从网络上每收到一个 MAC 帧就首先用硬件检查 MAC 帧中的 MAC 地址。如果是传到本站的收下，否则丢弃</p>
+<p>最常用的 MAC 帧是以太网 V2 的格式</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\15.png" alt="image-20210307182249428"></p>
+
+<p>类型字段用来标志上一层使用的是什么协议，以便把收到的 MAC 帧的数据上交给上一层的这个协议</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\16.png" alt="image-20210307200703676"></p>
+
+<h2 id="扩展的以太网"><a href="#扩展的以太网" class="headerlink" title="扩展的以太网"></a>扩展的以太网</h2><h3 id="在物理层扩展以太网"><a href="#在物理层扩展以太网" class="headerlink" title="在物理层扩展以太网"></a>在物理层扩展以太网</h3><p>使用集线器扩展。但是碰撞域也被增大了，且如果不同的碰撞域数据率不同，就无法连接起来</p>
+<h3 id="在数据链路层扩展以太网"><a href="#在数据链路层扩展以太网" class="headerlink" title="在数据链路层扩展以太网"></a><strong>在数据链路层扩展以太网</strong></h3><p>扩展以太网早期使用网桥，现在使用以太网交换机</p>
+<p>网桥根据 MAC 帧的目的地址对收到的帧进行转发和过滤。当网桥收到一个帧时，并不是向所有的接口转发此帧，而是先检查此帧的目的 MAC 地址，然后再确定将该帧转发到哪一个接口，或把它丢弃。 </p>
+<p>根据路由选择算法不同，可以将网桥分为：</p>
+<ul>
+<li>透明网桥，通过自学习法</li>
+<li>源路由网桥，路由选择由源站控制，原站发出发现帧，传递直到目的站，目的站发送应答帧，通过源路径返回，记录途径的网桥，然后源站就获得路径并选出最佳路由（往返时间最短）。之后再发送时必须要携带这一路由信息</li>
+</ul>
+<p>以太网交换机实质上就是一个多接口的网桥，每个接口都直接与一个单台主机或另一个以太网交换机相连，并且一般都工作在全双工方式。以太网交换机具有并行性，可以无碰撞地传输数据，并不会扩大碰撞域。不但隔离了冲突域，还通过VLAN隔离了广播域</p>
+<p>以太网交换机的接口有存储器，能在输出端口繁忙时把到来的帧进行缓存。以太网交换机是一种即插即用设备，其内部的帧交换表（又称为地址表）是通过自学习算法自动地逐渐建立起来的。以太网交换机使用了专用的交换结构芯片，用硬件转发，其转发速率要比使用软件转发的网桥快很多。</p>
+<p>目前以太网有直通（只检查目的地址，直接发送，不能支持不同速率的端口的交换）和存储转发（先缓存再检查帧是否出错，出错便丢弃，支持不同速率的端口的交换）两种交换模式</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\18.png" alt="image-20210307203457951"></p>
+
+<p>交换机收到一帧后先进行自学习。查找交换表中与收到帧的源地址有无相匹配的项目。<br>如没有，就在交换表中增加一个项目（源地址、进入的接口和有效时间）。<br>如有，则把原有的项目进行更新（进入的接口或有效时间）。<br>转发帧。查找交换表中与收到帧的目的地址有无相匹配的项目。<br>如没有，则向所有其他接口（进入的接口除外）转发。<br>如有，则按交换表中给出的接口进行转发。<br>若交换表中给出的接口就是该帧进入交换机的接口，则应丢弃这个帧（因为这时不需要经过交换机进行转发）</p>
+<h3 id="虚拟局域网"><a href="#虚拟局域网" class="headerlink" title="虚拟局域网"></a>虚拟局域网</h3><p>虚拟局域网 VLAN 是由一些局域网网段构成的与物理位置无关的逻辑组，而这些网段具有某些共同的需求。每一个 VLAN 的帧都有一个明确的标识符，指明发送这个帧的计算机是属于哪一个 VLAN。虚拟局域网其实只是局域网给用户提供的一种服务，而并不是一种新型局域网。</p>
+<p>虚拟局域网协议允许在以太网的帧格式中插入一个4字节的标识符，称为 VLAN 标记 (tag)，用来指明发送该帧的计算机属于哪一个虚拟局域网。插入 VLAN 标记得出的帧称为 802.1Q 帧 或 带标记的以太网帧。</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\ComputerNetwork3\19.png" alt="image-20210307204031653"></p>
+
+<p>如上图，B1广播时，只有B2和B3会接收到，其余成员不会</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ComputerNetwork/" rel="tag"><i class="fa fa-tag"></i> ComputerNetwork</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/07/computerNetwork2/" rel="next" title="网络层">
+                <i class="fa fa-chevron-left"></i> 网络层
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/08/ComputerNetwork4/" rel="prev" title="网络层">
+                网络层 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/NaNillll" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据链路"><span class="nav-number">1.</span> <span class="nav-text">数据链路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三个基本问题"><span class="nav-number">2.</span> <span class="nav-text">三个基本问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#封装成帧"><span class="nav-number">2.1.</span> <span class="nav-text">封装成帧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#透明传输"><span class="nav-number">2.2.</span> <span class="nav-text">透明传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#差错检测"><span class="nav-number">2.3.</span> <span class="nav-text">差错检测</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#循环冗余检验-CRC"><span class="nav-number">2.3.1.</span> <span class="nav-text">循环冗余检验 CRC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#纠错编码"><span class="nav-number">2.3.2.</span> <span class="nav-text">纠错编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组帧"><span class="nav-number">3.</span> <span class="nav-text">组帧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流量控制"><span class="nav-number">4.</span> <span class="nav-text">流量控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#停止-等待协议"><span class="nav-number">4.1.</span> <span class="nav-text">停止-等待协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#滑动窗口协议"><span class="nav-number">4.2.</span> <span class="nav-text">滑动窗口协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#后退N帧"><span class="nav-number">4.2.1.</span> <span class="nav-text">后退N帧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选择重传"><span class="nav-number">4.2.2.</span> <span class="nav-text">选择重传</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广域网"><span class="nav-number">5.</span> <span class="nav-text">广域网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#点对点协议-PPP"><span class="nav-number">5.1.</span> <span class="nav-text">点对点协议 PPP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDLC协议"><span class="nav-number">5.2.</span> <span class="nav-text">HDLC协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介质控制访问"><span class="nav-number">6.</span> <span class="nav-text">介质控制访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#信道划分介质访问控制"><span class="nav-number">6.1.</span> <span class="nav-text">信道划分介质访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机访问介质访问控制"><span class="nav-number">6.2.</span> <span class="nav-text">随机访问介质访问控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ALOHA协议"><span class="nav-number">6.2.1.</span> <span class="nav-text">ALOHA协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#轮询访问介质访问控制"><span class="nav-number">6.3.</span> <span class="nav-text">轮询访问介质访问控制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局域网"><span class="nav-number">7.</span> <span class="nav-text">局域网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSMA-CD-协议"><span class="nav-number">7.1.</span> <span class="nav-text">CSMA&#x2F;CD 协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSMA-CA协议"><span class="nav-number">7.2.</span> <span class="nav-text">CSMA&#x2F;CA协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以太网的-MAC-层"><span class="nav-number">7.3.</span> <span class="nav-text">以太网的 MAC 层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展的以太网"><span class="nav-number">8.</span> <span class="nav-text">扩展的以太网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在物理层扩展以太网"><span class="nav-number">8.1.</span> <span class="nav-text">在物理层扩展以太网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在数据链路层扩展以太网"><span class="nav-number">8.2.</span> <span class="nav-text">在数据链路层扩展以太网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟局域网"><span class="nav-number">8.3.</span> <span class="nav-text">虚拟局域网</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+  
+ 
+  
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">42.9k</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

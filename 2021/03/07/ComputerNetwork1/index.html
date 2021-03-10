@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta name="google-site-verification" content="kWcVT9oyylmyb6DohoXWge7VpBUZQVIptcOSS5Gr9wc" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ComputerNetwork," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="计算机网络的性能指标速率数据的传送速率，它也称为数据率(data rate)或比特率 (bit rate)。单位是bit&#x2F;s，或 kbit&#x2F;s等 速率往往是指额定速率或标称速率，非实际运行速率 带宽无线网络中，指信号具有的频带宽度，单位是HZ 有线网络中，指某通道传播数据的能力，单位是bit&#x2F;s 前者是频域称谓，后者是时域称谓，本质是一样的。其本质是类似的。也就是说，一条通信链路的“带宽”越宽，其">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络概况">
+<meta property="og:url" content="http://yoursite.com/2021/03/07/ComputerNetwork1/index.html">
+<meta property="og:site_name" content="The Grimoire of NaNillll">
+<meta property="og:description" content="计算机网络的性能指标速率数据的传送速率，它也称为数据率(data rate)或比特率 (bit rate)。单位是bit&#x2F;s，或 kbit&#x2F;s等 速率往往是指额定速率或标称速率，非实际运行速率 带宽无线网络中，指信号具有的频带宽度，单位是HZ 有线网络中，指某通道传播数据的能力，单位是bit&#x2F;s 前者是频域称谓，后者是时域称谓，本质是一样的。其本质是类似的。也就是说，一条通信链路的“带宽”越宽，其">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork1/blog/blog/source/_posts/ComputerNetwork1/1.png">
+<meta property="og:image" content="http://yoursite.com/03/07/ComputerNetwork1/blog/blog/source/_posts/ComputerNetwork1/2.png">
+<meta property="article:published_time" content="2021-03-07T02:31:08.000Z">
+<meta property="article:modified_time" content="2021-03-07T05:47:06.244Z">
+<meta property="article:tag" content="ComputerNetwork">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/03/07/ComputerNetwork1/blog/blog/source/_posts/ComputerNetwork1/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/07/ComputerNetwork1/"/>
+
+
+
+
+
+  <title>计算机网络概况 | The Grimoire of NaNillll</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">The Grimoire of NaNillll</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/07/ComputerNetwork1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络概况</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-07T10:31:08+08:00">
+                2021-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="计算机网络的性能指标"><a href="#计算机网络的性能指标" class="headerlink" title="计算机网络的性能指标"></a>计算机网络的性能指标</h2><h3 id="速率"><a href="#速率" class="headerlink" title="速率"></a>速率</h3><p><strong>数据的传送速率</strong>，它也称为数据率(data rate)或比特率 (bit rate)。单位是bit/s，或 kbit/s等</p>
+<p>速率往往是指额定速率或标称速率，非实际运行速率</p>
+<h3 id="带宽"><a href="#带宽" class="headerlink" title="带宽"></a>带宽</h3><p>无线网络中，指<strong>信号具有的频带宽度</strong>，单位是HZ</p>
+<p>有线网络中，指<strong>某通道传播数据的能力</strong>，单位是bit/s</p>
+<p>前者是频域称谓，后者是时域称谓，本质是一样的。<strong>其本质是类似的。也就是说，一条通信链路的“带宽”越宽，其所能传输的“数据率”也越高。</strong></p>
+<h3 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a><strong>吞吐量</strong></h3><p><strong>在单位时间内通过某个网络（或信道、接口）的数据量</strong>，<strong>更经常地用于对现实世界中的网络的一种测量</strong></p>
+<h3 id="时延"><a href="#时延" class="headerlink" title="时延"></a><strong>时延</strong></h3><p><strong>是指数据（一个报文或分组，甚至比特）从网络（或链路）的一端传送到另一端所需的时间</strong></p>
+<p>由以下几个不同的部分组成：</p>
+<ol>
+<li><strong>发送时延</strong></li>
+<li><strong>传播时延</strong></li>
+<li><strong>处理时延</strong></li>
+<li><strong>排队时延</strong></li>
+</ol>
+<p><strong>发送时延</strong>也被成为传输时延，指的是数据帧从进入传输媒体到全部发送完毕需要的时间，等于数据帧长度/发送速率</p>
+<p><strong>传播时延</strong>指的是电磁波在信道中传播所需要的时间，与信号的传播速率而不是发送速率相关</p>
+<p><strong>处理时延</strong>指的是主机或者路由器处理分组（例如差错校验）花的时间</p>
+<p><strong>排队时延</strong>指的是分组在路由器输入输出队列中排队等待处理所经历的时延，往往取决于网络中当时的通信量</p>
+<p><img src="/03/07/ComputerNetwork1/blog\blog\source\_posts\ComputerNetwork1\1.png" alt="image-20210307105331163"></p>
+
+<p>对于高速网络，提高的是数据的发送速率，而非传播速率</p>
+<h3 id="往返时延"><a href="#往返时延" class="headerlink" title="往返时延"></a>往返时延</h3><p>发送端开始发送数据，到接收到另一端的确认信号</p>
+<h3 id="信道利用率"><a href="#信道利用率" class="headerlink" title="信道利用率"></a>信道利用率</h3><p>信道多少比例时间有信号通过的</p>
+<h2 id="网络分层"><a href="#网络分层" class="headerlink" title="网络分层"></a>网络分层</h2><p><img src="/03/07/ComputerNetwork1/blog\blog\source\_posts\ComputerNetwork1\2.png" alt="image-20210307105631056"></p>
+
+<p>服务数据单元，SDU</p>
+<p>协议控制信息，PCI</p>
+<p>协议数据单元，PDU。对等层次之间传递的数据单元，物理层成为比特，链路层成为帧，网络层成为分组，传输层成为报文等</p>
+<p>n-SDU+n-PCI=n-PDU=（n-1）-SDU</p>
+<p>上一层只能调用临近层的接口使用下一层的服务，下一层对上一层透明</p>
+<p>如果对等层在逻辑上有直接信道，就可以不经过下层直接传递</p>
+<h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><p>对等层次之间的规则</p>
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>同一节点相邻层级之间交换信息的连接点。SAP服务访问点</p>
+<h2 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h2><p>下层为紧邻的上层提供功能调用，这个过程中必须进行交换一些命令，成为服务原语</p>
+<ul>
+<li>请求，服务用户》服务提供者</li>
+<li>指示，服务提供者》服务用户</li>
+<li>相应，服务用户》服务提供者，对指示的响应</li>
+<li>证实，服务提供者》服务用户，对获得请求的证实</li>
+</ul>
+<h3 id="服务的分类"><a href="#服务的分类" class="headerlink" title="服务的分类"></a>服务的分类</h3><p>面向连接/无连接：前者传输时需要先建立连接，分配缓冲区，传输后需要释放；后者需要发送时直接发送，这是不可靠的</p>
+<p>可靠/不可靠：后者的正确性与可靠性需要用户保障</p>
+<p>有应答/无应答：接受方收到数据是否要应答，这个应答需要传输系统内部自动实现。www服务中客户端收到页面无需应答</p>
+<h2 id="计算机网络的分类"><a href="#计算机网络的分类" class="headerlink" title="计算机网络的分类"></a>计算机网络的分类</h2><h3 id="按照分布"><a href="#按照分布" class="headerlink" title="按照分布"></a>按照分布</h3><p>广域网（WAN）</p>
+<p>城域网（MAN）</p>
+<p>局域网（LAN），传统上，局域网采用广播技术，而广域网采用交换技术</p>
+<p>个人区域网（PAN）</p>
+<h3 id="按照传输技术"><a href="#按照传输技术" class="headerlink" title="按照传输技术"></a>按照传输技术</h3><p>广播式网络，所有计算机共享一个公共信道。局域网大多采用的方式</p>
+<p>点对点网络，每条物理线路连接一对计算机</p>
+<p>是否采用分组存储转发与路由选择是二者的重要区别</p>
+<h3 id="按照拓扑"><a href="#按照拓扑" class="headerlink" title="按照拓扑"></a>按照拓扑</h3><p>总线/星/环 形等</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ComputerNetwork/" rel="tag"><i class="fa fa-tag"></i> ComputerNetwork</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/01/the-limitations-of-deep-learning/" rel="next" title="limitations and future of deep learning">
+                <i class="fa fa-chevron-left"></i> limitations and future of deep learning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/07/computerNetwork2/" rel="prev" title="网络层">
+                网络层 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/NaNillll" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络的性能指标"><span class="nav-number">1.</span> <span class="nav-text">计算机网络的性能指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#速率"><span class="nav-number">1.1.</span> <span class="nav-text">速率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带宽"><span class="nav-number">1.2.</span> <span class="nav-text">带宽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#吞吐量"><span class="nav-number">1.3.</span> <span class="nav-text">吞吐量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时延"><span class="nav-number">1.4.</span> <span class="nav-text">时延</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#往返时延"><span class="nav-number">1.5.</span> <span class="nav-text">往返时延</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信道利用率"><span class="nav-number">1.6.</span> <span class="nav-text">信道利用率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络分层"><span class="nav-number">2.</span> <span class="nav-text">网络分层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协议"><span class="nav-number">3.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口"><span class="nav-number">4.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务"><span class="nav-number">5.</span> <span class="nav-text">服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务的分类"><span class="nav-number">5.1.</span> <span class="nav-text">服务的分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络的分类"><span class="nav-number">6.</span> <span class="nav-text">计算机网络的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#按照分布"><span class="nav-number">6.1.</span> <span class="nav-text">按照分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按照传输技术"><span class="nav-number">6.2.</span> <span class="nav-text">按照传输技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按照拓扑"><span class="nav-number">6.3.</span> <span class="nav-text">按照拓扑</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+  
+ 
+  
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">42.9k</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

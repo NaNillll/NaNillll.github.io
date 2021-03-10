@@ -235,6 +235,1181 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/10/ComputerNetwork5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/10/ComputerNetwork5/" itemprop="url">运输层</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-10T08:08:06+08:00">
+                2021-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5.5k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>传输层提供了主机应用程序进程之间的端到端的服务。实现了分用与复用。进行了报文差错计算。</p>
+<p>只有位于网络边缘部分的主机的协议栈才有运输层，而网络核心部分中的路由器在转发分组时都只用到下三层的功能。 </p>
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\1.png" alt="image-20210310081042765"></p>
+
+<p>在一台主机中经常有多个应用进程同时分别和另一台主机中的多个应用进程通信。即复用 (multiplexing)和分用 (demultiplexing)。</p>
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\2.png" alt="image-20210310081225873"></p>
+
+<p>根据应用程序的不同需求，运输层需要有两种不同的运输协议，即面向连接的 TCP 和无连接的 UDP 。当运输层采用面向连接的 TCP 协议时，尽管下面的网络是不可靠的（只提供尽最大努力服务），但这种逻辑通信信道就相当于一条全双工的可靠信道。当运输层采用无连接的 UDP 协议时，这种逻辑通信信道是一条不可靠信道。 </p>
+<h2 id="运输层的两个主要协议"><a href="#运输层的两个主要协议" class="headerlink" title="运输层的两个主要协议"></a>运输层的两个主要协议</h2><p>(1) 用户数据报协议 UDP (User Datagram Protocol)，提供无连接服务。在传送数据之前不需要先建立连接。传送的数据单位协议是 UDP 报文。对方的运输层在收到 UDP 报文后，不需要给出任何确认。<br>(2) 传输控制协议 TCP (Transmission Control Protocol)，提供面向连接的服务。<br>传送的数据单位协议是 TCP 报文段 (segment)。<br>TCP 不提供广播或多播服务。</p>
+<p>两个对等运输实体在通信时传送的数据单位叫作运输协议数据单元 TPDU (Transport Protocol Data Unit)。</p>
+<h2 id="TCP-IP-运输层端口"><a href="#TCP-IP-运输层端口" class="headerlink" title="TCP/IP 运输层端口"></a>TCP/IP 运输层端口</h2><p>端口用一个 16 位端口号进行标志。端口号只具有本地意义，即端口号只是为了标志本计算机应用层中的各进程。在互联网中，不同计算机的相同端口号是没有联系的。</p>
+<p>因此两个计算机中的进程要互相通信，不仅必须知道对方的 IP 地址（为了找到对方的计算机），而且还要知道对方的端口号（为了找到对方计算机中的应用进程）。</p>
+<p>(1) 服务器端使用的端口号<br>熟知端口，数值一般为 0~1023，应用层协议在服务器端的默认端口号，客户端进程的端口号是客户端进程任意临时指定的<br>登记端口号，数值为 1024~49151，为没有熟知端口号的应用程序使用的。使用这个范围的端口号必须在 IANA 登记，以防止重复。<br>(2) 客户端使用的端口号<br>又称为短暂端口号，数值为 49152~65535，留给客户进程选择暂时使用。<br>当服务器进程收到客户进程的报文时，就知道了客户进程所使用的动态端口号。通信结束后，这个端口号可供其他客户进程以后使用。 </p>
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\3.png" alt="image-20210310081924823"></p>
+
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>UDP 只在 IP 的数据报服务之上增加了很少一点的功能：复用和分用的功能；差错检测的功能</p>
+<p>UDP 的主要特点 ：</p>
+<ul>
+<li>(1) UDP 是无连接的，发送数据之前不需要建立连接，因此减少了开销和发送数据之前的时延。也无连接状态。</li>
+<li>(2) UDP 使用尽最大努力交付，即不保证可靠交付，因此主机不需要维持复杂的连接状态表。</li>
+<li>(3) UDP 是面向报文的。UDP 对应用层交下来的报文，既不合并，也不拆分，而是保留这些报文的边界。UDP 一次交付一个完整的报文。因此应用程序必须选择合适大小的报文。若报文太长，UDP 把它交给 IP 层后，IP 层在传送时可能要进行分片，这会降低 IP 层的效率。若报文太短，UDP 把它交给 IP 层后，会使 IP 数据报的首部的相对长度太大，这也降低了 IP 层的效率</li>
+<li>(4) UDP 没有拥塞控制，因此网络出现的拥塞不会使源主机的发送速率降低。这对某些实时应用是很重要的。很适合多媒体通信的要求。 </li>
+<li>(5) UDP 支持一对一、一对多、多对一和多对多的交互通信。</li>
+<li>(6) UDP 的首部开销小，只有 8 个字节，比 TCP 的 20 个字节的首部要短。</li>
+</ul>
+
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\4.png" alt="image-20210310082646269"></p>
+<p>伪首部只是为了计算校验和</p>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>TCP 是面向连接的运输层协议。每一条 TCP 连接只能有两个端点 (endpoint)，每一条 TCP 连接只能是点对点的（一对一）。<br>TCP 提供可靠交付的服务。<br>TCP 提供全双工通信。<br>面向字节流<br>TCP 中的“流”(stream)指的是流入或流出进程的字节序列。<br>“面向字节流”的含义是：虽然应用程序和 TCP 的交互是一次一个数据块，但 TCP 把应用程序交下来的数据看成仅仅是一连串无结构的字节流。</p>
+<p>TCP与网络虚电路的区别在于，TCP报文段在传输层抽象的逻辑信道中传输，路由器不可见；而虚电路经过的交换节点都必须保存虚电路的状态信息，如果使用了虚电路，就无法提供无连接服务</p>
+
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\5.png" alt="image-20210310083344105"></p>
+<p>TCP 不关心应用进程一次把多长的报文发送到 TCP 缓存。TCP 对连续的字节流进行分段，形成 TCP 报文段。TCP 根据对方给出的窗口值和当前网络拥塞的程度来决定一个报文段应包含多少个字节（UDP 发送的报文长度是应用进程给出的）。TCP 可把太长的数据块划分短一些再传送。TCP 也可等待积累有足够多的字节后再构成报文段发送出去。 </p>
+<p>TCP 连接的端点叫做套接字 (socket) 或插口。端口号拼接到 IP 地址即构成了套接字。每一条 TCP 连接唯一地被通信两端的两个端点（即两个套接字）所确定。</p>
+<h2 id="可靠传输的工作原理"><a href="#可靠传输的工作原理" class="headerlink" title="可靠传输的工作原理"></a>可靠传输的工作原理</h2><h3 id="停止等待协议"><a href="#停止等待协议" class="headerlink" title="停止等待协议"></a>停止等待协议</h3>
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\7.png" alt="image-20210310091000730"></p>
+<h4 id="无差错情况"><a href="#无差错情况" class="headerlink" title="无差错情况"></a>无差错情况</h4>
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\6.png" alt="image-20210310083731050"></p>
+<h4 id="出现差错"><a href="#出现差错" class="headerlink" title="出现差错"></a>出现差错</h4><p>B 接收 M1 时检测出了差错，就丢弃 M1，其他什么也不做（不通知 A 收到有差错的分组）。<br>A 为每一个已发送的分组都设置了一个超时计时器。A 只要在超时计时器到期之前收到了相应的确认，就撤销该超时计时器，继续发送下一个分组 M2 。</p>
+<p>若 B 所发送的对 M1 的确认丢失了，那么 A 在设定的超时重传时间内不能收到确认，但 A 并无法知道：是自己发送的分组出错、丢失了，或者 是 B 发送的确认丢失了。因此 A 在超时计时器到期后就要重传 M1。<br>假定 B 又收到了重传的分组 M1。这时 B 应采取两个行动：<br>第一，丢弃这个重复的分组 M1，不向上层交付。<br>第二，向 A 发送确认。不能认为已经发送过确认就不再发送，因为 A 之所以重传 M1 就表示 A 没有收到对 M1 的确认</p>
+<p>若传输过程中没有出现差错，但 B 对分组 M1 的确认迟到了。<br>A 会收到重复的确认。对重复的确认的处理很简单：收下后就丢弃。<br>B 仍然会收到重复的 M1，并且同样要丢弃重复的 M1，并重传确认分组。</p>
+<h3 id="自动重传请求-ARQ"><a href="#自动重传请求-ARQ" class="headerlink" title="自动重传请求 ARQ"></a>自动重传请求 ARQ</h3><p>自动重传请求 ARQ  (Automatic Repeat reQuest)。它通过使用确认和超时这两个机制，在不可靠服务的基础上实现可靠的信息传输。如果发送方在发送后一段时间之内没有收到确认帧，它通常会重新发送。</p>
+<p>之前的停止等待协议属于自动重传请求ARQ</p>
+<h3 id="流水线传输"><a href="#流水线传输" class="headerlink" title="流水线传输"></a>流水线传输</h3><p>为了提高传输效率，发送方可以不使用低效率的停止等待协议，而是采用流水线传输。<br>流水线传输就是发送方可连续发送多个分组，不必每发完一个分组就停顿下来等待对方的确认。这样可使信道上一直有数据不间断地传送。</p>
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\8.png" alt="image-20210310091136698"></p>
+
+<h3 id="连续-ARQ-协议"><a href="#连续-ARQ-协议" class="headerlink" title="连续 ARQ 协议"></a>连续 ARQ 协议</h3><p>发送方维持发送窗口，窗口的意义是：位于发送窗口内的分组都可连续发送出去，而不需要等待对方的确认。这样，信道利用率就提高了。<br>连续 ARQ 协议规定，发送方每收到一个确认，就把发送窗口向前滑动一个分组的位置。</p>
+<p>接收方一般采用累积确认的方式。即不必对收到的分组逐个发送确认，而是对按序到达的最后一个分组发送确认，这样就表示：到这个分组为止的所有分组都已正确收到了。优点：容易实现，即使确认丢失也不必重传。缺点：不能向发送方反映出接收方已经正确收到的所有分组的信息。</p>
+<p>这种协议又称为回退N（Go-back-N）</p>
+<h2 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h2><p>一个 TCP 报文段分为首部和数据两部分，而 TCP 的全部功能都体现在它首部中各字段的作用。<br>TCP 报文段首部的前 20 个字节是固定的，后面有 4n 字节是根据需要而增加的选项 (n 是整数)。因此 TCP 首部的最小长度是 20 字节。</p>
+
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\9.png" alt="image-20210310091523302"></p>
+<p>序号字段——占 4 字节。TCP 连接中传送的数据流中的每一个字节都编上一个序号。序号字段的值则指的是本报文段所发送的数据的第一个字节的序号。 </p>
+<p>确认号字段——占 4 字节，是期望收到对方的下一个报文段的数据的第一个字节的序号。 </p>
+<p>窗口字段 —— 占 2 字节，用来让对方设置发送窗口的依据，单位为字节。</p>
+<h2 id="TCP-可靠传输的实现"><a href="#TCP-可靠传输的实现" class="headerlink" title="TCP 可靠传输的实现"></a>TCP 可靠传输的实现</h2><h3 id="超时重传时间的选择"><a href="#超时重传时间的选择" class="headerlink" title="超时重传时间的选择"></a>超时重传时间的选择</h3>
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\10.png" alt="image-20210310091818706"></p>
+<p>为了选择重传时间，TCP采用了自适应算法: </p>
+<p>新的RTTS  = (1-<script type="math/tex">\alpha</script>) <em> (旧的RTTS) +<script type="math/tex">\alpha</script></em> (新的RTT样本)                           </p>
+<p>第一次测量到 RTT 样本时，RTTS 值就取为所测量到的 RTT 样本值。以后每测量到一个新的 RTT 样本，就重新计算一次</p>
+
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\11.png" alt="image-20210310093156162"></p>
+<p>因此使用修正的 Karn 算法 ，报文段每重传一次，就把 RTT 增大一些，一般将RTT修正为之前的两倍</p>
+<h3 id="选择确认-SACK"><a href="#选择确认-SACK" class="headerlink" title="选择确认 SACK"></a>选择确认 SACK</h3><p>若接受方接受到的数据字节流序号不连续且缺少某些序号，如果这些字节的序号都在接收窗口之内，那么接收方就先收下这些数据，但要把这些信息准确地告诉发送方，使发送方不要再重复发送这些已收到的数据。</p>
+<p>如果要使用选择确认，那么在建立 TCP 连接时，就要在 TCP 首部的选项中加上“允许 SACK”的选项，而双方必须都事先商定好。<br>由于首部选项的长度最多只有 40 字节，而指明一个边界就要用掉 4 字节，因此在选项中最多只能指明 4 个字节块的边界信息。</p>
+<h2 id="利用滑动窗口实现流量控制"><a href="#利用滑动窗口实现流量控制" class="headerlink" title="利用滑动窗口实现流量控制"></a>利用滑动窗口实现流量控制</h2><p>流量控制 (flow control) 就是让发送方的发送速率不要太快，既要让接收方来得及接收，也不要使网络发生拥塞。利用滑动窗口机制可以很方便地在 TCP 连接上实现流量控制。 </p>
+
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\12.png" alt="image-20210310102631435"></p>
+<p>这可能发生死锁：B 向 A 发送了零窗口的报文段。之后B 的接收缓存又有了一些存储空间。于是 B 向 A 发送了 rwnd = 400 的报文段。但这个报文段在传送过程中丢失了。A 一直等待收到 B 发送的非零窗口的通知，而 B 也一直等待 A 发送的数据。如果没有其他措施，这种互相等待的死锁局面将一直延续下去。</p>
+<p>为了解决这个问题，TCP 为每一个连接设有一个持续计时器 (persistence timer)。只要 TCP 连接的一方收到对方的零窗口通知，就启动该持续计时器。若持续计时器设置的时间到期，就发送一个零窗口探测报文段（仅携带 1 字节的数据），而对方就在确认这个探测报文段时给出了现在的窗口值。若窗口仍然是零，则收到这个报文段的一方就重新设置持续计时器。若窗口不是零，则死锁的僵局就可以打破了。 </p>
+<p>可以用不同的机制来控制 TCP 报文段的发送时机:</p>
+<p>第一种机制是 TCP 维持一个变量，它等于最大报文段长度 MSS。只要缓存中存放的数据达到 MSS 字节时，就组装成一个 TCP 报文段发送出去。<br>第二种机制是由发送方的应用进程指明要求发送报文段，即 TCP 支持的推送 (push)操作。<br>第三种机制是发送方的一个计时器期限到了，这时就把当前已有的缓存数据装入报文段发送出去。</p>
+<h2 id="发送与接受方的传输策略"><a href="#发送与接受方的传输策略" class="headerlink" title="发送与接受方的传输策略"></a>发送与接受方的传输策略</h2><p>若发送方 TCP 每次接收到一字节的数据后就发送，这样，发送一个字节需要形成 41 字节长的 IP 数据报。若接收方确认，就需回送一个ACK。效率很低。会造成效率较低，可使用Nagle算法</p>
+<p>Nagle算法：</p>
+<p>若发送应用进程把要发送的数据逐个字节地送到 TCP 的发送缓存，则发送方就把第一个数据字节先发送出去，把后面到达的数据字节都缓存起来。<br>当发送方收到对第一个数据字符的确认后，再把发送缓存中的所有数据组装成一个报文段发送出去，同时继续对随后到达的数据进行缓存。<br>只有在收到对前一个报文段的确认后才继续发送下一个报文段。<br>当到达的数据已达到报文段的最大长度时，就立即发送。</p>
+<p>这样可以降低ACK次数，同时降低重传导致的效率下降</p>
+<p>若接收方的应用进程每次只读取一个字节，于是接收方又发送窗口大小为一个字节的更新报文，发送方应邀发送一个字节的数据（发送的 IP 数据报是 41 字节长），于是接收窗口又满了，如此循环往复。效果</p>
+<p>解决方法：让接收方等待一段时间，使得或者接收缓存已有足够空间容纳一个最长的报文段，或者等到接收缓存已有一半空闲的空间。只要出现这两种情况之一，接收方就发出确认报文，并向发送方通知当前的窗口大小。</p>
+<h2 id="TCP-的拥塞控制"><a href="#TCP-的拥塞控制" class="headerlink" title="TCP 的拥塞控制"></a>TCP 的拥塞控制</h2><p>在某段时间，若对网络中某资源的需求超过了该资源所能提供的可用部分，网络的性能就要变坏。这种现象称为拥塞 (congestion)。</p>
+<p>增大资源不一定解决拥塞：例如增大缓存，但未提高输出链路的容量和处理机的速度，排队等待时间将会大大增加，引起大量超时重传，解决不了网络拥塞。</p>
+<h3 id="拥塞控制与流量控制"><a href="#拥塞控制与流量控制" class="headerlink" title="拥塞控制与流量控制"></a>拥塞控制与流量控制</h3><p>拥塞控制就是防止过多的数据注入到网络中，使网络中的路由器或链路不致过载。是一个全局性的过程，涉及到所有的主机、所有的路由器，以及与降低网络传输性能有关的所有因素。 </p>
+<p>而流量控制往往指点对点通信量的控制，是个端到端的问题（接收端控制发送端）。所要做的就是抑制发送端发送数据的速率，以便使接收端来得及接收。 </p>
+
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\13.png" alt="image-20210310104619646"></p>
+<h3 id="开环控制和闭环控制"><a href="#开环控制和闭环控制" class="headerlink" title="开环控制和闭环控制"></a>开环控制和闭环控制</h3><p>开环控制方法就是在设计网络时事先将有关发生拥塞的因素考虑周到，力求网络在工作时不产生拥塞。<br>闭环控制方法是基于反馈环路的概念。属于闭环控制的有以下几种措施：<br>(1) 监测网络系统以便检测到拥塞在何时、何处发生。<br>(2) 将拥塞发生的信息传送到可采取行动的地方。<br>(3) 调整网络系统的运行以解决出现的问题。</p>
+<h3 id="拥塞的指标"><a href="#拥塞的指标" class="headerlink" title="拥塞的指标"></a>拥塞的指标</h3><p>主要指标有：<br>由于缺少缓存空间而被丢弃的分组的百分数；<br>平均队列长度；<br>超时重传的分组数；<br>平均分组时延；<br>分组时延的标准差，等等。</p>
+<h3 id="TCP-的拥塞控制方法"><a href="#TCP-的拥塞控制方法" class="headerlink" title="TCP 的拥塞控制方法"></a>TCP 的拥塞控制方法</h3><p>TCP 采用基于窗口的方法进行拥塞控制。该方法属于闭环控制方法。<br>TCP发送方维持一个拥塞窗口 CWND (Congestion Window)<br>拥塞窗口的大小取决于网络的拥塞程度，并且动态地在变化。<br>发送端利用拥塞窗口根据网络的拥塞情况调整发送的数据量。<br>所以，发送窗口大小不仅取决于接收方公告的接收窗口，还取决于网络的拥塞状况，所以真正的发送窗口值为：min(公告窗口值，拥塞窗口值)</p>
+<h3 id="判断拥塞"><a href="#判断拥塞" class="headerlink" title="判断拥塞"></a>判断拥塞</h3><p>重传定时器超时：现在通信线路的传输质量一般都很好，因传输出差错而丢弃分组的概率是很小的（远小于 1 %）。只要出现了超时，就可以猜想网络出现了拥塞。<br>收到三个相同（重复）的 ACK：个别报文段会在网络中丢失，预示可能会出现拥塞（实际未发生拥塞），因此可以尽快采取控制措施，避免拥塞。</p>
+<h3 id="TCP拥塞控制算法"><a href="#TCP拥塞控制算法" class="headerlink" title="TCP拥塞控制算法"></a>TCP拥塞控制算法</h3><p>慢开始 ：由小到大逐渐增大拥塞窗口数值。初始拥塞窗口 cwnd 不超过2至4个发送方的最大报文段SMSS的数值。在每收到一个对新的报文段的确认后（一个传输轮次 transmission round），可以把拥塞窗口增加，一般是加倍，直到到达慢开始门限值ssthresh </p>
+<p>一个传输轮次 (transmission round)，也即往返时间RTT。例如，拥塞窗口 cwnd = 4，这时的往返时间 RTT 就是发送方连续发送 4 个报文段，并收到这 4 个报文段的确认，总共经历的时间。</p>
+<p>拥塞避免阶段：让拥塞窗口 cwnd 缓慢地增大，即每经过一个往返时间 RTT 就把发送方的拥塞窗口 cwnd 加 1，而不是加倍，使拥塞窗口 cwnd 按线性规律缓慢增长。</p>
+<p>无论在慢开始阶段还是在拥塞避免阶段，只要发送方判断网络出现拥塞，就执行慢开始算法</p>
+![image-20210310105641866](D:\blog\blog\source\_posts\ComputerNetwork5\14.png)
+
+如上图，当拥塞窗口 cwnd = 24 时，网络出现了超时（图中的点2），发送方判断为网络拥塞。于是调整门限值 ssthresh = cwnd / 2 = 12，同时设置拥塞窗口 cwnd = 1，进入慢开始阶段。
+
+快重传算法：发送方只要一连收到三个重复确认，就知道接收方确实没有收到报文段，因而应当立即进行重传（即“快重传”），这样就不会出现超时，发送方也不会误认为出现了网络拥塞。因此现在不执行慢开始算法，而是执行快恢复算法 FR (Fast Recovery) 算法。
+
+因此，如上图点4，发送方知道现在只是丢失了个别的报文段。于是不启动慢开始，而是执行快恢复算法。这时，发送方调整门限值ssthresh = cwnd / 2 = 8，同时设置拥塞窗口cwnd = ssthresh = 8，并开始执行拥塞避免算法。
+
+
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\15.png" alt="image-20210310110201209"></p>
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\16.png" alt="image-20210310110525642"></p>
+
+<h2 id="TCP-的运输连接管理"><a href="#TCP-的运输连接管理" class="headerlink" title="TCP 的运输连接管理"></a>TCP 的运输连接管理</h2><h3 id="运输连接"><a href="#运输连接" class="headerlink" title="运输连接"></a>运输连接</h3><p>TCP连接的建立采用客户服务器方式。主动发起连接建立的应用进程叫做客户(client)，被动等待连接建立的应用进程叫做服务器(server)。</p>
+
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\17.png" alt="image-20210310110927241"></p>
+<p>三次握手：</p>
+<p>A 的 TCP 向 B 发出连接请求报文段，其首部中的同步位 SYN = 1，并选择序号 seq = x，表明传送数据时的第一个数据字节的序号是 x。</p>
+<p>B 的 TCP 收到连接请求报文段后，如同意，则发回确认。B 在确认报文段中应使 SYN = 1，使 ACK = 1，其确认号ack = x +1，自己选择的序号 seq = y。</p>
+<p>A 收到此报文段后向 B 给出确认，其 ACK = 1，确认号 ack = y + 1。A 的 TCP 通知上层应用进程，连接已经建立。B 的 TCP 收到主机 A 的确认后，也通知其上层应用进程TCP 连接已经建立。</p>
+<h3 id="连接释放"><a href="#连接释放" class="headerlink" title="连接释放"></a>连接释放</h3><p>四报文握手</p>
+
+<p><img src="/03/10/ComputerNetwork5/blog\blog\source\_posts\ComputerNetwork5\18.png" alt="image-20210310111200242"></p>
+<p>数据传输结束后，通信的双方都可释放连接。现在 A 的应用进程先向其 TCP 发出连接释放报文段，并停止再发送数据，主动关闭 TCP 连接。A 把连接释放报文段首部的 FIN = 1，其序号seq = u，等待 B 的确认。</p>
+<p>B 发出确认，确认号 ack = u + 1，而这个报文段自己的序号 seq = v。TCP 服务器进程通知高层应用进程。从 A 到 B 这个方向的连接就释放了，TCP 连接处于半关闭状态。B 若发送数据，A 仍要接收。</p>
+<p>若 B 已经没有要向 A 发送的数据，其应用进程就通知 TCP 释放连接。 </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/08/ComputerNetwork4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/08/ComputerNetwork4/" itemprop="url">网络层</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-08T11:09:47+08:00">
+                2021-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5.3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="网络层的两种服务"><a href="#网络层的两种服务" class="headerlink" title="网络层的两种服务"></a>网络层的两种服务</h2><p>分为虚电路与数据报服务</p>
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\1.png" alt="image-20210308172515362"></p>
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\2.png" alt="image-20210308172552204"></p>
+
+
+<p>网络层提供简单灵活的、无连接的、尽最大努力交付的数据报服务。将可靠网络传输交给传输层。无需建立连接。每一个分组（即 IP 数据报）独立发送。</p>
+<p>这样使得网络的造价很低且灵活</p>
+<h2 id="网际协议-IP"><a href="#网际协议-IP" class="headerlink" title="网际协议 IP"></a>网际协议 IP</h2><p>网际协议 IP 是 TCP/IP 体系中两个最主要的协议之一。与 IP 协议配套使用的还有三个协议：地址解析协议 ARP(Address Resolution Protocol)网际控制报文协议 ICMP(Internet Control Message Protocol)网际组管理协议 IGMP(Internet Group Management Protocol)</p>
+
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\3.png" alt="image-20210308172812821"></p>
+<p>IP 地址就是给每个连接在互联网上的主机（或路由器）分配一个在全世界范围是唯一的 32 位的标识符（ipv4）</p>
+
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\4.png" alt="image-20210308172921724"></p>
+<p>点分十进制记法 </p>
+
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\5.png" alt="image-20210308173017699"></p>
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\6.png" alt="image-20210308173125225"></p>
+
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\7.png" alt="image-20210308173313667"></p>
+<p>在同一个局域网上的主机或路由器的IP 地址中的网络号必须是一样的。路由器总是具有两个或两个以上的 IP 地址。路由器的每一个接口都有一个不同网络号的 IP 地址。两个路由器直接相连的接口处，可指明也可不指明 IP 地址。如指明 IP 地址，则这一段连线就构成了一种只包含一段线路的特殊“网络” 。</p>
+<h2 id="IP-地址与硬件地址"><a href="#IP-地址与硬件地址" class="headerlink" title="IP 地址与硬件地址"></a>IP 地址与硬件地址</h2><p>硬件地址（或物理地址）是数据链路层和物理层使用的地址</p>
+<p>IP 地址是网络层和以上各层使用的地址，是一种逻辑地址</p>
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\8.png" alt="image-20210308173851627"></p>
+
+
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\9.png" alt="image-20210308212359972"></p>
+<p>每一个主机都设有一个 ARP 高速缓存 (ARP cache)，里面有所在的局域网上的各主机和路由器的 IP 地址到硬件地址的映射表。</p>
+<p>&lt; IP address；MAC address；TTL &gt;TTL (Time To Live)：地址映射有效时间 </p>
+<p>当主机 A 欲向本局域网上的某个主机 B 发送 IP 数据报时，就先在其 ARP 高速缓存中查看有无主机 B 的 IP 地址。<br>如有，就可查出其对应的硬件地址，再将此硬件地址写入 MAC 帧，然后通过局域网将该 MAC 帧发往此硬件地址。如没有， ARP 进程在本局域网上广播发送一个 ARP 请求分组。收到 ARP 响应分组后，将得到的 IP 地址到硬件地址的映射写入 ARP 高速缓存。ARP看到了IP地址，因此工作在网络层</p>
+<p>调用 ARP 的复杂过程都是由计算机软件自动进行的，对用户来说是看不见这种调用过程的.</p>
+<p>具体来说：</p>
+<p>发送方是主机/路由器，发送到本网络另一个主机，只需直接查询ARP；发送到另一网络主机，用ARP找到本网络上一个路由器的地址，然后剩下工作让路由器处理</p>
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\10.png" alt="image-20210308215026552"></p>
+
+<p>IP 首部的可变部分就是一个选项字段，用来支持排错、测量以及安全等措施，内容很丰富。选项字段的长度可变，从 1 个字节到 40 个字节不等，取决于所选择的项目。因为增加开销，所以实际上这些选项很少被使用。</p>
+<p>路由表没有给分组指明到某个网络的完整路径。路由表指出，到某个网络应当先到某个路由器（即下一跳路由器）。在到达下一跳路由器后，再继续查找其路由表，直到再下一步应当到哪一个路由器。这样一步一步地查找下去，直到最后到达目的网络。</p>
+<h2 id="划分子网"><a href="#划分子网" class="headerlink" title="划分子网"></a>划分子网</h2><p>划分子网纯属一个单位内部的事情。单位对外仍然表现为没有划分子网的网络。<br>从主机号借用若干个位作为子网号 subnet-id，而主机号 host-id 也就相应减少了若干个位。</p>
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\11.png" alt="image-20210309125940012"></p>
+
+<p>减少了 IP 地址的浪费；使网络的组织更加灵活；更便于维护和管理</p>
+<p>从一个 IP 数据报的首部并无法判断源主机或目的主机所连接的网络是否进行了子网划分。使用子网掩码(subnet mask)可以找出 IP 地址中的子网部分。  </p>
+<p>子网掩码长度＝32位。某位＝1：IP地址中的对应位为网络号和子网号。某位＝0：IP地址中的对应位为主机号</p>
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\12.png" alt="image-20210309130210263"></p>
+
+<p>数据报的首部并没有提供子网掩码的信息。因此分组转发的算法也必须做相应的改动</p>
+<p>(1) 从收到的分组的首部提取目的 IP 地址 D。<br>(2) 先用各网络的子网掩码和 D 逐位相“与”，看是否和相应的网络地址匹配。若匹配，则将分组直接交付。否则就是间接交付，执行 (3)。<br>(3) 若路由表中有目的地址为 D 的特定主机路由，则将分组传送给指明的下一跳路由器；否则，执行 (4)。<br>(4) 对路由表中的每一行，将子网掩码和 D 逐位相“与”。若结果与该行的目的网络地址匹配，则将分组传送给该行指明的下一跳路由器；否则，执行 (5)。<br>(5) 若路由表中有一个默认路由，则将分组传送给路由表中所指明的默认路由器；否则，执行 (6)。<br>(6) 报告转发分组出错。</p>
+<h2 id="网际控制报文协议-ICMP"><a href="#网际控制报文协议-ICMP" class="headerlink" title="网际控制报文协议 ICMP"></a>网际控制报文协议 ICMP</h2><p>为了更有效地转发 IP 数据报和提高交付成功的机会，在网际层使用了网际控制报文协议 ICMP (Internet Control Message Protocol)。</p>
+<p>ICMP 允许主机或路由器报告差错情况和提供有关异常情况的报告。</p>
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\13.png" alt="image-20210309130717073"></p>
+
+<p>ICMP 报文的种类有两种，即 ICMP 差错报告报文和 ICMP 询问报文。 ICMP 报文的前 4 个字节是统一的格式，共有三个字段：即类型、代码和检验和。接着的 4 个字节的内容与 ICMP 的类型有关。 </p>
+<p>差错报告报文共有 4 种 ：终点不可达；时间超过；参数问题；改变路由（重定向）</p>
+<p>询问报文有2种 ：回送请求和回答报文；时间戳请求和回答报文</p>
+<p>PING (Packet InterNet Groper) ：用来测试两个主机之间的连通性。 使用了 ICMP 回送请求与回送回答报文。PING 是应用层直接使用网络层 ICMP 的例子，它没有通过运输层的 TCP 或UDP。 </p>
+<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><p>路由器是网络层设备，实现了网络模型的下三层</p>
+<p>路由器的任务是连接不同的网络，完成分组转发和路由计算（包括路由表维护）</p>
+<p>在同一个网络内部转发无需路由器，否则需要（连接同构网络倒是可以使用交换机）</p>
+<h2 id="路由选择协议"><a href="#路由选择协议" class="headerlink" title="路由选择协议"></a>路由选择协议</h2><p>不存在一种绝对的最佳路由算法。所谓“最佳”只能是相对于某一种特定要求下得出的较为合理的选择而已。</p>
+<ul>
+<li>内部网关协议 IGP (Interior Gateway Protocol)<br>在一个自治系统内部使用的路由选择协议。目前这类路由选择协议使用得最多，如 RIP 和 OSPF 协议。</li>
+<li>外部网关协议 EGP (External Gateway Protocol)<br>若源站和目的站处在不同的自治系统中，当数据报传到一个自治系统的边界时，就需要使用一种协议将路由选择信息传递到另一个自治系统中。这样的协议就是外部网关协议 EGP。在外部网关协议中目前使用最多的是 BGP-4。  </li>
+</ul>
+<h3 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h3><p>一般来说，路由表有4个项目：目的网络ip，子网掩码，下一跳IP地址，接口</p>
+<h3 id="转发表"><a href="#转发表" class="headerlink" title="转发表"></a>转发表</h3><p>转发表是油路由表得到的，含有一个分组将发往的目的地址，以及分组的下一跳。为了减少重复的项目，可以用默认路由代替所有具有相同下一跳的项目</p>
+<p>转发与路由选择的区别：转发只涉及1个路由器，把收到的IP数据报从合适的端口转发出去；路由选择涉及很多路由器，路由表是协同工作的结果</p>
+<h3 id="内部网关协议-RIP"><a href="#内部网关协议-RIP" class="headerlink" title="内部网关协议 RIP"></a>内部网关协议 RIP</h3><p>RIP 协议要求网络中的每一个路由器都要维护从它自己到其他每一个目的网络的距离记录。</p>
+<p>从一个路由器到直接连接的网络的距离定义为 1。从一个路由器到非直接连接的网络的距离定义为所经过的路由器数加 1。RIP 协议中的“距离”也称为“跳数”(hop count)，因为每经过一个路由器，跳数就加 1。这里的“距离”实际上指的是“最短距离”。 RIP 允许一条路径最多只能包含 15 个路由器（防止环路）。“距离”的最大值为 16 时即相当于不可达。可见 RIP 只适用于小型互联网。RIP不支持子网掩码的RIP广播，因此RIP中每个网络的子网掩码必须相同</p>
+<p>RIP只与相邻路由器交换信息，交换当前路由器所知道的全部信息</p>
+<p>RIP默认在使用RIP的路由器之间每30秒广播一次RIP路由更新情况</p>
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\14.png" alt="image-20210309131937214"></p>
+
+<p>RIP协议特点：好消息传播得快，坏消息传播得慢。</p>
+<h3 id="内部网关协议-OSPF"><a href="#内部网关协议-OSPF" class="headerlink" title="内部网关协议 OSPF"></a>内部网关协议 OSPF</h3><p>向本自治系统中所有路由器发送信息，这里使用的方法是洪泛法。<br>发送的信息就是与本路由器相邻的所有路由器的链路状态，但这只是路由器所知道的部分信息。“链路状态”就是说明本路由器都和哪些路由器相邻，以及该链路的“度量”(metric)。 只有当链路状态发生变化时，路由器才用洪泛法向所有路由器发送此信息。  </p>
+<p>如果到同一个网络有多条代价相同的路径，可以将通信量分配给这几条路径，形成负载平衡</p>
+<p>为了使 OSPF 能够用于规模很大的网络，OSPF 将一个自治系统再划分为若干个更小的范围，叫作区域。每一个区域都有一个 32 位的区域标识符（用点分十进制表示）。区域也不能太大，在一个区域内的路由器最好不超过 200 个。  </p>
+<p>OSPF 还规定每隔一段时间，如 30 分钟，要刷新一次数据库中的链路状态。 由于一个路由器的链路状态只涉及到与相邻路由器的连通状态，因而与整个互联网的规模并无直接关系。因此当互联网规模很大时，OSPF  协议要比距离向量协议 RIP 好得多。</p>
+ 
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\15.png" alt="image-20210309132858732"></p>
+<p>OSPF共有以下五种分组类型:</p>
+<p>(1)类型1，问候(Hello)分组，用来发现和维持邻站的可达性。通常10秒就要交换一次问候分组</p>
+<p>(2)类型2，数据库描述(Database DescriPtion)分组，向邻站给出自己的链路状态数据库中的所有链路状态项目的摘要信息。刚开始工作时会使用，与相邻路由器交换信息</p>
+<p>(3)类型3，链路状态请求(Link State Request)分组，向对方请求发送某些链路状态项目的详细信息。</p>
+<p>(4)类型4，链路状态更新(Link State Update)分组，用洪泛法对全网更新链路状态</p>
+<p>(5)类型5，链路状态确认(Link State Acknowledgment)分组，对链路更新分组的确认。</p>
+<p>刚开始工作时，数据库描述分组-》链路状态请求分组，这样建立了全网同步的链路数据库。只要一个路由器状态变化，他就使用链路状态更新分组，其他路由器更新后发送链路状态确认分组。OSPF规定没隔一段时间就刷新一次数据库内的链路状态</p>
+<h3 id="外部网关协议-BGP"><a href="#外部网关协议-BGP" class="headerlink" title="外部网关协议 BGP"></a>外部网关协议 BGP</h3><p>BGP 是不同自治系统的路由器之间交换路由信息的协议。 </p>
+<p>边界网关协议 BGP 只能是力求寻找一条能够到达目的网络且比较好的路由（不能兜圈子），而并非要寻找一条最佳路由。  </p>
+<p>每一个自治系统的管理员要选择至少一个路由器作为该自治系统的“ BGP 发言人” (BGP speaker) 。一般说来，两个 BGP 发言人都是通过一个共享网络连接在一起的。 BGP 发言人之间要交换路由信息，就要先建立 TCP 连接，然后在此连接上交换 BGP 报文以建立 BGP 会话(session)，利用 BGP 会话交换路由信息。所有发言人都交换网络可达性的信息（即到达某个网络所要经过的一系列AS）后，各BGP发言人就可找到到达各个自治系统的较好路由</p>
+<p>BGP发言人除必须运行BGP外，还必须运行该AS所用的内部网关协议，如OSPF</p>
+ 
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\16.png" alt="image-20210309133101599"></p>
+<p>BGP 刚刚运行时，BGP 的邻站是交换整个的 BGP 路由表。但以后只需要在发生变化时更新有变化的部分。</p>
+<p>BGP使用四种报文：</p>
+<p>打开open，用来与相邻的发言人建立关系</p>
+<p>更新update，用来发送某一路由的信息，以及列出要撤销的多条路由</p>
+<p>keepalive，确认呢打开报文并周期性证实邻站关系</p>
+<p>notification，发送检测到的差错</p>
+<h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2> 
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\17.png" alt="image-20210309133544333"></p>
+<p>IPv6 引进的主要变化：</p>
+<p>更大的地址空间。IPv6 将地址从 IPv4 的 32 位 增大到了 128 位。<br>扩展的地址层次结构。<br>灵活的首部格式。 IPv6 定义了许多可选的扩展首部。<br>改进的选项。 IPv6 允许数据报包含有选项的控制信息，其选项放在有效载荷中。<br>允许协议继续扩充。<br>支持即插即用（即自动配置）。因此 IPv6 不需要使用 DHCP。<br>支持资源的预分配。</p>
+ 
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\18.png" alt="image-20210309133720614"></p>
+<p>IPv6 把原来 IPv4 首部中选项的功能都放在扩展首部中，并将扩展首部留给路径两端的源站和目的站的主机来处理。数据报途中经过的路由器都不处理这些扩展首部（只有一个首部例外，即逐跳选项扩展首部）。这样就大大提高了路由器的处理效率。</p>
+  
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\19.png" alt="image-20210309133906239"></p>
+<p>IPv6 数据报的目的地址可以是以下三种基本类型地址之一：<br>(1) 单播 (unicast)：传统的点对点通信。<br>(2) 多播 (multicast)：一点对多点的通信。<br>(3) 任播 (anycast)：这是 IPv6 增加的一种类型。任播的目的站是一组计算机，但数据报在交付时只交付其中的一个，通常是距离最近的一个。 </p>
+<p>IPv6 使用冒号十六进制记法(colon hexadecimal notation, 简写为colon hex)。<br>每个 16 位的值用十六进制值表示，各值之间用冒号分隔。例如：<br>68E6:8C64:FFFF:FFFF:0:1180:960A:FFFF<br>在十六进制记法中，允许把数字前面的0省略。例如把0000中的前三个0省略，写成1个0。</p>
+<p>冒号十六进制记法可以允许零压缩 (zero compression)，即一连串连续的零可以为一对冒号所取代。FF05:0:0:0:0:0:0:B3  可压缩为FF05::B3</p>
+<h3 id="从-IPv4-向-IPv6-过渡"><a href="#从-IPv4-向-IPv6-过渡" class="headerlink" title="从 IPv4 向 IPv6 过渡"></a>从 IPv4 向 IPv6 过渡</h3><p>IPv6 过渡只能采用逐步演进的办法，同时，还必须使新安装的 IPv6 系统能够向后兼容：IPv6 系统必须能够接收和转发 IPv4 分组，并且能够为 IPv4 分组选择路由</p>
+<h4 id="双协议栈"><a href="#双协议栈" class="headerlink" title="双协议栈"></a>双协议栈</h4>  
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\20.png" alt="image-20210309135026264"></p>
+<h4 id="隧道技术"><a href="#隧道技术" class="headerlink" title="隧道技术"></a>隧道技术</h4>  
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\21.png" alt="image-20210309135157722"></p>
+<p>IPv6 也需要使用 ICMP 来反馈一些差错信息。新的版本称为 ICMPv6</p>
+  
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\22.png" alt="image-20210309135302904"></p>
+<h2 id="IP-多播"><a href="#IP-多播" class="headerlink" title="IP 多播"></a>IP 多播</h2>  
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\23.png" alt="image-20210309135525175"></p>
+<p>IP 多播所传送的分组需要使用多播 IP 地址。多播组的标识符就是 IP 地址中的 D 类地址</p>
+<p>多播数据报和一般的 IP 数据报的区别就是它使用 D 类 IP 地址作为目的地址，并且首部中的协议字段值是2，表明使用网际组管理协议 IGMP。多播数据报也是“尽最大努力交付”，不保证一定能够交付多播组内的所有成员。对多播数据报不产生 ICMP 差错报文。因此，若在 PING 命令后面键入多播地址，将永远不会收到响应。</p>
+<h3 id="网际组管理协议-IGMP"><a href="#网际组管理协议-IGMP" class="headerlink" title="网际组管理协议 IGMP"></a>网际组管理协议 IGMP</h3><p>IGMP 协议是让连接在本地局域网上的多播路由器知道本局域网上是否有主机参加或退出了某个多播组。</p>
+<p>IGMP 可分为两个阶段 </p>
+<p>第一阶段：加入多播组。<br>当某个主机加入新的多播组时，该主机应向多播组的多播地址发送IGMP 报文，声明自己要成为该组的成员。<br>本地的多播路由器收到 IGMP 报文后，将组成员关系转发给互联网上的其他多播路由器。</p>
+<p>第二阶段：探询组成员变化情况。<br>因为组成员关系是动态的，因此本地多播路由器要周期性地探询本地局域网上的主机，以便知道这些主机是否还继续是组的成员。<br>只要对某个组有一个主机响应，那么多播路由器就认为这个组是活跃的。<br>但一个组在经过几次的探询后仍然没有一个主机响应，则不再将该组的成员关系转发给其他的多播路由器。</p>
+  
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\24.png" alt="image-20210309140942875"></p>
+<p>一个多播组中的成员是动态变化的，随时会有主机加入或离开这个多播组。多播路由选择实际上就是要找出以源主机为根结点的多播转发树。</p>
+<p>多播路由选择协议在转发多播数据报时使用三种方法</p>
+<h4 id="洪泛与剪除"><a href="#洪泛与剪除" class="headerlink" title="洪泛与剪除"></a>洪泛与剪除</h4><p>这种方法适合于较小的多播组，而所有的组成员接入的局域网也是相邻接的。</p>
+<p>一开始，路由器转发多播数据报使用洪泛的方法（这就是广播）。为了避免兜圈子，采用反向路径广播策略。 先检查它是否是从源点经最短路径传送来的。若是，就向所有其他方向转发刚才收到的多播数据报（但进入的方向除外），否则就丢弃而不转发。</p>
+<p>多播转发树上的路由器发现它的下游树枝已没有多播组的成员，就把它和下游树枝一起剪除。</p>
+<h4 id="隧道技术-1"><a href="#隧道技术-1" class="headerlink" title="隧道技术"></a>隧道技术</h4>  
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\25.png" alt="image-20210309141337873"></p>
+<h4 id="基于核心的发现技术"><a href="#基于核心的发现技术" class="headerlink" title="基于核心的发现技术"></a>基于核心的发现技术</h4><p>这种方法是对每一个多播组 G 指定一个核心(core) 路由器，给出它的 IP 单播地址。<br>核心路由器创建出对应于多播组 G 的转发树。 </p>
+<h2 id="虚拟专用网-VPN"><a href="#虚拟专用网-VPN" class="headerlink" title="虚拟专用网 VPN"></a>虚拟专用网 VPN</h2><p>由于 IP 地址的紧缺，一个机构能够申请到的IP地址数往往远小于本机构所拥有的主机数。考虑到互联网并不很安全，一个机构内也并不需要把所有的主机接入到外部的互联网。假定在一个机构内部的计算机通信也是采用 TCP/IP 协议，那么从原则上讲，对于这些仅在机构内部使用的计算机就可以由本机构自行分配其 IP 地址。</p>
+<p>利用公用的互联网作为本机构各专用网之间的通信载体，这样的专用网又称为虚拟专用网VPN (Virtual Private Network)。“专用网”是因为这种网络是为本机构的主机用于机构内部的通信，而不是用于和网络外非本机构的主机通信。</p>
+ 
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\26.png" alt="image-20210309145134833"></p>
+<h2 id="网络地址转换-NAT"><a href="#网络地址转换-NAT" class="headerlink" title="网络地址转换 NAT"></a>网络地址转换 NAT</h2><p>装有 NAT 软件的路由器叫作 NAT路由器，它至少有一个有效的外部全球IP地址。<br>所有使用本地地址的主机在和外界通信时，都要在 NAT 路由器上将其本地地址转换成全球 IP 地址，才能和互联网连接。  </p>
+<h2 id="DHCP"><a href="#DHCP" class="headerlink" title="DHCP"></a>DHCP</h2><p>互联网广泛使用的动态主机配置协议 DHCP (Dynamic Host Configuration Protocol) 提供了即插即用连网 (plug-and-play networking) 的机制。<br>这种机制允许一台计算机加入新的网络和获取IP 地址而不用手工参与。</p>
+<p>DHCP 中继代理以单播方式转发发现报文 </p>
+ 
+<p><img src="/03/08/ComputerNetwork4/blog\blog\source\_posts\ComputerNetwork4\27.png" alt="image-20210310163732725"></p>
+<p>DHCP 协议是基于UDP层之上的应用，dhcp使用udp携带报文，udp封装在ip数据包中发送</p>
+<p><a href="http://www.023wg.com/message/message/cd_feature_dhcp_message_format.html" target="_blank" rel="noopener">http://www.023wg.com/message/message/cd_feature_dhcp_message_format.html</a></p>
+<p>DHCP 服务器分配给 DHCP 客户的 IP 地址的临时的，因此 DHCP 客户只能在一段有限的时间内使用这个分配到的 IP 地址。DHCP 协议称这段时间为租用期。<br>租用期的数值应由 DHCP 服务器自己决定。<br>DHCP 客户也可在自己发送的报文中（例如，发现报文）提出对租用期的要求。  </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/07/ComputerNetwork3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/07/ComputerNetwork3/" itemprop="url">数据链路层</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-07T15:07:12+08:00">
+                2021-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.9k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>数据链路层的主要作用是如何将数据可靠地传输到相邻节点</p>
+<p>数据链路层使用的信道主要有以下两种类型:</p>
+<p>点对点信道。这种信道使用一对一的点对点通信方式。<br>广播信道。这种信道使用一对多的广播通信方式，因此过程比较复杂。 </p>
+<h2 id="数据链路"><a href="#数据链路" class="headerlink" title="数据链路"></a>数据链路</h2><p>物理链路 (link) 是一条点到点的物理线路段，中间没有任何其他的交换结点。除了物理线路外，还必须有通信协议来进行传输控制。软件+硬件形成了数据链路</p>
+<p>目前最常用的方法是使用适配器（即网卡）来实现这些协议的硬件和软件。一般的适配器都包括了数据链路层和物理层这两层的功能</p>
+<h2 id="三个基本问题"><a href="#三个基本问题" class="headerlink" title="三个基本问题"></a><strong>三个基本问题</strong></h2><h3 id="封装成帧"><a href="#封装成帧" class="headerlink" title="封装成帧"></a><strong>封装成帧</strong></h3><p>封装成帧 (framing) 就是在一段数据的前后分别添加首部和尾部，然后就构成了一个帧。确定帧的界限。</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\4.png" alt="image-20210307171441510"></p>
+
+<p>当数据是由可打印的 ASCII 码组成的文本文件时，帧定界可以使用特殊的帧定界符。控制字符 SOH (Start Of Header) 放在一帧的最前面，表示帧的首部开始。另一个控制字符 EOT (End Of Transmission) 表示帧的结束。</p>
+<h3 id="透明传输"><a href="#透明传输" class="headerlink" title="透明传输"></a><strong>透明传输</strong></h3><p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\5.png" alt="image-20210307171643848"></p>
+
+<h3 id="差错检测"><a href="#差错检测" class="headerlink" title="差错检测"></a><strong>差错检测</strong></h3><p>在一段时间内，传输错误的比特占所传输比特总数的比率称为误码率 BER </p>
+<p>误码率与信噪比有很大的关系</p>
+<h4 id="循环冗余检验-CRC"><a href="#循环冗余检验-CRC" class="headerlink" title="循环冗余检验 CRC"></a><strong>循环冗余检验</strong> <strong>CRC</strong></h4><p>假设待传送的一组数据 M ，k位，冗余码n位。 M 后面添加 n 个 0。得到的 (k + n) 位的数除以事先选定好的长度为 (n + 1) 位的除数 P，得出商是 Q 而余数是 R，R 是 n 位 。 将余数 R 作为冗余码拼接在数据 M 后面发送出去。</p>
+<h4 id="纠错编码"><a href="#纠错编码" class="headerlink" title="纠错编码"></a>纠错编码</h4><p>不但要提醒出现问题，最好能够定位</p>
+<p>常见方法是海明码</p>
+<p><a href="https://www.cnblogs.com/godoforange/p/12003676.html" target="_blank" rel="noopener">https://www.cnblogs.com/godoforange/p/12003676.html</a></p>
+<h2 id="组帧"><a href="#组帧" class="headerlink" title="组帧"></a>组帧</h2><p>之所以分组，是为了在出错时只需要重发出错的帧，提高效率</p>
+<p>组帧时需要首尾都有，因为网络中信息是以帧为最小单位进行传输的。而分组（IP数据报）包含在帧的数据部分内，因此无需尾部定界</p>
+<p>为了实现组帧分界，有以下方法：</p>
+<ul>
+<li>字符计数法：帧头部表明帧内字符数</li>
+<li>字符填充：见下文</li>
+<li>零比特填充：见下文</li>
+<li>违规编码：采用违规电平对</li>
+</ul>
+<h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><h3 id="停止-等待协议"><a href="#停止-等待协议" class="headerlink" title="停止-等待协议"></a>停止-等待协议</h3><p>每次只允许一帧，然后下一帧</p>
+<h3 id="滑动窗口协议"><a href="#滑动窗口协议" class="headerlink" title="滑动窗口协议"></a>滑动窗口协议</h3><h4 id="后退N帧"><a href="#后退N帧" class="headerlink" title="后退N帧"></a>后退N帧</h4><p>发送窗口不为1，接受窗口为1，每次收到确认帧，发送窗口前移一帧</p>
+<p>确认帧不一定连续，可以收到几个帧之后发送最后的接受帧号</p>
+<p>接受端只按序接受，如果中间隔帧即使收到的顺序正确也会全部丢弃</p>
+<p>不一定优于停止-等待协议</p>
+<h4 id="选择重传"><a href="#选择重传" class="headerlink" title="选择重传"></a>选择重传</h4><p>发送窗口与接受窗口均不为1</p>
+<p>如果计时器超时或者接收到否定帧NAK都会重传</p>
+<p>为了保证接受方移动后新旧窗口没有重叠，如果采用n比特对帧编号，需要：接收窗口+发送窗口&lt;=<script type="math/tex">2^n</script>。不然会出错（可以考虑n=3，接受窗口为1的情况，重传的8个帧与新的8个帧编号相同）</p>
+<p>一般情况下，接受与发送窗口大小相同</p>
+<h2 id="广域网"><a href="#广域网" class="headerlink" title="广域网"></a>广域网</h2><p>局域网的协议一般在数据链路层和物理层，而广域网在网络层</p>
+<p>PPP与HDLC是常见的两种广域网数据链路层控制协议</p>
+<h3 id="点对点协议-PPP"><a href="#点对点协议-PPP" class="headerlink" title="点对点协议 PPP"></a>点对点协议 PPP</h3><p><a href="https://www.cnblogs.com/chaguang/p/8097967.html" target="_blank" rel="noopener">https://www.cnblogs.com/chaguang/p/8097967.html</a></p>
+<p>应用在直接相连两个节点的链路上</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\6.png" alt="image-20210307172929508"></p>
+
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\17.png" alt="image-20210307201128536"></p>
+
+<p>PPP协议是一种在串行链路上传输IP数据包的一种方法，是一个协议的集合，不是单一的协议，支持建立链路的链路控制协议LCP以及一系列的NCP</p>
+<p>PPP帧如下所示</p>
+
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\7.png" alt="image-20210307173038517"></p>
+<p>为实现透明传输，当 PPP 用在同步传输链路时，协议规定采用硬件来完成比特填充；当 PPP 用在异步传输时，就使用一种特殊的字符填充法。 </p>
+
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\8.png" alt="image-20210307173358468"></p>
+
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\9.png" alt="image-20210307174107549"></p>
+
+<h3 id="HDLC协议"><a href="#HDLC协议" class="headerlink" title="HDLC协议"></a>HDLC协议</h3><p>高级链路层协议（HDLC）面向比特（PPP面向字节），不依赖于任何一种字符编码集；数据报文可透明传输，用0比特插入法；全双工；采用CRC校验</p>
+<p>适用于非平衡配置（一个主站控制其他所有）与平衡配置（链路两端是平等的复合站）</p>
+<p>HDLC有三种站：主站（控制链路，发出 命令帧）；从站（受控于主站，发出 响应帧）；复合站</p>
+<p>HDLC有三种数据操作方式：</p>
+<ul>
+<li>正常响应：主站命令，从站相应</li>
+<li>异步平衡：每个复合站都可以进行数据传输</li>
+<li>异步相应：从站未收到主站命令，也可以相应</li>
+</ul>
+<p><a href="http://www.023wg.com/message/message/cd_feature_hdlc_frame.html" target="_blank" rel="noopener">http://www.023wg.com/message/message/cd_feature_hdlc_frame.html</a></p>
+<h2 id="介质控制访问"><a href="#介质控制访问" class="headerlink" title="介质控制访问"></a>介质控制访问</h2><p>隔离来自同一信道的其他节点的信号</p>
+<h3 id="信道划分介质访问控制"><a href="#信道划分介质访问控制" class="headerlink" title="信道划分介质访问控制"></a>信道划分介质访问控制</h3><p>多路复用，比如频分/时分/波分/码分 复用</p>
+<h3 id="随机访问介质访问控制"><a href="#随机访问介质访问控制" class="headerlink" title="随机访问介质访问控制"></a>随机访问介质访问控制</h3><p>既不共享时间，也不共享空间</p>
+<p>有ALOHA/CSMA等协议</p>
+<h4 id="ALOHA协议"><a href="#ALOHA协议" class="headerlink" title="ALOHA协议"></a>ALOHA协议</h4><p>纯ALOHA：不检测直接发送，如果没有收到确认说明冲突了，重新发送</p>
+<p>时隙ALOHA：只有时隙的开始才能够发送，时隙的程度使得帧可以正好发送完毕</p>
+<h3 id="轮询访问介质访问控制"><a href="#轮询访问介质访问控制" class="headerlink" title="轮询访问介质访问控制"></a>轮询访问介质访问控制</h3><p>令牌传递</p>
+<h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><p>局域网最重要的特征就是具有广播功能</p>
+<p>局域网主要的特点有：所有站点平等，能够广播和组播，较低时延就较高的总带宽</p>
+<p>数据链路层可以拆成逻辑链路控制子层LLC与媒体介入控制子层MAC，后者提供对物理层的统一访问接口；前者为网络层提供服务接口</p>
+<p>三种特殊的局域网：</p>
+<ul>
+<li>以太网，目前应用最普遍的局域网技术，逻辑拓扑为总线形，实际可以为星形或拓展星形</li>
+<li>令牌网，逻辑环形，实际星形</li>
+<li>光纤分布数字接口FDDI，逻辑环形，实际双环结构</li>
+</ul>
+<p>IEEE802.3局域网可以简称为以太网，它与DIX Ethernet V2标准差别微小</p>
+<p>计算机与外界的连接通过网络接口板（网卡），装有处理器和控制器，实现帧的控制与交换等，具有全球唯一的一个代码MAC地址</p>
+<p>IEEE802.11是无线局域网的一系列协议，制定了MAC层协议，采用CSMA/CA协议进行介质访问控制。在无线局域网中发送过程中碰撞也要继续传递直到帧传递完全；有线会直接停止</p>
+<p>无线局域网可以分为</p>
+<ul>
+<li>固定基础设施无线局域网：无线局域网的最小构建是基本服务集（BBS），所有的站在本BBS内都可以直接通信，对站外需要经过接入点（AP），AP作用类似网桥。一个BBS可以是孤立的，也可以通过AP连接到主干分配系统DS再接入另一个基本服务集，形成扩展的服务集。也可以通过门桥接入其他类型的无线局域网</li>
+<li>无固定基础设施无线局域网自组织网络：没有AP，各移动站状态平等，中间节点都为转发节点且有路由器功能</li>
+</ul>
+<h3 id="CSMA-CD-协议"><a href="#CSMA-CD-协议" class="headerlink" title="CSMA/CD 协议"></a><strong>CSMA/CD</strong> <strong>协议</strong></h3><p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\10.png" alt="image-20210307175016131"></p>
+
+<p>CSMA/CD 含义：载波监听多点接入 / 碰撞检测  </p>
+<p>一般用于总线型以太网</p>
+<p>协议要点：</p>
+<p>(1) 准备发送。<br>(2) 检测信道。若检测到信道忙，则应不停地检测，一直等待信道转为空闲。若检测到信道空闲，并在 96 比特时间内信道保持空闲（保证了帧间最小间隔），就发送这个帧。<br>(3) 检查碰撞。在发送过程中仍不停地检测信道，即网络适配器要边发送边监听。这里只有两种可能性：<br>①发送成功：在争用期内一直未检测到碰撞。这个帧肯定能够发送成功。发送完毕后，其他什么也不做。然后回到 (1)。<br>②发送失败：在争用期内检测到碰撞。这时立即停止发送数据，并按规定发送人为干扰信号。适配器接着就执行指数退避算法，等待 r 倍 512 比特时间后，返回到步骤 (2)，继续检测信道。但若重传达 16 次仍不能成功，则停止重传而向上报错。</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\11.png" alt="image-20210307175435098"></p>
+
+<p>1990年 IEEE 制定出星形以太网 10（速率10M/s）BASE（基带）-T（双绞线） 的标准 802.3i，之后以太网也就在局域网中占据了统治地位</p>
+<p>集线器/路由器/交换机与冲突域/广播域： <a href="https://blog.csdn.net/gui951753/article/details/79402528" target="_blank" rel="noopener">https://blog.csdn.net/gui951753/article/details/79402528</a></p>
+<p>使用集线器的以太网在逻辑上仍是一个总线网，各工作站使用的还是 CSMA/CD 协议，并共享逻辑上的总线。<br>集线器很像一个多接口的转发器</p>
+<p>多个站在以太网工作时可能会发生碰撞。假设$\zeta$是以太网单程端到端传播时延。则争用期（冲突窗口期）长度为 2$\zeta$，即端到端传播时延的两倍。检测到碰撞后不发送干扰信号。 </p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\12.png" alt="image-20210307181219914"></p>
+
+<p>如果发送端在2$\zeta$内没有收到干扰信号，那么之后也不会收到干扰信号，因为并没有其他端口回复干扰。因此最小帧长为2$\zeta$*发送速率。如果收到一个帧长更小的帧，说明没有传完就被打断，直接丢弃</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\13.png" alt="image-20210307181713440"></p>
+
+<h3 id="CSMA-CA协议"><a href="#CSMA-CA协议" class="headerlink" title="CSMA/CA协议"></a>CSMA/CA协议</h3><p>用于无线区域网，无法碰撞检测</p>
+<p>修改CSMA/CD协议，将碰撞检测改为碰撞避免。不仅要等待一个时间间隔，还要竞争窗口并随机退避时间。当检测到信道空闲且数据帧是要发送的第一个数据帧时才会发送</p>
+<p>除此外还使用预约信道（通知其他站点自己传输的时长），ACK帧（发给发送方，如果收不到就要重传），RTS/CTS帧</p>
+<h3 id="以太网的-MAC-层"><a href="#以太网的-MAC-层" class="headerlink" title="以太网的 MAC 层"></a>以太网的 MAC 层</h3><p>在局域网中，硬件地址又称为物理地址，或 MAC 地址。 MAC地址是局域网通信设备或端口的唯一标识符。 </p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\14.png" alt="image-20210307182034508"></p>
+
+<p>IEEE规定地址字段的第一字节的最低位为 I/G 位。I/G 表示 Individual / Group。当 I/G位=0 时，地址字段表示一个单站地址。当 I/G位=1 时，表示组地址，用来进行多播（以前曾译为组播）。所有 48 位都为 1 时，为广播地址。只能作为目的地址使用。</p>
+<p>适配器从网络上每收到一个 MAC 帧就首先用硬件检查 MAC 帧中的 MAC 地址。如果是传到本站的收下，否则丢弃</p>
+<p>最常用的 MAC 帧是以太网 V2 的格式</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\15.png" alt="image-20210307182249428"></p>
+
+<p>类型字段用来标志上一层使用的是什么协议，以便把收到的 MAC 帧的数据上交给上一层的这个协议</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\16.png" alt="image-20210307200703676"></p>
+
+<h2 id="扩展的以太网"><a href="#扩展的以太网" class="headerlink" title="扩展的以太网"></a>扩展的以太网</h2><h3 id="在物理层扩展以太网"><a href="#在物理层扩展以太网" class="headerlink" title="在物理层扩展以太网"></a>在物理层扩展以太网</h3><p>使用集线器扩展。但是碰撞域也被增大了，且如果不同的碰撞域数据率不同，就无法连接起来</p>
+<h3 id="在数据链路层扩展以太网"><a href="#在数据链路层扩展以太网" class="headerlink" title="在数据链路层扩展以太网"></a><strong>在数据链路层扩展以太网</strong></h3><p>扩展以太网早期使用网桥，现在使用以太网交换机</p>
+<p>网桥根据 MAC 帧的目的地址对收到的帧进行转发和过滤。当网桥收到一个帧时，并不是向所有的接口转发此帧，而是先检查此帧的目的 MAC 地址，然后再确定将该帧转发到哪一个接口，或把它丢弃。 </p>
+<p>根据路由选择算法不同，可以将网桥分为：</p>
+<ul>
+<li>透明网桥，通过自学习法</li>
+<li>源路由网桥，路由选择由源站控制，原站发出发现帧，传递直到目的站，目的站发送应答帧，通过源路径返回，记录途径的网桥，然后源站就获得路径并选出最佳路由（往返时间最短）。之后再发送时必须要携带这一路由信息</li>
+</ul>
+<p>以太网交换机实质上就是一个多接口的网桥，每个接口都直接与一个单台主机或另一个以太网交换机相连，并且一般都工作在全双工方式。以太网交换机具有并行性，可以无碰撞地传输数据，并不会扩大碰撞域。不但隔离了冲突域，还通过VLAN隔离了广播域</p>
+<p>以太网交换机的接口有存储器，能在输出端口繁忙时把到来的帧进行缓存。以太网交换机是一种即插即用设备，其内部的帧交换表（又称为地址表）是通过自学习算法自动地逐渐建立起来的。以太网交换机使用了专用的交换结构芯片，用硬件转发，其转发速率要比使用软件转发的网桥快很多。</p>
+<p>目前以太网有直通（只检查目的地址，直接发送，不能支持不同速率的端口的交换）和存储转发（先缓存再检查帧是否出错，出错便丢弃，支持不同速率的端口的交换）两种交换模式</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\computerNetwork2\18.png" alt="image-20210307203457951"></p>
+
+<p>交换机收到一帧后先进行自学习。查找交换表中与收到帧的源地址有无相匹配的项目。<br>如没有，就在交换表中增加一个项目（源地址、进入的接口和有效时间）。<br>如有，则把原有的项目进行更新（进入的接口或有效时间）。<br>转发帧。查找交换表中与收到帧的目的地址有无相匹配的项目。<br>如没有，则向所有其他接口（进入的接口除外）转发。<br>如有，则按交换表中给出的接口进行转发。<br>若交换表中给出的接口就是该帧进入交换机的接口，则应丢弃这个帧（因为这时不需要经过交换机进行转发）</p>
+<h3 id="虚拟局域网"><a href="#虚拟局域网" class="headerlink" title="虚拟局域网"></a>虚拟局域网</h3><p>虚拟局域网 VLAN 是由一些局域网网段构成的与物理位置无关的逻辑组，而这些网段具有某些共同的需求。每一个 VLAN 的帧都有一个明确的标识符，指明发送这个帧的计算机是属于哪一个 VLAN。虚拟局域网其实只是局域网给用户提供的一种服务，而并不是一种新型局域网。</p>
+<p>虚拟局域网协议允许在以太网的帧格式中插入一个4字节的标识符，称为 VLAN 标记 (tag)，用来指明发送该帧的计算机属于哪一个虚拟局域网。插入 VLAN 标记得出的帧称为 802.1Q 帧 或 带标记的以太网帧。</p>
+<p><img src="/03/07/ComputerNetwork3/blog\blog\source\_posts\ComputerNetwork3\19.png" alt="image-20210307204031653"></p>
+
+<p>如上图，B1广播时，只有B2和B3会接收到，其余成员不会</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/07/computerNetwork2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/07/computerNetwork2/" itemprop="url">网络层</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-07T13:47:38+08:00">
+                2021-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>物理层考虑的是怎样才能在连接各种计算机的传输媒体上传输数据流</p>
+<p>信号具体怎样传递，存在着不同方式，其中需要经过调制等信号处理手段。传输时可能是数字信号，也可能是模拟信号。前者为离散信号，后者为连续信号。二者通过采样量化等手段可以相互转化</p>
+<h2 id="通信的一些定义"><a href="#通信的一些定义" class="headerlink" title="通信的一些定义"></a>通信的一些定义</h2><p>码元是用一个固定时长（码元宽度）的信号波形表示一个k进制的数字，表示离散值的基本波形。比如二进制编码时就只有两种码元</p>
+<p>码元传递效率即单位时间内能够传递码元的个数，也即脉冲个数活信号变化的次数，单位是波特，信息传递效率即k*码元传递效率</p>
+<p>信道 —— 一般用来表示向某一个方向传送信息的媒体</p>
+<p>单向通信（单工通信）——只能有一个方向的通信而没有反方向的交互</p>
+<p>双向交替通信（半双工通信）——通信的双方都可以发送信息，但不能双方同时发送(当然也就不能同时接收)</p>
+<p>双向同时通信（全双工通信）——通信的双方可以同时发送和接收信息</p>
+<p>基带信号（即基本频带信号）—— 来自信源的信号，一般为低频不方便传输。通过调制时不同的载波，可以调制到不同的频段</p>
+<h2 id="数字数据转化为数字信号"><a href="#数字数据转化为数字信号" class="headerlink" title="数字数据转化为数字信号"></a>数字数据转化为数字信号</h2><p>不归零制：不归零制：正电平代表 1，负电平代表 0。<br>归零制：正脉冲代表 1，负脉冲代表 0。<br>曼彻斯特编码：位周期中心的向上跳变代表 0，位周期中心的向下跳变代表 1。但也可反过来定义。<br>差分曼彻斯特编码：若为1，则前半电位与上一个码元后半电位相同，0则反之</p>
+<p><img src="/03/07/computerNetwork2/blog\blog\source\_posts\computerNetwork2\1.png" alt="image-20210307140031047"></p>
+
+<h2 id="数字数据转化为模拟信号"><a href="#数字数据转化为模拟信号" class="headerlink" title="数字数据转化为模拟信号"></a>数字数据转化为模拟信号</h2><p>基本的调制方法：调幅（AM），随数字信号调节载波振幅；调频（FM）；调相（AM）</p>
+
+<p><img src="/03/07/computerNetwork2/blog\blog\source\_posts\computerNetwork2\2.png" alt="image-20210307140909735"></p>
+<p>为了提高信息传递效率，可以采用混合调制的方法，比如正交振幅调制</p>
+<h2 id="香农公式"><a href="#香农公式" class="headerlink" title="香农公式"></a>香农公式</h2><p>信号传递的过程中会出现失真，也即信道内部存在噪声S，设信号为N，信噪比(dB) = 10 log10(S/N)    (dB) </p>
+<p><img src="/03/07/computerNetwork2/blog\blog\source\_posts\computerNetwork2\3.png" alt="image-20210307142040963"></p>
+
+<p>因此若信噪比或带宽无限大时，理想传输速率无限大</p>
+<h2 id="奈奎斯特定理"><a href="#奈奎斯特定理" class="headerlink" title="奈奎斯特定理"></a>奈奎斯特定理</h2><p>在没有噪声的情况下，因为码间干扰，理想低通信道的极限数据传输率为2WlogV，V为离散码元种类总数，W为低通信道的带宽</p>
+<p>并不是香农定理的极限形式，只是从两个角度进行了分析</p>
+<h2 id="物理层下的传输媒体"><a href="#物理层下的传输媒体" class="headerlink" title="物理层下的传输媒体"></a>物理层下的传输媒体</h2><p>这些传输媒体不属于物理层</p>
+<p>可分为导引型（光缆）与非导引型（电磁波）</p>
+<h2 id="信道复用技术"><a href="#信道复用技术" class="headerlink" title="信道复用技术"></a><strong>信道</strong>复用技术</h2><p>频分复用</p>
+<p>时分复用</p>
+<p>码分复用：每一个比特时间（发送1bit需要的时间）划分为 m 个短的间隔，称为码片，每个站被指派一个唯一的 m bit 码片序列。这样每个站点的发送数据率/频带宽度变成之前的m倍。码片之间必须各不相同且正交</p>
+<h2 id="宽带接入技术"><a href="#宽带接入技术" class="headerlink" title="宽带接入技术"></a>宽带接入技术</h2><h3 id="ADSL-技术"><a href="#ADSL-技术" class="headerlink" title="ADSL 技术"></a>ADSL 技术</h3><p>用数字技术对现有的模拟电话用户线进行改造，使它能够承载宽带业务。电话只使用了低频，这样高频就可以用来上网，带宽不对称</p>
+<h3 id="DMT-技术"><a href="#DMT-技术" class="headerlink" title="DMT 技术"></a>DMT 技术</h3><p>同样是电话线，频分复用</p>
+<h3 id="。。。"><a href="#。。。" class="headerlink" title="。。。"></a>。。。</h3><h2 id="电路交换-报文交换-分组交换"><a href="#电路交换-报文交换-分组交换" class="headerlink" title="电路交换/报文交换/分组交换"></a>电路交换/报文交换/分组交换</h2><p>电路交换：数据传输前两点间建立专用的通信道路，直到通信结束后释放</p>
+<p>报文交换：无需链接，动态分配道路，数据交换的单位是报文，交换时存储转发</p>
+<p>存储转发：以太网交换机的控制器先将输入端口到来的数据包缓存起来，先检查数据包是否正确，并过滤掉冲突包错误。确定包正确后，取出目的地址，通过查找表找到想要发送的输出端口地址，然后将该包发送出去。正因如此，存储转发方式在数据处理时延时大，这是它的不足，但是它可以对进入交换机的数据包进行错误检测，并且能支持不同速度的输入/输出端口间的交换，可有效地改善网络性能。它的另一优点就是这种交换方式支持不同速度端口间的转换，保持高速端口和低速端口间协同工作。实现的办法是将10Mbps低速包存储起来，再通过100Mbps速率转发到端口上。</p>
+<p>分组交换：报文分组后的报文交换</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/07/ComputerNetwork1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/07/ComputerNetwork1/" itemprop="url">计算机网络概况</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-07T10:31:08+08:00">
+                2021-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="计算机网络的性能指标"><a href="#计算机网络的性能指标" class="headerlink" title="计算机网络的性能指标"></a>计算机网络的性能指标</h2><h3 id="速率"><a href="#速率" class="headerlink" title="速率"></a>速率</h3><p><strong>数据的传送速率</strong>，它也称为数据率(data rate)或比特率 (bit rate)。单位是bit/s，或 kbit/s等</p>
+<p>速率往往是指额定速率或标称速率，非实际运行速率</p>
+<h3 id="带宽"><a href="#带宽" class="headerlink" title="带宽"></a>带宽</h3><p>无线网络中，指<strong>信号具有的频带宽度</strong>，单位是HZ</p>
+<p>有线网络中，指<strong>某通道传播数据的能力</strong>，单位是bit/s</p>
+<p>前者是频域称谓，后者是时域称谓，本质是一样的。<strong>其本质是类似的。也就是说，一条通信链路的“带宽”越宽，其所能传输的“数据率”也越高。</strong></p>
+<h3 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a><strong>吞吐量</strong></h3><p><strong>在单位时间内通过某个网络（或信道、接口）的数据量</strong>，<strong>更经常地用于对现实世界中的网络的一种测量</strong></p>
+<h3 id="时延"><a href="#时延" class="headerlink" title="时延"></a><strong>时延</strong></h3><p><strong>是指数据（一个报文或分组，甚至比特）从网络（或链路）的一端传送到另一端所需的时间</strong></p>
+<p>由以下几个不同的部分组成：</p>
+<ol>
+<li><strong>发送时延</strong></li>
+<li><strong>传播时延</strong></li>
+<li><strong>处理时延</strong></li>
+<li><strong>排队时延</strong></li>
+</ol>
+<p><strong>发送时延</strong>也被成为传输时延，指的是数据帧从进入传输媒体到全部发送完毕需要的时间，等于数据帧长度/发送速率</p>
+<p><strong>传播时延</strong>指的是电磁波在信道中传播所需要的时间，与信号的传播速率而不是发送速率相关</p>
+<p><strong>处理时延</strong>指的是主机或者路由器处理分组（例如差错校验）花的时间</p>
+<p><strong>排队时延</strong>指的是分组在路由器输入输出队列中排队等待处理所经历的时延，往往取决于网络中当时的通信量</p>
+<p><img src="/03/07/ComputerNetwork1/blog\blog\source\_posts\ComputerNetwork1\1.png" alt="image-20210307105331163"></p>
+
+<p>对于高速网络，提高的是数据的发送速率，而非传播速率</p>
+<h3 id="往返时延"><a href="#往返时延" class="headerlink" title="往返时延"></a>往返时延</h3><p>发送端开始发送数据，到接收到另一端的确认信号</p>
+<h3 id="信道利用率"><a href="#信道利用率" class="headerlink" title="信道利用率"></a>信道利用率</h3><p>信道多少比例时间有信号通过的</p>
+<h2 id="网络分层"><a href="#网络分层" class="headerlink" title="网络分层"></a>网络分层</h2><p><img src="/03/07/ComputerNetwork1/blog\blog\source\_posts\ComputerNetwork1\2.png" alt="image-20210307105631056"></p>
+
+<p>服务数据单元，SDU</p>
+<p>协议控制信息，PCI</p>
+<p>协议数据单元，PDU。对等层次之间传递的数据单元，物理层成为比特，链路层成为帧，网络层成为分组，传输层成为报文等</p>
+<p>n-SDU+n-PCI=n-PDU=（n-1）-SDU</p>
+<p>上一层只能调用临近层的接口使用下一层的服务，下一层对上一层透明</p>
+<p>如果对等层在逻辑上有直接信道，就可以不经过下层直接传递</p>
+<h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><p>对等层次之间的规则</p>
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>同一节点相邻层级之间交换信息的连接点。SAP服务访问点</p>
+<h2 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h2><p>下层为紧邻的上层提供功能调用，这个过程中必须进行交换一些命令，成为服务原语</p>
+<ul>
+<li>请求，服务用户》服务提供者</li>
+<li>指示，服务提供者》服务用户</li>
+<li>相应，服务用户》服务提供者，对指示的响应</li>
+<li>证实，服务提供者》服务用户，对获得请求的证实</li>
+</ul>
+<h3 id="服务的分类"><a href="#服务的分类" class="headerlink" title="服务的分类"></a>服务的分类</h3><p>面向连接/无连接：前者传输时需要先建立连接，分配缓冲区，传输后需要释放；后者需要发送时直接发送，这是不可靠的</p>
+<p>可靠/不可靠：后者的正确性与可靠性需要用户保障</p>
+<p>有应答/无应答：接受方收到数据是否要应答，这个应答需要传输系统内部自动实现。www服务中客户端收到页面无需应答</p>
+<h2 id="计算机网络的分类"><a href="#计算机网络的分类" class="headerlink" title="计算机网络的分类"></a>计算机网络的分类</h2><h3 id="按照分布"><a href="#按照分布" class="headerlink" title="按照分布"></a>按照分布</h3><p>广域网（WAN）</p>
+<p>城域网（MAN）</p>
+<p>局域网（LAN），传统上，局域网采用广播技术，而广域网采用交换技术</p>
+<p>个人区域网（PAN）</p>
+<h3 id="按照传输技术"><a href="#按照传输技术" class="headerlink" title="按照传输技术"></a>按照传输技术</h3><p>广播式网络，所有计算机共享一个公共信道。局域网大多采用的方式</p>
+<p>点对点网络，每条物理线路连接一对计算机</p>
+<p>是否采用分组存储转发与路由选择是二者的重要区别</p>
+<h3 id="按照拓扑"><a href="#按照拓扑" class="headerlink" title="按照拓扑"></a>按照拓扑</h3><p>总线/星/环 形等</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/01/the-limitations-of-deep-learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1198,1086 +2373,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/" itemprop="url">cpp primer笔记1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-30T13:13:36+08:00">
-                2020-11-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  4.4k
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>c++可以看作由三个部分构成：</p>
-<ol>
-<li>低级C</li>
-<li>现代高级语言特性</li>
-<li>标准库</li>
-</ol>
-<p>UNIX与windows执行完成程序后，可以用echo获得返回值</p>
-<ol>
-<li>UNIX $ echo $?</li>
-<li>windows $ echo  %ERRORLEVEL%</li>
-</ol>
-<p>UNIX用 $? 变量保存上一个已执行命令的退出状态码，一般没有规律可循，退出状态码0为成功，最大255，有些有特殊含义比如权限不足</p>
-<p>shell脚本一般以最后一个命令的退出状态码作为退出状态码，shell脚本函数可以看作小的脚本，$?也可以提取函数退出状态码</p>
-<p>std::cout&lt;&lt;”ENTER”&lt;&lt;std::endl 等价于 (std::cout&lt;&lt;”ENTER”)&lt;&lt;std::endl , &lt;&lt; 左侧必须是ostream对象， std::endl是一种操纵符，效果是结束当前行同时刷新缓冲区</p>
-<p>>&gt;运算符相似</p>
-<p>多行注释不能嵌套，想要注释包括注释的代码段最好使用//</p>
-<p>windows下EOF为^z, UNIX为^D</p>
-<p>cerr是ostream对象，一般也写到与标准输出相同的设备，但是写到cerr的对象不缓冲</p>
-<p>c++规定，尺寸上，short&lt;=int&lt;=long&lt;=long long</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/2.PNG" class>
-<p>c++标准是标准，编译器具体怎么实现另说</p>
-<p>字符型有三种：char，signed char， unsigned char，这很奇怪，实际只有带不带符号两种，char会根据编译器转换为其中一种，所以尽量不要用这个做运算</p>
-<p>除此之外字符型还要很多扩展类型，比如wchar_t(wide_char_type,c/c++里很多_ t类型 )， char16_t等</p>
-<p>比如wchar_t用于确保存放机器基本字符集中任意字符对应的值，这个大小在不同系统上不一样。很多符号的存储需要多于一个字节，例如汉字一般需要2个字节存储，这个与编码格式也有关</p>
-<p>直接把宽窄字符混用会出现问题，具体怎样输出和编码格式也有关，c/c++编码是一个复杂的问题</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/3.PNG" class>
-<p><a href="https://www.cnblogs.com/lanhaicode/p/10574260.html" target="_blank" rel="noopener">宽字符wchar_t和窄字符char——putwchar、wprintf - 蓝海人 - 博客园 (cnblogs.com)</a></p>
-<p><a href="https://www.zhihu.com/question/54664311" target="_blank" rel="noopener">为什么大多数的 C++ 的开源库都喜欢自己实现 string？ - 知乎 (zhihu.com)</a></p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/1.PNG" class>
-<p>当计算式里既有有符号又有无符号，会自动全部转换为无符号进行计算。所以这两种形式最好不要混用</p>
-<p>同时，在使用无符号时一定要非常小心，比如如果在循环变量使用了无符号，很容易就因为达不到负值永远循环下去</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/4.PNG" class>
-<p>c++支持分离式编译，每个文件可以单独的被编译</p>
-<p>声明与定义是不同的：声明使得名字被程序知道，但是只有定义才能创建与名字相关的实体，申请内存</p>
-<p>如果想要声明但不定义一个变量，需要使用extern。一个变量可以被声明很多次，但是只能被定义一次</p>
-<p>extern int a=0 既定义又声明了变量</p>
-<p>在函数体内部不能初始化用extern标记的变量，但可以修改</p>
-<p>c++是静态类型语言，即在编译阶段检查类型</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/5.PNG" class>
-<p>最好多用nullptr，这是c++11引入的一种特殊类型的字面值，它可以转换为任何类型的指针</p>
-<p>NULL是一种预处理变量，c++中他就是0</p>
-<p><a href="https://zhuanlan.zhihu.com/p/79883965" target="_blank" rel="noopener">为什么建议你用nullptr而不是NULL - 知乎 (zhihu.com)</a>（c++中）</p>
-<p>void<em>指针：与其他指针比较，作为函数输入输出，赋值给其他void </em>指针。不能直接操作指向的对象，因为不知道这个对象是什么类型</p>
-<p>在c++11中，花括号初始化得到了全面应用，这种方法叫“列表初始化”。但是这种赋值不能窄化转换</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/6.PNG" class>
-<p>int *&amp;r ：对指针的引用。阅读时从右到左，先读到的有最直接的影响</p>
-<p>int&amp;*：不允许</p>
-<p>int*const a :常量指针</p>
-<p>const int* const a：指向常量的常量指针</p>
-<p>可以用顶层const（指针/变量本身是const）和底层const（指向const）来表示</p>
-<p>顶层const实质只是“自认为”const，指向的变量变化后他也会变化</p>
-<p>正常情况，const必须初始化</p>
-<p>编译器对const默认的操作是把所有出现常量的位置都换成对应的值，因此如果包含多个文件，每一个文件都必须定义常量，因此默认情况下，const只在文件内部有效。多个文件出现了同名的变量，等同于不同文件里定义了独立的变量</p>
-<p>如果想要实现共享同一个变量的效果的话，对于const常量不管是声明还是定义都添加extern关键字，这样即便没有初始化也不会报错了</p>
-<p>常量对象的引用必须由常量的引用进行</p>
-<p>引用也像一种常量，因为不能解绑</p>
-<p>引用必须与原数据类型相同，但是有两个例外：</p>
-<ol>
-<li>初始化常量引用可以使用任何表达式作为初始值——这个过程本质是创建了一个新的临时量并让常量绑定上去，如果是非常量引用的话改变引用值只会改变临时量，没有意义因而报错</li>
-<li>常量的引用可以绑定到非常量上，但是反之不可</li>
-</ol>
-<p>c++11引入constexpr，用这个声明的变量一定是常量，而且必须用常量表达式初始化，否则报错</p>
-<p>不过constexpr修饰指针只会设置为顶层const。他的初值必须设置为具有固定地址的对象。一般来说函数体内的对象内存不固定，因此不可被指向</p>
-<p>字面值类型：算数，引用，指针等值易求得的类型，他们可以被定义为constexpr。</p>
-<p>类型别名</p>
-<ol>
-<li>typedef double  wages</li>
-<li>using wages=double</li>
-</ol>
-<p>typedef int arrT[10]; arrT是一个类型，表示含有10个int的数组</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/7.PNG" class>
-<p>auto说明符：自动推算应该赋予的类型，c++11引入</p>
-<p>但是存在一些区别：引用作为初始值时，忽略引用；忽略顶层const；如果想要保持需要明确指出</p>
-<p>decltype：返回操作数的数据类型，c++11引入</p>
-<p>如果返回的是引用类型，则必须对应操作：decltype(*p) c 必须初始化，因为是int&amp;</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/8.PNG" class>
-<p>类内初始化：c++11支持类内初始化，必须用等号或{}，不可用圆括号</p>
-<p>预处理器：编译之前执行的一段程序，例如#include，#include会把定义的头文件直接插入代替</p>
-<p>头文件保护符：#define （把一个名字设定为预处理变量） #ifndef #endif ，避免重定义</p>
-<p>预处理变量无视c++中关于作用域的规则，这个变量在整个程序内必须唯一</p>
-<p><a href="https://zhuanlan.zhihu.com/p/94249215" target="_blank" rel="noopener">编译原理—C语言C文件和头文件的关系 - 知乎 (zhihu.com)</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/28235828" target="_blank" rel="noopener">不同编译器是如何处理预编译头文件的？ - 知乎 (zhihu.com)</a></p>
-<p><a href="https://www.zhihu.com/question/20484931" target="_blank" rel="noopener">(1 封私信) Linux 中的动态链接库和静态链接库是干什么的？ - 知乎 (zhihu.com)</a></p>
-<p>using namespace::name; 表明使用name时我们从命名空间std中获取</p>
-<p>头文件一般不要使用using声明，因为头文件被拷贝到所有引用他的文件里，会造成声明的污染，容易出问题</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/9.PNG" class>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/11.PNG" class>
-<p>string.size()返回string::size_type类，这个类属于与机器无关的配套类，是无符号整型数</p>
-<p>c++11 范围for：</p>
-<p>for(declaration : expresssion)    state</p>
-<p>declaration 可以通过引用来修改原序列的值</p>
-<p>范围for不能在遍历过程中改变序列的大小；凡是使用了迭代器的循环体，都不能向容器内添加元素</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/18.PNG" class>
-<p>虽然数组与指针本质很像，但是少数情况下还得分清</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/12.PNG" class>
-<p>vector最好初始时不设置长度再逐个插入，这样大多数情况下性能更好，违反常识</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/13.PNG" class>
-<p>迭代器与指针操作类似，也有*，++，-&gt;运算符</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/14.PNG" class>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/15.PNG" class>
-<p>常量对象的迭代器还是常量迭代器</p>
-<p>c++11引入了cbegin与cend明确返回常量迭代器</p>
-<p>迭代器间可以进行算数运算，返回类型为difference_type,带符号整型</p>
-<p>迭代器与整数可以进行运算，超出迭代器会指向end</p>
-<p>数组长度初始化必须使用常量</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/16.PNG" class>
-<p>从内向外读</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/19.PNG" class>
-<p>很麻烦</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/20.PNG" class>
-<p>多用auto，用begin与end也可以判断数组始末</p>
-<p>size_t，无符号，大的可以表示内存中任意对象大小，可以用来定义数组下标</p>
-<p>c++11引入了针对数组的begin与end，返回对应指针</p>
-<p>指针之间可以运算，也可以与整数运算，但是要检查是否超出范围</p>
-<p>标准库下标必须是无符号，数组未必</p>
-<p>少用C风格的字符串</p>
-<p>可以使用带空字符的字符数组与string初始化/运算</p>
-<p>反过来必须使用c_str()，返回的是const cahr*类型指针，指向与string相同的内存。因此string更改后c字符串也会更改</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/17.PNG" class>
-<p>优先级规定了运算对象的组合方式，但是没有说明按照什么顺序求值</p>
-<p>cout&lt;&lt;i&lt;&lt;++i的结果是不可知的，因为没有定义求值顺序</p>
-<p>因此建议多用括号；如果改变了某个运算对象的值，在其他地方不要再使用这个运算对象</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/21.PNG" class>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/22.PNG" class>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/23.PNG" class>
-<p>cond？exp1：exp2</p>
-<p>sizeof （type）</p>
-<p>sizeof expr</p>
-<p>c++11引入了sizeof（char），可以直接取类而非实体</p>
-<p>sizeof处理数组可以得到整个数组占用的大小；string/vector只返回固定部分不包括元素占有的空间</p>
-<p>算数转换</p>
-<ol>
-<li><p>整型提升，把小整数变成大整数，char与bool提升到int或long</p>
-</li>
-<li><p>无符号，与机器本身有关</p>
-</li>
-</ol>
-<p>其他隐式转换：数组转指针；指针间的转换；判断语句中转bool；非常量转常量（常量很多时候只是“认为”自己是常量）</p>
-<p>强制类型转换</p>
-<p>cast-name&lt; type &gt;(expression);</p>
-<p>static_cast:只要不包含底层const都可以转换</p>
-<p>const_cast:只能改变底层const，这样编译器就不再组织对这个对象进行写操作</p>
-<p>reinterpret_cast</p>
-<p>type(expr)或(type)expr：旧式类型转换</p>
-<p>传统for初始化语句只有一句，因此如果是多个变量初始化就应该同一个类型</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/24.PNG" class>
-<p>如果try中出现异常，会层层上传直到找到匹配的catch语句；如果找不到，转到terminate标准库函数，之后终止程序</p>
-<p>catch(…)可以接受所有异常</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/25.PNG" class>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/26.PNG" class>
-<p>自动对象：只在块执行期间存在的对象</p>
-<p>局部静态对象：第一次经过时初始化，直到程序结束才销毁</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/27.PNG" class>
-<p>函数传参的类型原则和之前变量的初始化是一样的</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/28.PNG" class>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/29.PNG" class>
-<p>这些写法，总是感觉让人困惑但是意义不大。除非是传入的数组已经确定了，不然和传指针没有区别</p>
-<p>c++11引入了initializer_list，这是一种标准库，表示某种特定值的数组</p>
-<p>可以作为形参，得到未知数量的参数</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/30.PNG" class>
-<p>省略符形参：用省略符代替任意数量形参，只能出现在形参列表的最后一位</p>
-<p><a href="https://blog.csdn.net/liyazhen2011/article/details/82288306" target="_blank" rel="noopener">c++中的省略号_万里归来少年心-CSDN博客_c++ 省略号</a></p>
-<p>调用运算符的优先级和点运算符以及箭头运算符相同，满足左结合律</p>
-<p>c++11规定，函数可以返回花括号包围的列表，这个列表可以结合返回值进行初始化</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/31.PNG" class>
-
-<p>​    </p>
-<p>尾置返回类型，c++11</p>
-<p>auto func(int i)-&gt;int(*)[10]</p>
-<p>把真正起到作用的返回值放到了最后</p>
-<p>decltype(odd ) *arrPtr(int i)</p>
-<p>或者使用关键字，更加简洁</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/33.PNG" class>
-<p>默认实参声明：虽然一个函数的多次声明是合法的，但是每一个形参只能被赋予一次默认实参</p>
-<p>局部函数不能作为默认实参，除此以外任何表达式都可以作为实参</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/34.PNG" class>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/35.PNG" class>
-<p>constexpr函数：返回类型与形参都必须是字面值，函数体里有且只能有一条return</p>
-<p>如果返回值是常量，执行初始化时，编译器会把函数的调用替换成结果值，也被隐式指定为内联函数</p>
-<p>constexpr返回值可以不是常量（我傻了，那这有什么用啊）</p>
-<p><a href="https://www.zhihu.com/question/274323507" target="_blank" rel="noopener">(1 封私信) constexpr究竟有什么用？ - 知乎 (zhihu.com)</a></p>
-<p><a href="https://www.zhihu.com/question/35614219" target="_blank" rel="noopener">(1 封私信) C++ const 和 constexpr 的区别？ - 知乎 (zhihu.com)</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/258105708" target="_blank" rel="noopener">C++干货系列——从编译期常量谈到constexpr(三) - 知乎 (zhihu.com)</a></p>
-<p>博大精深</p>
-<p>assert：预处理宏。如果表达式为假则终止程序，否则什么也不做</p>
-<p>DEBUG</p>
-<p>cc -D NDEBUG main.c    关闭debug；等于在文件开头假如 #define NDEBUG</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/36.PNG" class>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/37.PNG" class>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/38.PNG" class>
-<p>虽然const int与int不算重载，但是常量引用是可以的。指向常量的指针也是这样。底层const可以重载</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/39.PNG" class>
-<p>函数指针：</p>
-<p>bool (*pf)(const string&amp; , const string &amp;);未初始化</p>
-<p>pf=func；等价于 pf=&amp;func</p>
-<p>调用对应函数是也可以不解指针</p>
-<p>pf（“A”，“B”）等价于(*pf)（“A”，“B”）</p>
-<p>如果指向重载函数，指针必须与其中某一个精确匹配</p>
-<p>函数指针也可以作为参数传递：</p>
-<img src="/2020/11/30/c-primer%E7%AC%94%E8%AE%B01/40.PNG" class>
-<p>函数指针也可以作为返回值：</p>
-
-<p>定义在类内部的函数是隐式的inline函数</p>
-<p>常量对象，常量对象的引用以及指针都只能调用常量成员函数；非常量对象也能调用</p>
-<p>常量成员函数即在参数列表后加上const，这个函数只能读取成员而不能修改。除非mutable关键字</p>
-<p>成员函数体内可以随意使用类中的其他成员，因为编译器会先编译成员声明，再编译成员函数体</p>
-<p>任何函数体外定义的变量会初始化0，函数体内的内置变量将不被初始化</p>
-<p>对于一个普通的类中，必须定义自己的默认构造函数</p>
-<ol>
-<li>只有类内不包含任何构造函数时，编译器才会自动生成一个构造函数</li>
-<li>块内的内置类型与符合类型默认初始化，成为未定义的</li>
-<li>如果类中存在其他没有默认构造函数的成员，编译器无法正常运行</li>
-</ol>
-<p>在类的声明之后定义之前他是一个不完全类型，这是一个非常有限的类型，只能定义引用/声明/用于函数声明</p>
-<p>c++11引入了=default参数。如果构造时使用默认行为，则再参数列表上加上这一句</p>
-<p>友元只能在类内部声明，具体位置不限，不受访问控制级别的限制</p>
-<p>友元的声明只说明了访问的权限，并不是真正的声明，一般需要在类的外部再次声明</p>
-<p>无需在声明与定义的未知都写上inline，一般建议只在定义处写出</p>
-<p>因为内联函数要在调用点展开，所以<strong>编译器必须随处可见内联函数的定义</strong>，要不然就成了非内联函数的调用了。所以，这要求每个调用了内联函数的文件都出现了该<strong>内联函数的定义</strong>。因此，将<strong>内联函数的定义</strong>放在<strong>头文件</strong>里实现是合适的，省却你为每个文件实现一次的麻烦</p>
-<p>mutable关键字可以使得成员即使在const成员函数中也发生改变</p>
-<p>c++11支持类内初始值，但是必须使用=或者花括号</p>
-<p>常量成员函数和非常量成员函数也可以重载</p>
-<p>类也可以只声明不定义</p>
-<p>类的成员类型不能是自己</p>
-<p>类也可以作为友元</p>
-<p>友元不具有传递性</p>
-<p>重载函数需要分别声明友元</p>
-<p>一个类就是一个作用域。一旦遇到了域名（函数名处）其余部分就不用再授权了。因此返回值还需要继续授权</p>
-
-<p>类中不可重新定义外层作用域里的名字typedef</p>
-<p>::height 显示调用外围的变量</p>
-
-<p>建议构造函数初始值的顺序和成员声明的顺序一样</p>
-<p>c++11引入了委托构造函数，托给其他定义更加完全的非委托构造函数。会先执行代码体里的代码，再委托给委托者的函数体</p>
-
-<p>允许转换构造函数。可以隐式转换，但是只允许一步类类型转换；且需要多个实参的构造函数无法隐式转换</p>
-<p>explicit关键字可以禁止隐式转换，这个关键字只能用于类内声明时，类外能也不应重复</p>
-<p>explicit构造函数只能用于直接初始化，不能用于拷贝形式的初始化</p>
-
-
-
-
-
-<p>在类外初始化静态成员函数不用static</p>
-
-<p>类的静态成员通常不应该在类的内部初始化，除非静态成员是constexpr</p>
-<p>即使一个常量静态函数在类内部初始化了，通常也需要在类的外部定义一下，只不过不用定义</p>
-<p>静态成员的优势在于可以用于某些非静态无法使用的场景</p>
-<ol>
-<li>可以将静态成员作为默认实参</li>
-<li>可以是不完全类型</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/07/%E5%AD%97%E7%AC%A6%E4%B8%B2DP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/11/07/%E5%AD%97%E7%AC%A6%E4%B8%B2DP/" itemprop="url">字符串DP</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-07T11:22:51+08:00">
-                2020-11-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2.3k
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>动态规划本质就是遍历，遍历各种情况</p>
-<p>只不过找到了各个情况的相互关系，将大的问题拆解为小的问题，但是在遍历中是自下而上的，逐渐达到最终的目的</p>
-<p>情况的转移为转移方程，这是动态规划的核心</p>
-<p>找到转移方向，然后找到遍历的方向，画二维图更为直观</p>
-<h3 id="53-最大子序和"><a href="#53-最大子序和" class="headerlink" title="53. 最大子序和"></a><a href="https://leetcode-cn.com/problems/maximum-subarray/" target="_blank" rel="noopener">53. 最大子序和</a></h3><p>给定一个整数数组 <code>nums</code> ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
-<p>这道题中不可取空字串，因此做法不太一样</p>
-<p>假如可取空串，只需遍历时检查是否全为负值取零</p>
-<p>设<script type="math/tex">dp[i]</script>为以<script type="math/tex">nums[i]</script>结尾的最大连续子数组</p>
-<p>则转移方程<script type="math/tex">dp[i]=max(nums[i],nums[i]+dp[i-1])</script></p>
-<p>具体边界处，令<script type="math/tex">dp[0]=nums[0]</script>，遍历即可</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">list</span>[nums.<span class="built_in">size</span>()];</span><br><span class="line">        <span class="built_in">list</span>[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">        res=<span class="built_in">list</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;nums.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            <span class="built_in">list</span>[i]=<span class="built_in">max</span>(<span class="built_in">list</span>[i<span class="number">-1</span>]+nums[i],nums[i]);</span><br><span class="line">            res=<span class="built_in">max</span>(res,<span class="built_in">list</span>[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>因为只需<script type="math/tex">dp[i]</script>与<script type="math/tex">dp[i-1]</script>间的转移，不开数组只用两个int即可</p>
-<h3 id="300-最长上升子序列"><a href="#300-最长上升子序列" class="headerlink" title="300. 最长上升子序列"></a><a href="https://leetcode-cn.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener">300. 最长上升子序列</a></h3><p>给定一个无序的整数数组，找到其中最长上升子序列的长度。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [10,9,2,5,3,7,101,18]</span><br><span class="line">输出: 4 </span><br><span class="line">解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。</span><br></pre></td></tr></table></figure>
-<p>设<script type="math/tex">dp[i]</script>为以<script type="math/tex">nums[i]</script>结尾的最长上升子序列长度，则<script type="math/tex">dp[i+1]=max(1,dp[j]+1),for j <i+1 \&\& dp[i+1]>dp[j]</script></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n=(<span class="keyword">int</span>)nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n, <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            dp[i] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[j] &lt; nums[i]) &#123;</span><br><span class="line">                    dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> *max_element(dp.<span class="built_in">begin</span>(), dp.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>另一种方法，贪心算法</p>
-<p>尽可能让序列上升的慢一些，设<script type="math/tex">list[i]</script>表示长度为i的上升序列结尾值，这样在遍历时：如果遍历值大于最长的上升的结尾值，直接插入list末尾（相当于最长上升序列更长了）；否则在list找到他可以替代的位置，也就是它大于该位置之前的值，小于之后的值，它小于该位置的原先值（这样相当于这个长度的上升序列上升的更慢了）</p>
-<p>在插入时，为了便于处理，可以最开始在list中插入最小值INT_MIN，这样不用再考虑空序列</p>
-<p>在查找时也可以使用二分查找，这样时间复杂度进一步下降</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!nums.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;<span class="built_in">list</span>;</span><br><span class="line">        <span class="built_in">list</span>.push_back(INT_MIN  );</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt;<span class="built_in">list</span>.back())&#123;</span><br><span class="line">                <span class="built_in">list</span>.push_back(nums[i]);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;<span class="built_in">list</span>.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[i]&lt;<span class="built_in">list</span>[j]&amp;&amp;nums[i]&gt;<span class="built_in">list</span>[j<span class="number">-1</span>])&#123;</span><br><span class="line">                    <span class="built_in">list</span>[j]=nums[i];</span><br><span class="line">                &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">list</span>.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="1143-最长公共子序列"><a href="#1143-最长公共子序列" class="headerlink" title="1143. 最长公共子序列"></a><a href="https://leetcode-cn.com/problems/longest-common-subsequence/" target="_blank" rel="noopener">1143. 最长公共子序列</a></h3><p>给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列的长度。</p>
-<p>一个字符串的 子序列 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。<br>例如，”ace” 是 “abcde” 的子序列，但 “aec” 不是 “abcde” 的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。</p>
-<p>若这两个字符串没有公共子序列，则返回 0。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：text1 &#x3D; &quot;abcde&quot;, text2 &#x3D; &quot;ace&quot; </span><br><span class="line">输出：3  </span><br><span class="line">解释：最长公共子序列是 &quot;ace&quot;，它的长度为 3。</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">text1[i]!=text2[j],dp[i][j]=max(dp[i-1][j],dp[i][j-1])</script><script type="math/tex; mode=display">text1[i]==text2[j],dp[i][j]=dp[i-1][j-1]+1</script><p>按照转移方程，需要从左上向下一列一列的填充，但是初始化很麻烦，为了避免最左侧一行填充的问题，可以多开一列全零</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">longestCommonSubsequence</span><span class="params">(<span class="built_in">string</span> text1, <span class="built_in">string</span> text2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//初始化很麻烦，不如多开一行</span></span><br><span class="line">        <span class="keyword">int</span> **dp=<span class="keyword">new</span> <span class="keyword">int</span>*[text1.<span class="built_in">size</span>()+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;text1.<span class="built_in">size</span>()+<span class="number">1</span>;++i)&#123;</span><br><span class="line">            dp[i]=<span class="keyword">new</span> <span class="keyword">int</span>[text2.<span class="built_in">size</span>()+<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;text2.<span class="built_in">size</span>()+<span class="number">1</span>;++j)&#123;</span><br><span class="line">                dp[i][j]=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=text1.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=text2.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(text1[i<span class="number">-1</span>]==text2[j<span class="number">-1</span>])&#123;</span><br><span class="line">                    dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>]+<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    dp[i][j]=<span class="built_in">max</span>(dp[i<span class="number">-1</span>][j],dp[i][j<span class="number">-1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[text1.<span class="built_in">size</span>()][text2.<span class="built_in">size</span>()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="516-最长回文子序列"><a href="#516-最长回文子序列" class="headerlink" title="516. 最长回文子序列"></a><a href="https://leetcode-cn.com/problems/longest-palindromic-subsequence/" target="_blank" rel="noopener">516. 最长回文子序列</a></h3><p>给定一个字符串 <code>s</code> ，找到其中最长的回文子序列，并返回该序列的长度。可以假设 <code>s</code> 的最大长度为 <code>1000</code> 。</p>
-<p>输入:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;bbbab&quot;</span><br></pre></td></tr></table></figure>
-<p>输出:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4	#bbbb</span><br></pre></td></tr></table></figure>
-<p>设<script type="math/tex">dp[i][j]</script>为第i到第j个组成的子序列中回文的长度，则</p>
-<script type="math/tex; mode=display">text1[i]!=text2[j],dp[i][j]=max(dp[i+1][j],dp[i][j-1])</script><script type="math/tex; mode=display">text1[i]==text2[j],dp[i][j]=dp[i+1][j-1]+2</script><p>这道题最有趣的就是遍历填表的顺序了</p>
-<img src="/2020/11/07/%E5%AD%97%E7%AC%A6%E4%B8%B2DP/2.PNG" class>
-<img src="/2020/11/07/%E5%AD%97%E7%AC%A6%E4%B8%B2DP/1.PNG" class>
-<p>按照斜着遍历，j-i本质就是序列的长度，从这个角度理解也很简单：先填上所有更短的序列，那么长的序列一定能够拆分了</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">longestPalindromeSubseq</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> **dp=<span class="keyword">new</span> <span class="keyword">int</span>*[s.<span class="built_in">size</span>()];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            dp[i]=<span class="keyword">new</span> <span class="keyword">int</span>[s.<span class="built_in">size</span>()];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;s.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                dp[i][j]=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            dp[i][i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> len=<span class="number">2</span>;len&lt;=s.<span class="built_in">size</span>();++len)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=len<span class="number">-1</span>;j&lt;s.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(s[j-len+<span class="number">1</span>]==s[j])&#123;</span><br><span class="line">                    dp[j-len+<span class="number">1</span>][j]=dp[j+<span class="number">2</span>-len][j<span class="number">-1</span>]+<span class="number">2</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    dp[j-len+<span class="number">1</span>][j]=<span class="built_in">max</span>(dp[j-len+<span class="number">2</span>][j],dp[j-len+<span class="number">1</span>][j<span class="number">-1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][s.<span class="built_in">size</span>()<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>还有一种思路是让原字符串与逆字符串求最长公共字符串，这种方法需要填整个N*N的表，但是上述方法半个表即可</p>
-<h3 id="5-最长回文子串"><a href="#5-最长回文子串" class="headerlink" title="5. 最长回文子串"></a><a href="https://leetcode-cn.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener">5. 最长回文子串</a></h3><p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;babad&quot;</span><br><span class="line">输出: &quot;bab&quot;</span><br><span class="line">注意: &quot;aba&quot; 也是一个有效答案。</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;cbbd&quot;</span><br><span class="line">输出: &quot;bb&quot;</span><br></pre></td></tr></table></figure>
-<p>这个题与上面的最大区别在于“字串”必须是连续的，子序列不一定</p>
-<p>设<script type="math/tex">dp[i][j]</script>为第i到第j个组成的子序列中回文的长度，则</p>
-<script type="math/tex; mode=display">text1[i]==text2[j]\&\&dp[i][j]!=0,dp[i][j]=dp[i+1][j-1]+2</script><script type="math/tex; mode=display">ELSE,dp[i][j]=0</script><p>但是还有一个额外情况，i+1&gt;j-1时，表示字串长度为2，此时dp[i+1] [j-1]无值可取，需要单独讨论</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">longestPalindrome</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!s.<span class="built_in">size</span>())<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> **dp=<span class="keyword">new</span> <span class="keyword">int</span>*[s.<span class="built_in">size</span>()];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            dp[i]=<span class="keyword">new</span> <span class="keyword">int</span>[s.<span class="built_in">size</span>()];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;s.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">                dp[i][j]=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            dp[i][i]=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> maxLen=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> start=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">end</span>=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;s.<span class="built_in">size</span>();++j)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;j;++i)&#123;</span><br><span class="line">                <span class="keyword">if</span>(s[i]==s[j] &amp;&amp; dp[i+<span class="number">1</span>][j<span class="number">-1</span>] || s[i]==s[j] &amp;&amp; i+<span class="number">1</span>&gt;j<span class="number">-1</span>)&#123;</span><br><span class="line">                    dp[i][j]=dp[i+<span class="number">1</span>][j<span class="number">-1</span>]+<span class="number">2</span>;</span><br><span class="line">                    <span class="keyword">if</span>(j-i+<span class="number">1</span>&gt;maxLen)&#123;</span><br><span class="line">                        maxLen=j-i+<span class="number">1</span>;</span><br><span class="line">                        start=i;</span><br><span class="line">                        <span class="built_in">end</span>=j;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substr(start,maxLen);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这个题也可以用dp[i] [j]做bool值，表示第i到j的字串是否为回文，节省空间，但是时间复杂度没有变化</p>
-<p>或者用马拉车算法<a href="https://zhuanlan.zhihu.com/p/70532099" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/70532099</a></p>
-<h3 id="72-编辑距离"><a href="#72-编辑距离" class="headerlink" title="72. 编辑距离"></a><a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">72. 编辑距离</a></h3><p>给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数 。</p>
-<p>你可以对一个单词进行如下三种操作：</p>
-<p>插入一个字符<br>删除一个字符<br>替换一个字符</p>
-<p>这个题看着复杂，其实解法挺直观</p>
-<p>设<script type="math/tex">dp[i][j]</script>为第一个字串前i位到第二个前j位需要的步数</p>
-<p>则如果使用插入或者删除，都有</p>
-<script type="math/tex; mode=display">dp[i][j]=min(dp[i-1][j],dp[i][j-1])</script><p>如果使用替换，有</p>
-<script type="math/tex; mode=display">dp[i][j]=dp[i-1][j-1]+1，且第一个的i位与第二个的j位不同</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minDistance</span><span class="params">(<span class="built_in">string</span> word1, <span class="built_in">string</span> word2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = word1.length();</span><br><span class="line">        <span class="keyword">int</span> m = word2.length();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 有一个字符串为空串</span></span><br><span class="line">        <span class="keyword">if</span> (n * m == <span class="number">0</span>) <span class="keyword">return</span> n + m;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// DP 数组</span></span><br><span class="line">        <span class="keyword">int</span> D[n + <span class="number">1</span>][m + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 边界状态初始化</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n + <span class="number">1</span>; i++) &#123;</span><br><span class="line">            D[i][<span class="number">0</span>] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; m + <span class="number">1</span>; j++) &#123;</span><br><span class="line">            D[<span class="number">0</span>][j] = j;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算所有 DP 值</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n + <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; m + <span class="number">1</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">int</span> left = D[i - <span class="number">1</span>][j] + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">int</span> down = D[i][j - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">int</span> left_down = D[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">                <span class="keyword">if</span> (word1[i - <span class="number">1</span>] != word2[j - <span class="number">1</span>]) left_down += <span class="number">1</span>;</span><br><span class="line">                D[i][j] = <span class="built_in">min</span>(left, <span class="built_in">min</span>(down, left_down));</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> D[n][m];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/11/02/CG8/" itemprop="url">CG8 Basic Ray Tracing</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T23:24:53+08:00">
-                2020-11-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  476
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Light-Rays"><a href="#Light-Rays" class="headerlink" title="Light Rays"></a>Light Rays</h3><p>light沿直线传播，且不会碰撞</p>
-<p>light可以看作从观察者眼中发出，因为光路的可逆性</p>
-<h3 id="Ray-Casting"><a href="#Ray-Casting" class="headerlink" title="Ray Casting"></a>Ray Casting</h3><img src="/2020/11/02/CG8/1.PNG" class>
-<h3 id="Whitted-Style-Ray-Tracing"><a href="#Whitted-Style-Ray-Tracing" class="headerlink" title="Whitted-Style Ray Tracing"></a>Whitted-Style Ray Tracing</h3><img src="/2020/11/02/CG8/2.PNG" class>
-<img src="/2020/11/02/CG8/3.PNG" class>
-<img src="/2020/11/02/CG8/4.PNG" class>
-<img src="/2020/11/02/CG8/5.PNG" class>
-<p>递归直到射到场景外或不反射的物体，或达到递归上限</p>
-<p>最终点的颜色是多个ray trace结果的综合</p>
-<h3 id="Accelerating-Ray-Surface-Intersection"><a href="#Accelerating-Ray-Surface-Intersection" class="headerlink" title="Accelerating Ray-Surface Intersection"></a>Accelerating Ray-Surface Intersection</h3><p>加速检测ray与物体的碰撞检测</p>
-<h3 id="Bounding-Volumes"><a href="#Bounding-Volumes" class="headerlink" title="Bounding Volumes"></a>Bounding Volumes</h3><p>常用的加速方法是包围盒</p>
-<img src="/2020/11/02/CG8/6.PNG" class>
-<p>常用的是Axis-Aligned Bounding Box (AABB)，AABB式包围盒。这样的包围盒在计算上有优势</p>
-<p>相当于是三组对称的平面</p>
-<img src="/2020/11/02/CG8/7.PNG" class>
-<p>判断是否相交，需要计算所有进入平面组中的最大值和所有离开平面组的最小值，如果前者小于后者，说明完全进入包围盒时还没有离开包围盒，则说明ray与包围盒相交</p>
-<p>但是ray是射线而不是直线，因此还需要检查与离开包围盒是否t&gt;0</p>
-<p>综上需要满足两个条件</p>
-<h4 id="Uniform-Spatial-Partitions-Grid"><a href="#Uniform-Spatial-Partitions-Grid" class="headerlink" title="Uniform Spatial Partitions (Grid)"></a>Uniform Spatial Partitions (Grid)</h4><p>一种划分包围盒的方法是空间内均匀划分</p>
-<img src="/2020/11/02/CG8/8.PNG" class>
-<p>在遍历时，只需要依次检查光线与当前分割盒周围的盒是否相交</p>
-<p>然后依次检查盒中物体与ray是否相交</p>
-<p>盒子不能过多：遍历时检查次数太多</p>
-<p>盒子不能过少：只有一个盒子相当于没有加速</p>
-<p>一般三维情况下选择27*物体数量</p>
-<p>这种方法适用于物体在空间内均匀分布的情况，而不适用“体育馆中的茶壶”</p>
-<img src="/2020/11/02/CG8/9.PNG" class>
-<img src="/2020/11/02/CG8/10.PNG" class>
-<h4 id="Spatial-Partitions"><a href="#Spatial-Partitions" class="headerlink" title="Spatial Partitions"></a>Spatial Partitions</h4><img src="/2020/11/02/CG8/11.PNG" class>
-<h4 id="KD-Tree"><a href="#KD-Tree" class="headerlink" title="KD-Tree"></a>KD-Tree</h4><p>沿x，y，z轴划分，只有叶子节点内有物体</p>
-<img src="/2020/11/02/CG8/12.PNG" class>
-<h4 id="Bounding-Volume-Hierarchy-BVH"><a href="#Bounding-Volume-Hierarchy-BVH" class="headerlink" title="Bounding Volume Hierarchy (BVH)"></a>Bounding Volume Hierarchy (BVH)</h4><ol>
-<li>找到包围盒</li>
-<li>分割盒内物体。尽量沿最长的边平均分割</li>
-<li>形成新的包围盒；只在叶子节点内存储物体</li>
-<li>直到每个叶子节点内物体都不多</li>
-</ol>
-<img src="/2020/11/02/CG8/13.PNG" class>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/11/02/CG7/" itemprop="url">CG7 Mesh操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T22:24:16+08:00">
-                2020-11-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  67
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Topology-vs-Geometry"><a href="#Topology-vs-Geometry" class="headerlink" title="Topology vs Geometry"></a>Topology vs Geometry</h3><img src="/2020/11/02/CG7/1.PNG" class>
-<h3 id="Local-Mesh-Operation"><a href="#Local-Mesh-Operation" class="headerlink" title="Local Mesh Operation"></a>Local Mesh Operation</h3><img src="/2020/11/02/CG7/2.PNG" class>
-<h3 id="Global-Mesh-Operation"><a href="#Global-Mesh-Operation" class="headerlink" title="Global Mesh Operation"></a>Global Mesh Operation</h3><img src="/2020/11/02/CG7/3.PNG" class>
-<h4 id="Mesh-Subdivision"><a href="#Mesh-Subdivision" class="headerlink" title="Mesh Subdivision"></a>Mesh Subdivision</h4><h4 id="Loop-Subdivision"><a href="#Loop-Subdivision" class="headerlink" title="Loop Subdivision"></a>Loop Subdivision</h4><p>用于三角面</p>
-<p>首先创建更多的三角</p>
-<img src="/2020/11/02/CG7/4.PNG" class>
-<p>之后调整三角的位置</p>
-<img src="/2020/11/02/CG7/5.PNG" class>
-<img src="/2020/11/02/CG7/6.PNG" class>
-<h4 id="Catmull-Clark-Subdivision"><a href="#Catmull-Clark-Subdivision" class="headerlink" title="Catmull-Clark Subdivision"></a>Catmull-Clark Subdivision</h4><p>可以用于任何primitive</p>
-<img src="/2020/11/02/CG7/7.PNG" class>
-<img src="/2020/11/02/CG7/8.PNG" class>
-<img src="/2020/11/02/CG7/9.PNG" class>
-<h4 id="Mesh-Simplification"><a href="#Mesh-Simplification" class="headerlink" title="Mesh Simplification"></a>Mesh Simplification</h4><img src="/2020/11/02/CG7/10.PNG" class>
-<img src="/2020/11/02/CG7/11.PNG" class>
-<p>贪婪算法不断迭代</p>
-<h4 id="Mesh-Regularization"><a href="#Mesh-Regularization" class="headerlink" title="Mesh Regularization"></a>Mesh Regularization</h4><img src="/2020/11/02/CG7/12.PNG" class>
-<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p><a href="http://graphics.stanford.edu/courses/cs468-10-fall/#resources" target="_blank" rel="noopener">http://graphics.stanford.edu/courses/cs468-10-fall/#resources</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/CG6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="The Grimoire of NaNillll">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/11/02/CG6/" itemprop="url">CG6 Gemometry</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-02T20:04:11+08:00">
-                2020-11-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  370
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>基本可以分解为两种</p>
-<ol>
-<li>Implicit (隐式) </li>
-<li>Explicit(显式) </li>
-</ol>
-<h3 id="Implicit隐式表达"><a href="#Implicit隐式表达" class="headerlink" title="Implicit隐式表达"></a>Implicit隐式表达</h3><h4 id="Algebraic-Surfaces"><a href="#Algebraic-Surfaces" class="headerlink" title="Algebraic Surfaces"></a>Algebraic Surfaces</h4><img src="/2020/11/02/CG6/1.PNG" class>
-<h4 id="Constructive-Solid-Geometry"><a href="#Constructive-Solid-Geometry" class="headerlink" title="Constructive Solid Geometry"></a>Constructive Solid Geometry</h4><img src="/2020/11/02/CG6/2.PNG" class>
-<h4 id="Distance-Functions"><a href="#Distance-Functions" class="headerlink" title="Distance Functions"></a>Distance Functions</h4><p><strong>距离函数：</strong>是指空间中的任何一个点到你想要表述的几何形体上面的一个点之间的最小距离（可正可负，通过signed来表示，正的认为有一个点在物体表面的外面，负的则在物体内部）。</p>
-<p>将两个物体的距离函数都算出来之后，就可以将两个距离函数做一个blending（融合），然后再恢复成原来的物体，就可以得到以上的变换</p>
-<p>blending不仅是单纯的函数相加，可以通过复杂函数实现更加强的效果</p>
-<img src="/2020/11/02/CG6/3.PNG" class>
-<p><a href="https://www.youtube.com/watch?v=Cp5WWtMoeKg" target="_blank" rel="noopener">https://www.youtube.com/watch?v=Cp5WWtMoeKg</a></p>
-<h4 id="Level-Set-Methods-水平集"><a href="#Level-Set-Methods-水平集" class="headerlink" title="Level Set Methods 水平集"></a>Level Set Methods 水平集</h4><p>存储一个网格，每个位置有对应值，来近似模拟函数，确定几何体边缘</p>
-<img src="/2020/11/02/CG6/4.PNG" class>
-<h4 id="Fractals分形"><a href="#Fractals分形" class="headerlink" title="Fractals分形"></a>Fractals分形</h4><h3 id="Explicit显式表达"><a href="#Explicit显式表达" class="headerlink" title="Explicit显式表达"></a>Explicit显式表达</h3><h4 id="Point-Cloud"><a href="#Point-Cloud" class="headerlink" title="Point Cloud"></a>Point Cloud</h4><h4 id="Polygon-Mesh"><a href="#Polygon-Mesh" class="headerlink" title="Polygon Mesh"></a>Polygon Mesh</h4><p>保存时一般先列出所有的顶点，法线等属性，然后在之后保存他们的连接</p>
-<img src="/2020/11/02/CG6/5.PNG" class>
-<img src="/2020/11/02/CG6/11.PNG" class>
-<h3 id="Bezier-Curves贝塞尔曲线"><a href="#Bezier-Curves贝塞尔曲线" class="headerlink" title="Bézier Curves贝塞尔曲线"></a>Bézier Curves贝塞尔曲线</h3><p>多次插值</p>
-<img src="/2020/11/02/CG6/6.PNG" class>
-<img src="/2020/11/02/CG6/7.PNG" class>
-<h4 id="Piecewise-Bezier-Curves"><a href="#Piecewise-Bezier-Curves" class="headerlink" title="Piecewise Bézier Curves"></a>Piecewise Bézier Curves</h4><p>实际中用到的贝塞尔一般是多个贝塞尔曲线连接的结果</p>
-<img src="/2020/11/02/CG6/8.PNG" class>
-<p><a href="http://math.hws.edu/eck/cs424/notes2013/canvas/bezier.html" target="_blank" rel="noopener">http://math.hws.edu/eck/cs424/notes2013/canvas/bezier.html</a></p>
-<h4 id="Bezier-Surfaces"><a href="#Bezier-Surfaces" class="headerlink" title="Bézier Surfaces"></a>Bézier Surfaces</h4><img src="/2020/11/02/CG6/9.PNG" class>
-<p><a href="https://acko.net/files/fullfrontal/fullfrontal/wdcode/online.html" target="_blank" rel="noopener">https://acko.net/files/fullfrontal/fullfrontal/wdcode/online.html</a></p>
-<img src="/2020/11/02/CG6/10.PNG" class>
-<p>以4x4贝塞尔曲面为例，首先插值得四条贝塞尔曲线，然后在四个曲线上分别取点，作为控制点生成新的曲线，进而形成面</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2327,7 +2422,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2340,7 +2435,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2404,7 +2499,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">25.9k</span>
+    <span title="Site words total count">42.9k</span>
   
 </div>
 
