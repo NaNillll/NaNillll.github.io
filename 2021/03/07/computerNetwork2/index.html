@@ -94,10 +94,13 @@
 <meta property="og:site_name" content="The Grimoire of NaNillll">
 <meta property="og:description" content="物理层考虑的是怎样才能在连接各种计算机的传输媒体上传输数据流 信号具体怎样传递，存在着不同方式，其中需要经过调制等信号处理手段。传输时可能是数字信号，也可能是模拟信号。前者为离散信号，后者为连续信号。二者通过采样量化等手段可以相互转化 通信的一些定义码元是用一个固定时长（码元宽度）的信号波形表示一个k进制的数字，表示离散值的基本波形。比如二进制编码时就只有两种码元 码元传递效率即单位时间内能够传递">
 <meta property="og:image" content="http://yoursite.com/03/07/computerNetwork2/blog/blog/source/_posts/computerNetwork2/1.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/07/computerNetwork2/1.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/07/computerNetwork2/1.png">
 <meta property="og:image" content="http://yoursite.com/03/07/computerNetwork2/blog/blog/source/_posts/computerNetwork2/2.png">
 <meta property="og:image" content="http://yoursite.com/03/07/computerNetwork2/blog/blog/source/_posts/computerNetwork2/3.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/07/computerNetwork2/3.png">
 <meta property="article:published_time" content="2021-03-07T05:47:38.000Z">
-<meta property="article:modified_time" content="2021-03-07T07:06:54.581Z">
+<meta property="article:modified_time" content="2021-03-11T03:21:18.779Z">
 <meta property="article:tag" content="computerNetwork">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/03/07/computerNetwork2/blog/blog/source/_posts/computerNetwork2/1.png">
@@ -340,14 +343,14 @@
 <p>基带信号（即基本频带信号）—— 来自信源的信号，一般为低频不方便传输。通过调制时不同的载波，可以调制到不同的频段</p>
 <h2 id="数字数据转化为数字信号"><a href="#数字数据转化为数字信号" class="headerlink" title="数字数据转化为数字信号"></a>数字数据转化为数字信号</h2><p>不归零制：不归零制：正电平代表 1，负电平代表 0。<br>归零制：正脉冲代表 1，负脉冲代表 0。<br>曼彻斯特编码：位周期中心的向上跳变代表 0，位周期中心的向下跳变代表 1。但也可反过来定义。<br>差分曼彻斯特编码：若为1，则前半电位与上一个码元后半电位相同，0则反之</p>
 <p><img src="/03/07/computerNetwork2/blog\blog\source\_posts\computerNetwork2\1.png" alt="image-20210307140031047"></p>
-
+<img src="/2021/03/07/computerNetwork2/1.png" class>
 <h2 id="数字数据转化为模拟信号"><a href="#数字数据转化为模拟信号" class="headerlink" title="数字数据转化为模拟信号"></a>数字数据转化为模拟信号</h2><p>基本的调制方法：调幅（AM），随数字信号调节载波振幅；调频（FM）；调相（AM）</p>
-
+<img src="/2021/03/07/computerNetwork2/1.png" class>
 <p><img src="/03/07/computerNetwork2/blog\blog\source\_posts\computerNetwork2\2.png" alt="image-20210307140909735"></p>
 <p>为了提高信息传递效率，可以采用混合调制的方法，比如正交振幅调制</p>
 <h2 id="香农公式"><a href="#香农公式" class="headerlink" title="香农公式"></a>香农公式</h2><p>信号传递的过程中会出现失真，也即信道内部存在噪声S，设信号为N，信噪比(dB) = 10 log10(S/N)    (dB) </p>
 <p><img src="/03/07/computerNetwork2/blog\blog\source\_posts\computerNetwork2\3.png" alt="image-20210307142040963"></p>
-
+<img src="/2021/03/07/computerNetwork2/3.png" class>
 <p>因此若信噪比或带宽无限大时，理想传输速率无限大</p>
 <h2 id="奈奎斯特定理"><a href="#奈奎斯特定理" class="headerlink" title="奈奎斯特定理"></a>奈奎斯特定理</h2><p>在没有噪声的情况下，因为码间干扰，理想低通信道的极限数据传输率为2WlogV，V为离散码元种类总数，W为低通信道的带宽</p>
 <p>并不是香农定理的极限形式，只是从两个角度进行了分析</p>
@@ -481,7 +484,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -574,7 +577,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">42.9k</span>
+    <span title="Site words total count">50.9k</span>
   
 </div>
 

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta name="google-site-verification" content="kWcVT9oyylmyb6DohoXWge7VpBUZQVIptcOSS5Gr9wc" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ComputerNetwork," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="URIUniform Resource Identifier，某个协议方案（http，ftp……）表示的资源的定位标识符 相对URI，指从浏览器中基本URI处指定的URL，如&#x2F;image&#x2F;1.png 绝对URI则由很多部分组成  服务器地址可以选用DNS可以解析的名称，或ipv4，或方括号括起的ipv6 RFC：一些用来制定HTTP协议技术标准的文档。通常应用于程序需要按照这个标准，否则可能无法被">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP与Web">
+<meta property="og:url" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/index.html">
+<meta property="og:site_name" content="The Grimoire of NaNillll">
+<meta property="og:description" content="URIUniform Resource Identifier，某个协议方案（http，ftp……）表示的资源的定位标识符 相对URI，指从浏览器中基本URI处指定的URL，如&#x2F;image&#x2F;1.png 绝对URI则由很多部分组成  服务器地址可以选用DNS可以解析的名称，或ipv4，或方括号括起的ipv6 RFC：一些用来制定HTTP协议技术标准的文档。通常应用于程序需要按照这个标准，否则可能无法被">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/1.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/2.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/3.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/4.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/5.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/5.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/6.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/7.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/6.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/7.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/9.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/9.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/8.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/8.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/10.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/10.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/12.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/12.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/11.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/11.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/13.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/13.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/14.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/14.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/15.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/15.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/16.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/16.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/17.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/17.png">
+<meta property="og:image" content="http://yoursite.com/03/03/HTTP%E4%B8%8EWeb/blog/blog/source/_posts/HTTP%E4%B8%8EWeb/18.png">
+<meta property="og:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/18.png">
+<meta property="article:published_time" content="2021-03-03T08:40:36.000Z">
+<meta property="article:modified_time" content="2021-03-12T04:30:55.974Z">
+<meta property="article:tag" content="ComputerNetwork">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/03/HTTP与Web/"/>
+
+
+
+
+
+  <title>HTTP与Web | The Grimoire of NaNillll</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">The Grimoire of NaNillll</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/03/HTTP%E4%B8%8EWeb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="The Grimoire of NaNillll">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HTTP与Web</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-03T16:40:36+08:00">
+                2021-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="URI"><a href="#URI" class="headerlink" title="URI"></a>URI</h2><p>Uniform Resource Identifier，某个协议方案（http，ftp……）表示的资源的定位标识符</p>
+<p>相对URI，指从浏览器中基本URI处指定的URL，如/image/1.png</p>
+<p>绝对URI则由很多部分组成</p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/1.png" class>
+<p>服务器地址可以选用DNS可以解析的名称，或ipv4，或方括号括起的ipv6</p>
+<p>RFC：一些用来制定HTTP协议技术标准的文档。通常应用于程序需要按照这个标准，否则可能无法被访问</p>
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>HTTP有许多版本，目前最常用的HTTP 1.1</p>
+<p>HTTP默认端口号为80，但是你也可以改为8080或者其他端口</p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/2.png" class>
+<p>CGI(Common Gateway Interface) 是 HTTP 服务器与你的或其它机器上的程序进行“交谈”的一种工具，其程序须运行在网络服务器上。</p>
+<p>绝大多数的 CGI 程序被用来解释处理来自表单的输入信息，并在服务器产生相应的处理，或将相应的信息反馈给浏览器。CGI 程序使网页具有交互功能。</p>
+<p>浏览器显示的内容都有 HTML、XML、GIF、Flash 等，浏览器是通过 MIME Type 区分它们，决定用什么内容什么形式来显示。MIME Type 是该资源的媒体类型，MIME Type 不是个人指定的，是经过互联网（IETF）组织协商，以 RFC 的形式作为建议的标准发布在网上的，大多数的 Web 服务器和用户代理都会支持这个规范</p>
+<p>HTTP是基于客户端/服务端（C/S）的架构模型，通过一个可靠的链接来交换信息，是一个无状态的请求/响应协议。</p>
+<p>一个HTTP”客户端”是一个应用程序（Web浏览器或其他任何客户端），通过连接到服务器达到向服务器发送一个或多个HTTP的请求的目的。</p>
+<p>一个HTTP”服务器”同样也是一个应用程序（通常是一个Web服务，如Apache Web服务器或IIS服务器等），通过接收客户端的请求并向客户端发送HTTP响应数据。</p>
+<p>HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。</p>
+<p>一旦建立连接后，数据消息就通过类似Internet邮件所使用的格式[RFC5322]和多用途Internet邮件扩展（MIME）[RFC2045]来传送。</p>
+<p>客户端发送一个HTTP请求到服务器的请求消息包括以下格式：请求行（request line）、请求头部（header）、空行和请求数据四个部分组成</p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/3.png" class>
+<p>HTTP响应也由四个部分组成，分别是：状态行、消息报头、空行和响应正文。</p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/4.png" class>
+<p>根据 HTTP 标准，HTTP 请求可以使用多种请求方法。</p>
+<p>HTTP1.0 定义了三种请求方法： GET, POST 和 HEAD方法。</p>
+<p>HTTP1.1 新增了六种请求方法：OPTIONS、PUT、PATCH、DELETE、TRACE 和 CONNECT 方法。</p>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\5.png" alt="image-20210311174437517"></p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/5.png" class>
+<p>HTTP 响应头信息</p>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\6.png" alt="image-20210311180050115"></p>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\7.png" alt="image-20210311180116266"></p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/6.png" class>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/7.png" class>
+<p>HTTP状态码</p>
+<p>当浏览者访问一个网页时，浏览者的浏览器会向网页所在服务器发出请求。当浏览器接收并显示网页前，此网页所在的服务器会返回一个包含HTTP状态码的信息头（server header）用以响应浏览器的请求。HTTP状态码的英文为HTTP Status Code。下面是常见的HTTP状态码：</p>
+<p>200 - 请求成功<br>301 - 资源（网页等）被永久转移到其它URL<br>404 - 请求的资源（网页等）不存在<br>500 - 内部服务器错误</p>
+<p><a href="https://www.runoob.com/http/http-status-codes.html" target="_blank" rel="noopener">https://www.runoob.com/http/http-status-codes.html</a></p>
+<p>HTTP content-type</p>
+<p>Content-Type（内容类型），一般是指网页中存在的 Content-Type，用于定义网络文件的类型和网页的编码，决定浏览器将以什么形式、什么编码读取这个文件，这就是经常看到一些 PHP 网页点击的结果却是下载一个文件或一张图片的原因。</p>
+<p>语法格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: text&#x2F;html; charset&#x3D;utf-8</span><br><span class="line">Content-Type: multipart&#x2F;form-data; boundary&#x3D;something</span><br></pre></td></tr></table></figure>
+<p>常见的媒体格式类型如下：</p>
+<p>text/html ： HTML格式<br>text/plain ：纯文本格式<br>text/xml ： XML格式<br>image/gif ：gif图片格式<br>image/jpeg ：jpg图片格式<br>image/png：png图片格式</p>
+<p>以application开头的媒体格式类型：</p>
+<p>application/xhtml+xml ：XHTML格式<br>application/xml： XML数据格式<br>application/atom+xml ：Atom XML聚合格式<br>application/json： JSON数据格式<br>application/pdf：pdf格式<br>application/msword ： Word文档格式<br>application/octet-stream ： 二进制流数据（如常见的文件下载）<br>application/x-www-form-urlencoded ： <form enctype>中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）<br>另外一种常见的媒体格式是上传文件之时使用的：</form></p>
+<p>multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式</p>
+<p><a href="https://www.runoob.com/http/http-content-type.html" target="_blank" rel="noopener">https://www.runoob.com/http/http-content-type.html</a></p>
+<h2 id="HTTPS与HTTP"><a href="#HTTPS与HTTP" class="headerlink" title="HTTPS与HTTP"></a>HTTPS与HTTP</h2><p><a href="https://www.jianshu.com/p/29e0ba31fb8d?tt_from=weixin（写的非常好）" target="_blank" rel="noopener">https://www.jianshu.com/p/29e0ba31fb8d?tt_from=weixin（写的非常好）</a></p>
+<p>HTTP协议传输的数据都是未加密的，也就是明文，因此使用HTTP协议传输隐私信息非常不安全。</p>
+<p>在计算机网络上，HTTPS（HTTP Secure）经由超文本传输协议（HTTP）进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网络服务器的身份认证，保护交换数据的隐私与完整性。HTTP使用80端口通讯，而HTTPS占用443端口通讯。</p>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\9.png" alt="image-20210312081653831"></p>
+<p>HTTP先与SSL先通信，之后由SSL与TCP通信</p>
+<p>TLS：(Transport Layer Security，传输层安全协议)，用于两个应用程序之间提供保密性和数据完整性。</p>
+<p>SSL：（Secure Socket Layer，安全套接字层），位于可靠的面向连接的网络层协议和应用层协议之间的一种协议层。SSL通过互相认证、使用数字签名确保完整性、使用加密确保私密性，以实现客户端和服务器之间的安全通讯。</p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/9.png" class>
+<p>密码学算法主要分为两种：对称加密和非对称加密。对称加密就是使用了一样的密钥来加密，需要在只有通信的双方知道密钥的情况下才安全。在非对称加密算法中，有公钥和私钥两种密钥，其中，公钥是公开的，不需要保密，私钥由个人持有，必须妥善保管和注意保密。加密和解密使用两种不同的密钥，用公钥加密，只有私钥能解密，用私钥加密，只有公钥能加密。RSA就是一种常见的、应用很广的非对称加密算法。</p>
+<p>加密解密过程就是A往B发送消息，A用B的公钥把消息加密，只有B的私钥能解密。然后A把加密后的消息发送给B，B用自己的私钥解密就能看到了，途中没有别人可以破解消息，因为别人只有B的公钥。然后B用自己的私钥加密消息，回复给A，A用B的公钥解密读取回复。</p>
+<p>在信息传输的过程中,我们通常需要验证信息的发送方的身份,这时我们转化一下思路就可以完成,把发送端的公钥发送给接收端,发送端通过把自己的内容使用私钥加密然后发送给接收端,接收端只能用发送端的公钥解密,自然就验证了发送端的身份。</p>
+<p>但是这样真的安全吗？如果传输过程中消息被人修改了怎么办？如果A加密使用的公钥不一定是B的公钥呢，只是他以为是B的公钥。</p>
+<p>上面的问题可以用数字签名和数字证书解决。数字签名可以解决消息被人修改的问题，数字签名是一个hash算法，A把要发送的消息通过hash算法计算出一个hash值，当做摘要，和消息一起传送，B把消息hash之后得到另一个摘要，验证是否和A传送过来的摘要相同。如果担心消息和hash摘要都被修改，可以把hash摘要用B的公钥加密，就不怕别人改了。</p>
+<p>数字证书可以解决这个公钥是不是B的公钥问题，,它其实就是基于上上面所说的私钥加密数据,公钥解密来验证其身份。数字证书是由权威的CA(Certificate Authority)机构给服务端进行颁发,CA机构通过服务端提供的相关信息生成证书,证书内容包含了持有人的相关信息,服务器的公钥,签署者签名信息(数字签名)等,最重要的是公钥在数字证书中。数字证书是如何保证公钥来自请求的服务器呢?数字证书上由持有人的相关信息,通过这点可以确定其不是一个中间人;但是证书也是可以伪造的,如何保证证书为真呢? 一个证书中含有三个部分:”证书内容,散列算法,加密密文”,证书内容会被散列算法hash计算出hash值,然后使用CA机构提供的私钥进行RSA加密。当客户端发起请求时，服务器将该数字证书发送给客户端，客户端通过CA机构提供的公钥对加密密文进行解密获得散列值（数字签名），同时将证书内容使用相同的散列算法进行Hash得到另一个散列值，比对两个散列值，如果两者相等则说明证书没问题。</p>
+<p>目前多数浏览器会在内部植入常用认证机关的公开密钥。</p>
+<p>如果个人网站只为加密传输也可以自己制作SSL证书，自己制作的证书不会受到浏览器的信任，在访问的时候由于证书验证失败而给出警告</p>
+<p>证书以证书链的形式组织，在颁发证书的时候首先要有根CA机构颁发的根证书，再由根CA机构颁发一个中级CA机构的证书，最后由中级CA机构颁发具体的SSL证书。把根证书，中级证书，以及最后申请的SSL证书连在一起就形成了证书链，也称为证书路径。在验证证书的时候，浏览器会调用系统的证书管理器接口对证书路径中的所有证书一级一级的进行验证，只有路径中所有的证书都是受信的，整个验证的结果才是受信。</p>
+<p>根证书是最关键的一个证书，如果根证书不受信任，它下面颁发的所有证书都不受信任。操作系统在安装过程中会默认安装一些受信任的CA机构的根证书，可以在”运行”里面运行”certmgr.msc”启动证书管理器</p>
+<p>EVSSL证书是基于国际标准的认证指导方针颁发的证书</p>
+<p>HTTPS是使用非对称加密+对称加密来完成。客户端使用公钥对对称加密的密钥进行加密，然后传递给服务端，服务端使用私钥进行解密确认密钥，开始传输数据</p>
+<h3 id="SSL证书的安全问题"><a href="#SSL证书的安全问题" class="headerlink" title="SSL证书的安全问题"></a>SSL证书的安全问题</h3><p>对HTTPS最常见的攻击手段就是SSL证书欺骗或者叫SSL劫持，是一种典型的中间人攻击，中间人假扮服务器与客户端通信。但是对于客户端浏览器来说，如果中间人伪造了证书，在校验证书过程中会提示证书错误，由用户选择继续操作还是返回。</p>
+<p><a href="https://blog.csdn.net/hj7jay/article/details/80221060" target="_blank" rel="noopener">https://blog.csdn.net/hj7jay/article/details/80221060</a></p>
+<h3 id="HTTPS-工作原理"><a href="#HTTPS-工作原理" class="headerlink" title="HTTPS 工作原理"></a>HTTPS 工作原理</h3><p>HTTPS在传输数据之前需要客户端（浏览器）与服务端（网站）之间进行一次握手，在握手过程中将确立双方加密传输数据的密码信息</p>
+<p>握手过程的具体描述如下：</p>
+<p>1）浏览器将自己支持的一套加密规则发送给网站。<br>2）网站从中选出一组加密算法与HASH算法，并将自己的身份信息以证书的形式发回给浏览器。证书里面包含了网站地址，加密公钥，以及证书的颁发机构等信息。<br>3）浏览器获得网站证书之后浏览器要做以下工作：  a) 验证证书的合法性（颁发证书的机构是否合法，证书中包含的网站地址是否与正在访问的地址一致等），如果证书受信任，则浏览器栏里面会显示一个小锁头，否则会给出证书不受信的提示。  b) 如果证书受信任，或者是用户接受了不受信的证书，浏览器会生成一串随机数的密码，并用证书中提供的公钥加密。  c) 使用约定好的HASH算法计算握手消息，并使用生成的随机数对消息进行加密，最后将之前生成的所有信息发送给网站。<br> 4）网站接收浏览器发来的数据之后要做以下的操作：  a) 使用自己的私钥将信息解密取出密码，使用密码解密浏览器发来的握手消息，并验证HASH是否与浏览器发来的一致。  b) 使用密码加密一段握手消息，发送给浏览器。<br> 5）浏览器解密并计算握手消息的HASH，如果与服务端发来的HASH一致，此时握手过程结束，之后所有的通信数据将由之前浏览器生成的随机密码并利用对称加密算法进行加密。 </p>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\8.png" alt="image-20210311181101361"></p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/8.png" class>
+<h2 id="确认访问用户身份的认证"><a href="#确认访问用户身份的认证" class="headerlink" title="确认访问用户身份的认证"></a>确认访问用户身份的认证</h2><p>HTTP/1.1使用的认证：</p>
+<h4 id="BASIC认证，基本认证"><a href="#BASIC认证，基本认证" class="headerlink" title="BASIC认证，基本认证"></a>BASIC认证，基本认证</h4><p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\10.png" alt="image-20210312114834201"></p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/10.png" class>
+<p>BASIC认证并不是加密处理；而且想要再进行一次认证时无法实现认证注销</p>
+<h4 id="DIGEST认证，摘要认证"><a href="#DIGEST认证，摘要认证" class="headerlink" title="DIGEST认证，摘要认证"></a>DIGEST认证，摘要认证</h4><p><a href="https://www.cnblogs.com/xiaoxiaotank/p/11078571.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiaoxiaotank/p/11078571.html</a></p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/12.png" class>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\12.png" alt="image-20210312120953961"></p>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/WWW-Authenticate" target="_blank" rel="noopener"><code>WWW-Authentication</code></a>：用来定义使用何种方式（Basic、Digest、Bearer等）去进行认证以获取受保护的资源</li>
+<li><code>realm</code>：表示Web服务器中受保护文档的安全域（比如公司财务信息域和公司员工信息域），用来指示需要哪个域的用户名和密码</li>
+<li><code>qop</code>：保护质量，包含<code>auth</code>（默认的）和<code>auth-int</code>（增加了报文完整性检测）两种策略，（可以为空，但是）不推荐为空值</li>
+<li><code>nonce</code>：服务端向客户端发送质询时附带的一个随机数，这个数会经常发生变化。客户端计算密码摘要时将其附加上去，使得多次生成同一用户的密码摘要各不相同，用来防止重放攻击</li>
+<li><code>nc</code>：nonce计数器，是一个16进制的数值，表示同一nonce下客户端发送出请求的数量。例如，在响应的第一个请求中，客户端将发送“nc=00000001”。这个指示值的目的是让服务器保持这个计数器的一个副本，以便检测重复的请求</li>
+<li><code>cnonce</code>：客户端随机数，这是一个不透明的字符串值，由客户端提供，并且客户端和服务器都会使用，以避免用明文文本。这使得双方都可以查验对方的身份，并对消息的完整性提供一些保护</li>
+<li><code>response</code>：这是由用户代理软件计算出的一个字符串，以证明用户知道口令</li>
+<li><code>Authorization-Info</code>：用于返回一些与授权会话相关的附加信息</li>
+<li><code>nextnonce</code>：下一个服务端随机数，使客户端可以预先发送正确的摘要</li>
+<li><code>rspauth</code>：响应摘要，用于客户端对服务端进行认证</li>
+<li><code>stale</code>：当密码摘要使用的随机数过期时，服务器可以返回一个附带有新随机数的401响应，并指定<code>stale=true</code>，表示服务器在告知客户端用新的随机数来重试，而不再要求用户重新输入用户名和密码了</li>
+</ul>
+<h4 id="SSL客户端认证"><a href="#SSL客户端认证" class="headerlink" title="SSL客户端认证"></a>SSL客户端认证</h4><img src="/2021/03/03/HTTP%E4%B8%8EWeb/11.png" class>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\11.png" alt="image-20210312115459032"></p>
+<h4 id="FormBase认证，基于表单认证"><a href="#FormBase认证，基于表单认证" class="headerlink" title="FormBase认证，基于表单认证"></a>FormBase认证，基于表单认证</h4><p>客户端向服务器上web发送登录信息，之后登录</p>
+<h4 id="session管理与cookie"><a href="#session管理与cookie" class="headerlink" title="session管理与cookie"></a>session管理与cookie</h4><p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\13.png" alt="image-20210312121800701"></p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/13.png" class>
+<p>如果session id被盗，就可以伪装成为用户进行恶意操作</p>
+<h2 id="拓展协议"><a href="#拓展协议" class="headerlink" title="拓展协议"></a>拓展协议</h2><p>Ajax，每次只更新部分页面，加快传输速度</p>
+<p>Comet，服务端有内容更新后，直接向客户端返回响应而不是请求等待</p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/14.png" class>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\14.png" alt="image-20210312122312898"></p>
+<p>SPDY：</p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/15.png" class>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\15.png" alt="image-20210312122416337"></p>
+<p>这样可以实现多路复用（单个域名通信下），优先级分配，HTTP首部压缩等加速功能</p>
+<p>websocket：</p>
+<p>websocket即web浏览器与web服务器间全双工标准，可以持续保持连接状态，支持服务器向客户端进行推送而不必等待请求</p>
+<p>为实现通信，需要再HTTP连接后进行一次握手，用到HTTP首部的Upgrade字段</p>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\16.png" alt="image-20210312122747372"></p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/16.png" class>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\17.png" alt="image-20210312122931298"></p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/17.png" class>
+<p><img src="/03/03/HTTP%E4%B8%8EWeb/blog\blog\source\_posts\HTTP与Web\18.png" alt="image-20210312122958953"></p>
+<img src="/2021/03/03/HTTP%E4%B8%8EWeb/18.png" class>
+<p>连接建立后，不再使用HTTP数据帧而是websocket独立的数据帧</p>
+<h2 id="HTTP-2-0"><a href="#HTTP-2-0" class="headerlink" title="HTTP/2.0"></a>HTTP/2.0</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ComputerNetwork/" rel="tag"><i class="fa fa-tag"></i> ComputerNetwork</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/01/the-limitations-of-deep-learning/" rel="next" title="limitations and future of deep learning">
+                <i class="fa fa-chevron-left"></i> limitations and future of deep learning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/07/ComputerNetwork1/" rel="prev" title="计算机网络概况">
+                计算机网络概况 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/NaNillll" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#URI"><span class="nav-number">1.</span> <span class="nav-text">URI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP"><span class="nav-number">2.</span> <span class="nav-text">HTTP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS与HTTP"><span class="nav-number">3.</span> <span class="nav-text">HTTPS与HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSL证书的安全问题"><span class="nav-number">3.1.</span> <span class="nav-text">SSL证书的安全问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS-工作原理"><span class="nav-number">3.2.</span> <span class="nav-text">HTTPS 工作原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#确认访问用户身份的认证"><span class="nav-number">4.</span> <span class="nav-text">确认访问用户身份的认证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BASIC认证，基本认证"><span class="nav-number">4.0.1.</span> <span class="nav-text">BASIC认证，基本认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DIGEST认证，摘要认证"><span class="nav-number">4.0.2.</span> <span class="nav-text">DIGEST认证，摘要认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSL客户端认证"><span class="nav-number">4.0.3.</span> <span class="nav-text">SSL客户端认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FormBase认证，基于表单认证"><span class="nav-number">4.0.4.</span> <span class="nav-text">FormBase认证，基于表单认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#session管理与cookie"><span class="nav-number">4.0.5.</span> <span class="nav-text">session管理与cookie</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展协议"><span class="nav-number">5.</span> <span class="nav-text">拓展协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-2-0"><span class="nav-number">6.</span> <span class="nav-text">HTTP&#x2F;2.0</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+  
+ 
+  
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">50.9k</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
